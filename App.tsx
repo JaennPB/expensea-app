@@ -14,6 +14,10 @@ import ManageExpenseScreen from "./src/screens/ManageExpenseScreen";
 import AllExpensesScreen from "./src/screens/AllExpensesScreen";
 import RecentExpensesScreen from "./src/screens/RecentExpensesScreen";
 
+import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+
 export type NavParams = {
   ManageExpenseScreen: undefined;
   TabsNavScreen: undefined;
@@ -32,12 +36,20 @@ function BottomTabsNav() {
       <BottomTabs.Screen
         name="RecentExpensesScreen"
         component={RecentExpensesScreen}
-        options={{ headerTitle: "Recent Expenses" }}
+        options={{
+          headerTitle: "Recent Expenses",
+          tabBarLabel: "Recent",
+          tabBarIcon: () => <AntDesign name="back" size={24} color="black" />,
+        }}
       />
       <BottomTabs.Screen
         name="AllExpensesScreen"
         component={AllExpensesScreen}
-        options={{ headerTitle: "All Expenses" }}
+        options={{
+          headerTitle: "All Expenses",
+          tabBarLabel: "All",
+          tabBarIcon: () => <Feather name="list" size={24} color="black" />,
+        }}
       />
     </BottomTabs.Navigator>
   );
