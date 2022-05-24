@@ -1,14 +1,9 @@
-import { View, Text } from "react-native";
 import React from "react";
 
-type Props = {};
+import ExpensesOutput from "../components/Lists/ExpensesOutput";
 
-const AllExpensesScreen = (props: Props) => {
-  return (
-    <View>
-      <Text>AllExpensesScreen</Text>
-    </View>
-  );
+const AllExpensesScreen: React.FC = () => {
+  return <ExpensesOutput period="All" />;
 };
 
 export default AllExpensesScreen;

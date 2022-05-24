@@ -1,14 +1,9 @@
-import { View, Text } from "react-native";
 import React from "react";
 
-type Props = {};
+import ExpensesOutput from "../components/Lists/ExpensesOutput";
 
-const RecentExpensesScreen = (props: Props) => {
-  return (
-    <View>
-      <Text>RecentExpenses</Text>
-    </View>
-  );
+const RecentExpensesScreen: React.FC = () => {
+  return <ExpensesOutput period="Last 7 days" />;
 };
 
 export default RecentExpensesScreen;
