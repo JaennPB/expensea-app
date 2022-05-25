@@ -9,12 +9,18 @@ interface Props {
 
 const InfoBox: React.FC<Props> = (props: Props) => {
   return (
-    <Box px={5} py={2} bg={props.color} mb={2} borderRadius={5}>
-      <Flex direction="row" justify="space-between" align="center">
-        <Text color="white">{props.type}</Text>
-        <Text color="white">{props.data}</Text>
-      </Flex>
-    </Box>
+    <Flex
+      direction="row"
+      justify="space-between"
+      align="center"
+      px={5}
+      py={2}
+      bg={props.color}
+      borderRadius={5}
+    >
+      <Text color="white">{props.type}</Text>
+      <Text color="white">{props.data}</Text>
+    </Flex>
   );
 };
 

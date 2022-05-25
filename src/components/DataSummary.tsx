@@ -6,7 +6,7 @@ import InfoBox from "./InfoBox";
 interface Props {
   dataArr: {
     id: string;
-    title?: string;
+    title: string;
     amount: number;
     date: object;
     type: string;
@@ -31,7 +31,7 @@ const DataSummary: React.FC<Props> = (props: Props) => {
   }, 0);
 
   return (
-    <VStack>
+    <VStack p={5} space={2}>
       <InfoBox
         color="error.400"
         data={"-$" + expensesSum.toFixed(2)}
