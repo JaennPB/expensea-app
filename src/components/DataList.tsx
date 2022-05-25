@@ -1,6 +1,6 @@
-import { FlatList, ListRenderItemInfo } from "react-native";
 import React from "react";
-import { Text } from "native-base";
+import { Flex, Text } from "native-base";
+import { FlatList, ListRenderItemInfo } from "react-native";
 
 interface Props {
   dataArr: {
@@ -12,7 +12,7 @@ interface Props {
   }[];
 }
 
-const ExpensesList: React.FC<Props> = (props: Props) => {
+const DataList: React.FC<Props> = (props: Props) => {
   function renderDataItem(
     itemData: ListRenderItemInfo<typeof props.dataArr[0]>
   ): JSX.Element {
@@ -22,12 +22,14 @@ const ExpensesList: React.FC<Props> = (props: Props) => {
   }
 
   return (
-    <FlatList
-      data={props.dataArr}
-      renderItem={renderDataItem}
-      keyExtractor={(item) => item.id}
-    />
+    <Flex flex={1}>
+      <FlatList
+        data={props.dataArr}
+        renderItem={renderDataItem}
+        keyExtractor={(item) => item.id}
+      />
+    </Flex>
   );
 };
 
-export default ExpensesList;
+export default DataList;

@@ -10,19 +10,18 @@ import {
 } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import ManageExpenseScreen from "./src/screens/ManageExpenseScreen";
-import AllExpensesScreen from "./src/screens/AllExpensesScreen";
-import RecentExpensesScreen from "./src/screens/RecentExpensesScreen";
+import AddDataPointScreen from "./src/screens/AddDataPointScreen";
+import AllDataScreen from "./src/screens/AllDataScreen";
+import RecentDataScreen from "./src/screens/RecentDataScreen";
 
 import { AntDesign } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
 export type NavParams = {
-  ManageExpenseScreen: undefined;
-  TabsNavScreen: undefined;
-  RecentExpensesScreen: undefined;
-  AllExpensesScreen: undefined;
+  AllDataScreen: undefined;
+  RecentDataScreen: undefined;
+  AddDataPointScreen: undefined;
+  BottomTabsNav: undefined;
 };
 
 const Stack = createNativeStackNavigator<NavParams>();
@@ -34,21 +33,21 @@ function BottomTabsNav() {
   return (
     <BottomTabs.Navigator>
       <BottomTabs.Screen
-        name="RecentExpensesScreen"
-        component={RecentExpensesScreen}
+        name="AllDataScreen"
+        component={AllDataScreen}
         options={{
-          headerTitle: "Recent Expenses",
-          tabBarLabel: "Recent",
-          tabBarIcon: () => <AntDesign name="back" size={24} color="black" />,
+          headerTitle: "All expenses",
+          tabBarLabel: "All",
+          tabBarIcon: () => <Feather name="list" size={24} color="black" />,
         }}
       />
       <BottomTabs.Screen
-        name="AllExpensesScreen"
-        component={AllExpensesScreen}
+        name="RecentDataScreen"
+        component={RecentDataScreen}
         options={{
-          headerTitle: "All Expenses",
-          tabBarLabel: "All",
-          tabBarIcon: () => <Feather name="list" size={24} color="black" />,
+          headerTitle: "Recent",
+          tabBarLabel: "Recent",
+          tabBarIcon: () => <AntDesign name="back" size={24} color="black" />,
         }}
       />
     </BottomTabs.Navigator>
@@ -63,12 +62,12 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen
               options={{ headerShown: false }}
-              name="TabsNavScreen"
+              name="BottomTabsNav"
               component={BottomTabsNav}
             />
             <Stack.Screen
-              name="ManageExpenseScreen"
-              component={ManageExpenseScreen}
+              name="AddDataPointScreen"
+              component={AddDataPointScreen}
             />
           </Stack.Navigator>
         </NativeBaseProvider>

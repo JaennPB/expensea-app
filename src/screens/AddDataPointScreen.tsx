@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {};
 
-const ManageExpenseScreen = (props: Props) => {
+const AddDataPointScreen = (props: Props) => {
   return (
     <View>
       <Text>ManageExpenseScreen</Text>
@@ -11,4 +11,4 @@ const ManageExpenseScreen = (props: Props) => {
   );
 };
 
-export default ManageExpenseScreen;
+export default AddDataPointScreen;
