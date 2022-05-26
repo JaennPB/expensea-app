@@ -8,7 +8,7 @@ interface Props {
     id: string;
     title: string;
     amount: number;
-    date: object;
+    date: string;
     type: string;
   }[];
   period: string;

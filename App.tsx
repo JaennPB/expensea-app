@@ -16,6 +16,7 @@ import RecentDataScreen from "./src/screens/RecentDataScreen";
 
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import AddButton from "./src/components/UI/AddButton";
 
 export type NavParams = {
   AllDataScreen: undefined;
@@ -44,6 +45,7 @@ function BottomTabsNav() {
         },
         tabBarActiveTintColor: "#1979d3",
         tabBarInactiveTintColor: "white",
+        headerRight: () => <AddButton />,
       }}
     >
       <BottomTabs.Screen

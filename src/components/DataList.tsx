@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Text } from "native-base";
+import { Flex } from "native-base";
 import { FlatList, ListRenderItemInfo } from "react-native";
 import DataItem from "./DataItem";
 
@@ -8,7 +8,7 @@ interface Props {
     id: string;
     title: string;
     amount: number;
-    date: Date;
+    date: string;
     type: string;
   }[];
 }

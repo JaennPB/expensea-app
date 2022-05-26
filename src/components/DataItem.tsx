@@ -1,23 +1,36 @@
-import { Text, Box, Flex, Divider } from "native-base";
 import React from "react";
+import { Text, Box, Flex, Divider, Pressable } from "native-base";
+import * as Haptics from "expo-haptics";
+
+import { useAppNavigation } from "../hooks/navigationHooks";
 
 interface Props {
   title: string;
   amount: number;
-  date: Date;
+  date: string;
   type: string;
 }
 
 const DataItem: React.FC<Props> = (props: Props) => {
+  const navigation = useAppNavigation();
+
+  function navigateToEditDataItemHandler(): void {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    navigation.navigate("AddDataPointScreen");
+  }
+
   return (
-    <>
+    <Pressable
+      _pressed={{ opacity: 0.5 }}
+      onLongPress={navigateToEditDataItemHandler}
+    >
       <Flex flexDir="row" justify="space-between" borderRadius={5}>
         <Box>
           <Text color="lightText" fontSize="lg">
             {props.title}
           </Text>
           <Text color="muted.300" fontSize="xs">
-            {props.date.toDateString()}
+            {props.date}
           </Text>
         </Box>
         <Flex
@@ -35,7 +48,7 @@ const DataItem: React.FC<Props> = (props: Props) => {
         </Flex>
       </Flex>
       <Divider my={5} thickness={1} bg="darkBlue.600" />
-    </>
+    </Pressable>
   );
 };
 
