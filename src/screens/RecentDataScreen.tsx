@@ -8,7 +8,7 @@ import DataSummary from "../components/DataSummary";
 
 const RecentDataScreen: React.FC = () => {
   return (
-    <Flex flex={1} px={5} py={2}>
+    <Flex flex={1} bg="darkBlue.800">
       <DataSummary period="Last 7 days" dataArr={DUMMY_DATA} />
       <DataList dataArr={DUMMY_DATA} />
     </Flex>

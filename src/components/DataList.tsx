@@ -30,7 +30,7 @@ const DataList: React.FC<Props> = (props: Props) => {
   }
 
   return (
-    <Flex flex={1} bg="primary.800" p={5} borderTopRadius={10}>
+    <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
       <FlatList
         data={props.dataArr}
         renderItem={renderDataItem}

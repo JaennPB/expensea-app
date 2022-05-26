@@ -30,6 +30,8 @@ const DataSummary: React.FC<Props> = (props: Props) => {
     return sum + income.amount;
   }, 0);
 
+  const total = incomesSum - expensesSum;
+
   return (
     <VStack p={5} space={2}>
       <InfoBox
@@ -38,8 +40,8 @@ const DataSummary: React.FC<Props> = (props: Props) => {
         type="Expenses:"
       />
       <InfoBox
-        color="success.400"
-        data={"$" + incomesSum.toFixed(2)}
+        color="success.500"
+        data={"$" + total.toFixed(2)}
         type={props.period}
       />
     </VStack>
