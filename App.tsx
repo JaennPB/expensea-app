@@ -10,19 +10,22 @@ import {
 } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import AddDataPointScreen from "./src/screens/AddDataPointScreen";
 import AllDataScreen from "./src/screens/AllDataScreen";
 import RecentDataScreen from "./src/screens/RecentDataScreen";
+import ManageDataScreen from "./src/screens/ManageDataScreen";
 
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+
 import AddButton from "./src/components/UI/AddButton";
 
 export type NavParams = {
   AllDataScreen: undefined;
   RecentDataScreen: undefined;
-  AddDataPointScreen: undefined;
   BottomTabsNav: undefined;
+  ManageDataScreen: {
+    itemId?: string | null;
+  };
 };
 
 const Stack = createNativeStackNavigator<NavParams>();
@@ -89,8 +92,15 @@ export default function App() {
               component={BottomTabsNav}
             />
             <Stack.Screen
-              name="AddDataPointScreen"
-              component={AddDataPointScreen}
+              name="ManageDataScreen"
+              component={ManageDataScreen}
+              options={{
+                presentation: "modal",
+                headerStyle: {
+                  backgroundColor: "#002851",
+                },
+                headerTintColor: "white",
+              }}
             />
           </Stack.Navigator>
         </NativeBaseProvider>

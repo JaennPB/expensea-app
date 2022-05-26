@@ -21,6 +21,7 @@ const DataList: React.FC<Props> = (props: Props) => {
 
     return (
       <DataItem
+        id={dataItem.id}
         title={dataItem.title}
         date={dataItem.date}
         amount={dataItem.amount}

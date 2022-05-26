@@ -5,6 +5,7 @@ import * as Haptics from "expo-haptics";
 import { useAppNavigation } from "../hooks/navigationHooks";
 
 interface Props {
+  id: string;
   title: string;
   amount: number;
   date: string;
@@ -16,7 +17,7 @@ const DataItem: React.FC<Props> = (props: Props) => {
 
   function navigateToEditDataItemHandler(): void {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    navigation.navigate("AddDataPointScreen");
+    navigation.navigate("ManageDataScreen", { itemId: props.id });
   }
 
   return (
