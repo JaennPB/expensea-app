@@ -1,12 +1,13 @@
-import { View, Text } from "react-native";
+import { Button, IconButton, Icon, Flex } from "native-base";
 import React from "react";
 
+import CustomForm from "../components/CustomForm";
+
+import { Entypo } from "@expo/vector-icons";
+
 import { useAppRoute, useAppNavigation } from "../hooks/navigationHooks";
-import { Button } from "native-base";
 
-type Props = {};
-
-const ManageDataScreen: React.FC = (props: Props) => {
+const ManageDataScreen: React.FC = () => {
   const route = useAppRoute();
   const navigation = useAppNavigation();
   const mealId = route.params?.itemId;
@@ -33,11 +34,35 @@ const ManageDataScreen: React.FC = (props: Props) => {
     });
   }, [navigation, isEditing]);
 
+  let topContent!: JSX.Element;
+
+  if (!isEditing) {
+    topContent = (
+      <Button.Group
+        isAttached
+        borderWidth={1}
+        borderRadius={5}
+        borderColor="darkBlue.600"
+      >
+        <IconButton
+          icon={<Icon as={Entypo} name="minus" color="white" />}
+          bgColor="darkBlue.600"
+          w={66}
+        />
+        <IconButton
+          icon={<Icon as={Entypo} name="plus" color="white" />}
+          // bgColor="success.400"
+          w={66}
+        />
+      </Button.Group>
+    );
+  }
+
   return (
-    <View>
-      <Text>{mealId}</Text>
-      <Text>ManageExpenseScreen</Text>
-    </View>
+    <Flex flex={1} bg="darkBlue.700" align="center" p={5}>
+      {topContent}
+      <CustomForm />
+    </Flex>
   );
 };
 

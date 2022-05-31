@@ -1,0 +1,26 @@
+set forms and inputs on manage data screen
+
+======================================
+state: 
+
+expeneses: {}[] 
+{
+id:
+title:
+amount:
+date:
+type:
+}
+
+actions: 
+
+addExpense
+deleteExpense
+updateExpense
+
+======================================
+
+filter by all or 7 days
+fall back text if no expenses
+
+======================================
