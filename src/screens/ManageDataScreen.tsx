@@ -12,16 +12,31 @@ const ManageDataScreen: React.FC = () => {
   const navigation = useAppNavigation();
   const mealId = route.params?.itemId;
   const isEditing = !!mealId;
+  const [isExpense, setIsExpense] = React.useState<boolean>(true);
 
   function deleteItemHandler(): void {
     navigation.goBack();
   }
 
+  function toggleExpenseOrIncomeHandler(): void {
+    setIsExpense(!isExpense);
+  }
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: isEditing ? "Edit" : "Add",
+      headerLeft: () => (
+        <Button
+          variant="ghost"
+          _text={{ color: "error.400" }}
+          size="lg"
+          onPress={() => navigation.goBack()}
+        >
+          Cancel
+        </Button>
+      ),
       headerRight: () =>
-        isEditing && (
+        isEditing ? (
           <Button
             variant="ghost"
             _text={{ color: "error.400" }}
@@ -29,6 +44,15 @@ const ManageDataScreen: React.FC = () => {
             onPress={deleteItemHandler}
           >
             Delete
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            _text={{ color: "darkBlue.600" }}
+            size="lg"
+            onPress={deleteItemHandler}
+          >
+            Save
           </Button>
         ),
     });
@@ -46,13 +70,15 @@ const ManageDataScreen: React.FC = () => {
       >
         <IconButton
           icon={<Icon as={Entypo} name="minus" color="white" />}
-          bgColor="darkBlue.600"
+          bgColor={isExpense ? "darkBlue.600" : null}
           w={66}
+          onPress={toggleExpenseOrIncomeHandler}
         />
         <IconButton
           icon={<Icon as={Entypo} name="plus" color="white" />}
-          // bgColor="success.400"
+          bgColor={!isExpense ? "darkBlue.600" : null}
           w={66}
+          onPress={toggleExpenseOrIncomeHandler}
         />
       </Button.Group>
     );

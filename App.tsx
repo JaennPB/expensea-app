@@ -100,6 +100,7 @@ export default function App() {
                   backgroundColor: "#002851",
                 },
                 headerTintColor: "white",
+                headerTitleAlign: "center",
               }}
             />
           </Stack.Navigator>

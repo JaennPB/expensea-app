@@ -1,14 +1,14 @@
 import React from "react";
-import { Input, FormControl } from "native-base";
+import { VStack } from "native-base";
 
-interface Props {}
+import CustomInput from "./UI/CustomInput";
 
-const CustomForm: React.FC<Props> = (props: Props) => {
+const CustomForm: React.FC = () => {
   return (
-    <FormControl>
-      <Input placeholder="Title" />
-      <Input placeholder="Amount" />
-    </FormControl>
+    <VStack w="100%" mt={10} space={5}>
+      <CustomInput title="Title" type="default" />
+      <CustomInput title="Amount" type="decimal-pad" />
+    </VStack>
   );
 };
 
