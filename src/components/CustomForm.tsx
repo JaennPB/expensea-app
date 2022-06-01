@@ -26,21 +26,19 @@ const CustomForm: React.FC = () => {
     });
   }
 
-  console.log(data);
-
   return (
-    <VStack w="100%" mt={10} space={5}>
+    <VStack w="100%" mt={5} space={5}>
       <CustomInput
         title="Title"
         type="default"
         onChangeText={dataEnteredHandler.bind(this, "title")}
-        value={data["title"]}
+        value={data.title}
       />
       <CustomInput
         title="Amount"
         type="decimal-pad"
         onChangeText={dataEnteredHandler.bind(this, "amount")}
-        value={data["amount"]}
+        value={data.amount}
       />
     </VStack>
   );

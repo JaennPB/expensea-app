@@ -1,4 +1,4 @@
-import { Button, IconButton, Icon, Flex } from "native-base";
+import { Button, IconButton, Icon, Flex, Heading } from "native-base";
 import React from "react";
 
 import CustomForm from "../components/CustomForm";
@@ -6,16 +6,16 @@ import CustomForm from "../components/CustomForm";
 import { Entypo } from "@expo/vector-icons";
 
 import { useAppRoute, useAppNavigation } from "../hooks/navigationHooks";
+import { DUMMY_DATA } from "../../DUMMY_DATA";
 
 const ManageDataScreen: React.FC = () => {
   const route = useAppRoute();
   const navigation = useAppNavigation();
-  const mealId = route.params?.itemId;
-  const isEditing = !!mealId;
   const [isExpense, setIsExpense] = React.useState<boolean>(true);
   const [isIncome, setIsIncome] = React.useState<boolean>(false);
-  const [title, setTitle] = React.useState<string | null>(null);
-  const [amount, setAmount] = React.useState<string | null>(null);
+  const mealId = route.params?.itemId;
+  const mealType = DUMMY_DATA.filter((el) => el.id === mealId);
+  const isEditing = !!mealId;
 
   function deleteItemHandler(): void {
     navigation.goBack();
@@ -70,6 +70,7 @@ const ManageDataScreen: React.FC = () => {
   }, [navigation, isEditing]);
 
   let topContent!: JSX.Element;
+  let headingContent!: string;
 
   if (!isEditing) {
     topContent = (
@@ -93,11 +94,17 @@ const ManageDataScreen: React.FC = () => {
         />
       </Button.Group>
     );
+
+    if (isExpense) headingContent = "New expense";
+    if (isIncome) headingContent = "New income";
   }
 
   return (
     <Flex flex={1} bg="darkBlue.700" align="center" p={5}>
       {topContent}
+      <Heading color="white" mt={5}>
+        {headingContent}
+      </Heading>
       <CustomForm />
     </Flex>
   );
