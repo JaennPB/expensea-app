@@ -13,13 +13,24 @@ const ManageDataScreen: React.FC = () => {
   const mealId = route.params?.itemId;
   const isEditing = !!mealId;
   const [isExpense, setIsExpense] = React.useState<boolean>(true);
+  const [isIncome, setIsIncome] = React.useState<boolean>(false);
+  const [title, setTitle] = React.useState<string | null>(null);
+  const [amount, setAmount] = React.useState<string | null>(null);
 
   function deleteItemHandler(): void {
     navigation.goBack();
   }
 
-  function toggleExpenseOrIncomeHandler(): void {
-    setIsExpense((prevState) => !prevState);
+  function toggleExpenseOrIncomeHandler(dataType: string): void {
+    if (dataType === "expense" && !isExpense) {
+      setIsExpense(true);
+      setIsIncome(false);
+    }
+
+    if (dataType === "income" && !isIncome) {
+      setIsIncome(true);
+      setIsExpense(false);
+    }
   }
 
   React.useLayoutEffect(() => {
@@ -72,13 +83,13 @@ const ManageDataScreen: React.FC = () => {
           icon={<Icon as={Entypo} name="minus" color="white" />}
           bgColor={isExpense ? "darkBlue.600" : null}
           w={66}
-          onPress={toggleExpenseOrIncomeHandler}
+          onPress={toggleExpenseOrIncomeHandler.bind(this, "expense")}
         />
         <IconButton
           icon={<Icon as={Entypo} name="plus" color="white" />}
-          bgColor={!isExpense ? "darkBlue.600" : null}
+          bgColor={isIncome ? "darkBlue.600" : null}
           w={66}
-          onPress={toggleExpenseOrIncomeHandler}
+          onPress={toggleExpenseOrIncomeHandler.bind(this, "income")}
         />
       </Button.Group>
     );

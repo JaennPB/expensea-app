@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface MainState {
-  expenses: number[];
+  expenses: { id: number; title: string; amount: number }[];
+  incomes: { id: number; title: string; amount: number }[];
 }
 
 const initialState: MainState = {
   expenses: [],
+  incomes: [],
 };
 
 const mainSlice = createSlice({
