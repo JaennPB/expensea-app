@@ -19,7 +19,7 @@ const ManageDataScreen: React.FC = () => {
   }
 
   function toggleExpenseOrIncomeHandler(): void {
-    setIsExpense(!isExpense);
+    setIsExpense((prevState) => !prevState);
   }
 
   React.useLayoutEffect(() => {
