@@ -10,6 +10,8 @@ import CustomInput from "./UI/CustomInput";
 import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch } from "../hooks/reduxHooks";
 
+import { addItem } from "../app/mainSlice";
+
 interface Props {
   isEditing: boolean;
 }
@@ -46,7 +48,7 @@ const CustomForm: React.FC<Props> = (props: Props) => {
     };
 
     navigation.goBack();
-    console.log(modifiedDataObject);
+    dispatch(addItem(modifiedDataObject));
   }
 
   function toggleExpenseOrIncomeHandler(dataType: string): void {
@@ -118,7 +120,7 @@ const CustomForm: React.FC<Props> = (props: Props) => {
         </Button>
         <Button
           w={150}
-          bg="success.400"
+          bg={isExpense ? "error.400" : "success.400"}
           onPress={submitDataHandler.bind(this, data)}
         >
           {props.isEditing ? "Update" : "Add"}
