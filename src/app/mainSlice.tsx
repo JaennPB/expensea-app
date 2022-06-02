@@ -10,13 +10,13 @@ interface MainState {
   }[];
 }
 
-interface DataObject {
+type DataObject = {
   id: string;
   title: string;
   amount: number;
   date: string;
   type: string;
-}
+};
 
 const initialState: MainState = {
   dataArr: [],

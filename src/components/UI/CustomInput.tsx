@@ -24,6 +24,7 @@ const CustomInput: React.FC<Props> = (props: Props) => {
       borderWidth={0}
       onChangeText={props.onChangeText}
       value={props.value}
+      autoCapitalize="sentences"
     />
   );
 };

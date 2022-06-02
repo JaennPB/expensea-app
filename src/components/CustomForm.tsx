@@ -8,9 +8,10 @@ import moment from "moment";
 import CustomInput from "./UI/CustomInput";
 
 import { useAppNavigation } from "../hooks/navigationHooks";
-import { useAppDispatch } from "../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 import { addItem } from "../app/mainSlice";
+import { Alert } from "react-native";
 
 interface Props {
   isEditing: boolean;
@@ -19,6 +20,7 @@ interface Props {
 const CustomForm: React.FC<Props> = (props: Props) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
+  const dataArr = useAppSelector((state) => state.dataArr);
   const [isExpense, setIsExpense] = React.useState<boolean>(true);
   const [isIncome, setIsIncome] = React.useState<boolean>(false);
   const [data, setData] = React.useState<{ title: string; amount: string }>({
@@ -39,9 +41,25 @@ const CustomForm: React.FC<Props> = (props: Props) => {
   }
 
   function submitDataHandler(data: { title: string; amount: string }): void {
+    const titleIsInvalid = data.title.trim() === "";
+    const amountIsInvalid = +data.amount <= 0;
+
+    if (titleIsInvalid) {
+      Alert.alert("Please enter a title! 🤯");
+      return;
+    }
+
+    if (amountIsInvalid) {
+      Alert.alert(
+        "Please enter a valid amount! 🤯",
+        "Must be a number greater than 0"
+      );
+      return;
+    }
+
     const modifiedDataObject = {
-      id: data.title + "-id",
-      title: data.title,
+      id: new Date().getTime() + "",
+      title: data.title.trim(),
       amount: +data.amount,
       date: moment().format("MMM Do YY"),
       type: isExpense ? "expense" : "income",
