@@ -15,6 +15,7 @@ import { Alert } from "react-native";
 
 interface Props {
   isEditing: boolean;
+  itemToEditId: string | undefined | null;
 }
 
 const CustomForm: React.FC<Props> = (props: Props) => {
@@ -23,7 +24,11 @@ const CustomForm: React.FC<Props> = (props: Props) => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const [isExpense, setIsExpense] = React.useState<boolean>(true);
   const [isIncome, setIsIncome] = React.useState<boolean>(false);
-  const [data, setData] = React.useState<{ title: string; amount: string }>({
+  const itemData = dataArr.find((item) => item.id === props.itemToEditId);
+  const [data, setData] = React.useState<{
+    title: string;
+    amount: string;
+  }>({
     title: "",
     amount: "",
   });

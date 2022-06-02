@@ -1,7 +1,9 @@
 import React from "react";
-import { Flex } from "native-base";
+import { Flex, Heading } from "native-base";
 import { FlatList, ListRenderItemInfo } from "react-native";
 import DataItem from "./DataItem";
+
+import { useAppSelector } from "../hooks/reduxHooks";
 
 interface Props {
   dataArr: {
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const DataList: React.FC<Props> = (props: Props) => {
+  const dataArr = useAppSelector((state) => state.dataArr);
+
   function renderDataItem(
     itemData: ListRenderItemInfo<typeof props.dataArr[0]>
   ): JSX.Element {
@@ -30,8 +34,19 @@ const DataList: React.FC<Props> = (props: Props) => {
     );
   }
 
+  let noDataContent!: JSX.Element;
+
+  if (dataArr.length <= 0) {
+    noDataContent = (
+      <Heading color="white" size="sm" textAlign="center">
+        Please add something! 😉
+      </Heading>
+    );
+  }
+
   return (
     <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
+      {noDataContent}
       <FlatList
         data={props.dataArr}
         renderItem={renderDataItem}

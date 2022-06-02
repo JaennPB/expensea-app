@@ -1,7 +1,6 @@
-import { Flex } from "native-base";
+import { Flex, Text } from "native-base";
 import React from "react";
 
-import { DUMMY_DATA } from "../../DUMMY_DATA";
 import { useAppSelector } from "../hooks/reduxHooks";
 
 import DataList from "../components/DataList";

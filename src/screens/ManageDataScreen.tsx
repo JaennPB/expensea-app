@@ -1,4 +1,4 @@
-import { Button, Flex } from "native-base";
+import { Button, Flex, Text } from "native-base";
 import React from "react";
 
 import CustomForm from "../components/CustomForm";
@@ -8,8 +8,8 @@ import { useAppRoute, useAppNavigation } from "../hooks/navigationHooks";
 const ManageDataScreen: React.FC = () => {
   const route = useAppRoute();
   const navigation = useAppNavigation();
-  const mealId = route.params?.itemId;
-  const isEditing = !!mealId;
+  const itemId = route.params?.itemId;
+  const isEditing = !!itemId;
 
   function deleteItemHandler(): void {
     navigation.goBack();
@@ -41,7 +41,7 @@ const ManageDataScreen: React.FC = () => {
       pt={isEditing ? 0 : 5}
       px={5}
     >
-      <CustomForm isEditing={isEditing} />
+      <CustomForm isEditing={isEditing} itemToEditId={itemId} />
     </Flex>
   );
 };
