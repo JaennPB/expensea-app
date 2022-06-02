@@ -29,8 +29,14 @@ const mainSlice = createSlice({
     addItem: (state, action: PayloadAction<DataObject>) => {
       state.dataArr.unshift(action.payload);
     },
+    removeItem: (state, action: PayloadAction<string>) => {
+      const updatedArr = state.dataArr.filter(
+        (item) => item.id !== action.payload
+      );
+      state.dataArr = updatedArr;
+    },
   },
 });
 
-export const { addItem } = mainSlice.actions;
+export const { addItem, removeItem } = mainSlice.actions;
 export default mainSlice.reducer;

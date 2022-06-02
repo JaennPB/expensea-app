@@ -1,17 +1,22 @@
-import { Button, Flex, Text } from "native-base";
+import { Button, Flex } from "native-base";
 import React from "react";
 
 import CustomForm from "../components/CustomForm";
 
 import { useAppRoute, useAppNavigation } from "../hooks/navigationHooks";
+import { useAppDispatch } from "../hooks/reduxHooks";
+
+import { removeItem } from "../app/mainSlice";
 
 const ManageDataScreen: React.FC = () => {
   const route = useAppRoute();
   const navigation = useAppNavigation();
-  const itemId = route.params?.itemId;
+  const dispatch = useAppDispatch();
+  const itemId = route.params.itemId!;
   const isEditing = !!itemId;
 
   function deleteItemHandler(): void {
+    dispatch(removeItem(itemId));
     navigation.goBack();
   }
 

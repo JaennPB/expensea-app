@@ -10,27 +10,32 @@ import CustomInput from "./UI/CustomInput";
 import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
-import { addItem } from "../app/mainSlice";
+import { addItem, removeItem } from "../app/mainSlice";
 import { Alert } from "react-native";
 
 interface Props {
   isEditing: boolean;
-  itemToEditId: string | undefined | null;
+  itemToEditId: string;
 }
 
 const CustomForm: React.FC<Props> = (props: Props) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
+
   const dataArr = useAppSelector((state) => state.dataArr);
-  const [isExpense, setIsExpense] = React.useState<boolean>(true);
-  const [isIncome, setIsIncome] = React.useState<boolean>(false);
-  const itemData = dataArr.find((item) => item.id === props.itemToEditId);
+  const itemData = dataArr.find((item) => item.id === props.itemToEditId)!;
+  const [isExpense, setIsExpense] = React.useState<boolean>(
+    props.isEditing ? !!(itemData.type === "expense") : true
+  );
+  const [isIncome, setIsIncome] = React.useState<boolean>(
+    props.isEditing ? !!(itemData.type === "income") : false
+  );
   const [data, setData] = React.useState<{
     title: string;
     amount: string;
   }>({
-    title: "",
-    amount: "",
+    title: props.isEditing ? itemData.title : "",
+    amount: props.isEditing ? itemData.amount.toString() : "",
   });
 
   function dataEnteredHandler(
@@ -45,7 +50,10 @@ const CustomForm: React.FC<Props> = (props: Props) => {
     });
   }
 
-  function submitDataHandler(data: { title: string; amount: string }): void {
+  function submitOrUpdateDataHandler(data: {
+    title: string;
+    amount: string;
+  }): void {
     const titleIsInvalid = data.title.trim() === "";
     const amountIsInvalid = +data.amount <= 0;
 
@@ -70,8 +78,12 @@ const CustomForm: React.FC<Props> = (props: Props) => {
       type: isExpense ? "expense" : "income",
     };
 
-    navigation.goBack();
+    if (props.isEditing) {
+      dispatch(removeItem(props.itemToEditId));
+    }
+
     dispatch(addItem(modifiedDataObject));
+    navigation.goBack();
   }
 
   function toggleExpenseOrIncomeHandler(dataType: string): void {
@@ -144,7 +156,7 @@ const CustomForm: React.FC<Props> = (props: Props) => {
         <Button
           w={150}
           bg={isExpense ? "error.400" : "success.400"}
-          onPress={submitDataHandler.bind(this, data)}
+          onPress={submitOrUpdateDataHandler.bind(this, data)}
         >
           {props.isEditing ? "Update" : "Add"}
         </Button>
