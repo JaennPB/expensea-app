@@ -1,41 +1,42 @@
 import React from "react";
+import { Alert } from "react-native";
 import { VStack, Flex, Button, Heading, IconButton, Icon } from "native-base";
-
-import { Entypo } from "@expo/vector-icons";
-
-import moment from "moment";
-
-import CustomInput from "./UI/CustomInput";
 
 import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 import { addItem, removeItem } from "../app/mainSlice";
-import { Alert } from "react-native";
+
+import moment from "moment";
+
+import CustomInput from "./UI/CustomInput";
+
+import { Entypo } from "@expo/vector-icons";
 
 interface Props {
   isEditing: boolean;
   itemToEditId: string;
 }
 
-const CustomForm: React.FC<Props> = (props: Props) => {
+const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
 
   const dataArr = useAppSelector((state) => state.dataArr);
-  const itemData = dataArr.find((item) => item.id === props.itemToEditId)!;
+  const itemData = dataArr.find((item) => item.id === itemToEditId)!;
+
   const [isExpense, setIsExpense] = React.useState<boolean>(
-    props.isEditing ? !!(itemData.type === "expense") : true
+    isEditing ? !!(itemData.type === "expense") : true
   );
   const [isIncome, setIsIncome] = React.useState<boolean>(
-    props.isEditing ? !!(itemData.type === "income") : false
+    isEditing ? !!(itemData.type === "income") : false
   );
   const [data, setData] = React.useState<{
     title: string;
     amount: string;
   }>({
-    title: props.isEditing ? itemData.title : "",
-    amount: props.isEditing ? itemData.amount.toString() : "",
+    title: isEditing ? itemData.title : "",
+    amount: isEditing ? itemData.amount.toString() : "",
   });
 
   function dataEnteredHandler(
@@ -78,8 +79,8 @@ const CustomForm: React.FC<Props> = (props: Props) => {
       type: isExpense ? "expense" : "income",
     };
 
-    if (props.isEditing) {
-      dispatch(removeItem(props.itemToEditId));
+    if (isEditing) {
+      dispatch(removeItem(itemToEditId));
     }
 
     dispatch(addItem(modifiedDataObject));
@@ -101,7 +102,7 @@ const CustomForm: React.FC<Props> = (props: Props) => {
   let topContent!: JSX.Element;
   let headingContent!: string;
 
-  if (!props.isEditing) {
+  if (!isEditing) {
     topContent = (
       <Button.Group
         isAttached
@@ -131,11 +132,10 @@ const CustomForm: React.FC<Props> = (props: Props) => {
   return (
     <>
       {topContent}
-      <Heading color="white" mt={props.isEditing ? 0 : 5}>
+      <Heading color="white" mt={isEditing ? 0 : 5}>
         {headingContent}
       </Heading>
-
-      <VStack w="100%" mt={props.isEditing ? 0 : 5} space={5}>
+      <VStack w="100%" mt={isEditing ? 0 : 5} space={5}>
         <CustomInput
           title="Title"
           type="default"
@@ -158,7 +158,7 @@ const CustomForm: React.FC<Props> = (props: Props) => {
           bg={isExpense ? "error.400" : "success.400"}
           onPress={submitOrUpdateDataHandler.bind(this, data)}
         >
-          {props.isEditing ? "Update" : "Add"}
+          {isEditing ? "Update" : "Add"}
         </Button>
       </Flex>
     </>

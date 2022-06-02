@@ -1,9 +1,9 @@
-import { Pressable } from "native-base";
 import React from "react";
-
-import { AntDesign } from "@expo/vector-icons";
+import { Pressable } from "native-base";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
+
+import { AntDesign } from "@expo/vector-icons";
 
 const AddButton: React.FC = () => {
   const navigation = useAppNavigation();

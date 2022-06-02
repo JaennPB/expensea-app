@@ -1,5 +1,5 @@
-import { Text, Box, Flex } from "native-base";
 import React from "react";
+import { Text, Flex } from "native-base";
 
 interface Props {
   type: string;

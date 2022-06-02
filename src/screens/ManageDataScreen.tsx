@@ -1,12 +1,12 @@
-import { Button, Flex } from "native-base";
 import React from "react";
+import { Button, Flex } from "native-base";
 
-import CustomForm from "../components/CustomForm";
+import { useAppDispatch } from "../hooks/reduxHooks";
+import { removeItem } from "../app/mainSlice";
 
 import { useAppRoute, useAppNavigation } from "../hooks/navigationHooks";
-import { useAppDispatch } from "../hooks/reduxHooks";
 
-import { removeItem } from "../app/mainSlice";
+import CustomForm from "../components/CustomForm";
 
 const ManageDataScreen: React.FC = () => {
   const route = useAppRoute();

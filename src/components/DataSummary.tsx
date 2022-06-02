@@ -1,5 +1,5 @@
-import { View, Text, Box, Flex, VStack } from "native-base";
 import React from "react";
+import { VStack } from "native-base";
 
 import InfoBox from "./InfoBox";
 

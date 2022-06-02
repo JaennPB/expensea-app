@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, Box, Flex, Divider, Pressable } from "native-base";
+
 import * as Haptics from "expo-haptics";
 
 import { useAppNavigation } from "../hooks/navigationHooks";

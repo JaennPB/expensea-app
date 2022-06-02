@@ -1,7 +1,6 @@
-import { Input } from "native-base";
 import React from "react";
-
 import { KeyboardTypeOptions } from "react-native";
+import { Input } from "native-base";
 
 interface Props {
   title: string;

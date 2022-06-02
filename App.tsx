@@ -1,3 +1,4 @@
+import React from "react";
 import { NativeBaseProvider, StatusBar } from "native-base";
 
 import { Provider } from "react-redux";
@@ -13,11 +14,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AllDataScreen from "./src/screens/AllDataScreen";
 import RecentDataScreen from "./src/screens/RecentDataScreen";
 import ManageDataScreen from "./src/screens/ManageDataScreen";
+import AddButton from "./src/components/UI/AddButton";
 
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-
-import AddButton from "./src/components/UI/AddButton";
 
 export type NavParams = {
   AllDataScreen: undefined;

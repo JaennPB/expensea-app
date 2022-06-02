@@ -1,9 +1,10 @@
 import React from "react";
-import { Flex, Heading } from "native-base";
 import { FlatList, ListRenderItemInfo } from "react-native";
-import DataItem from "./DataItem";
+import { Flex, Heading } from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
+
+import DataItem from "./DataItem";
 
 interface Props {
   dataArr: {
@@ -39,7 +40,7 @@ const DataList: React.FC<Props> = (props: Props) => {
   if (dataArr.length <= 0) {
     noDataContent = (
       <Heading color="white" size="sm" textAlign="center">
-        Please add something! 😉
+        Please, add something! 😉
       </Heading>
     );
   }
