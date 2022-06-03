@@ -17,7 +17,6 @@ import ManageDataScreen from "./src/screens/ManageDataScreen";
 import IncomesScreen from "./src/screens/IncomesScreen";
 import AddButton from "./src/components/UI/AddButton";
 
-import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 

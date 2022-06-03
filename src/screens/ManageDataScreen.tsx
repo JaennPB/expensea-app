@@ -28,7 +28,7 @@ const ManageDataScreen: React.FC = () => {
         isEditing && (
           <Button
             variant="ghost"
-            _text={{ color: "error.400" }}
+            _text={{ color: "error.400", fontSize: "md", fontWeight: "medium" }}
             size="lg"
             onPress={deleteItemHandler}
           >

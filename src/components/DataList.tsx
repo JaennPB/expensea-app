@@ -18,20 +18,45 @@ interface Props {
 }
 
 const DataList: React.FC<Props> = ({ dataArr, dataToDisplay }) => {
-  let dataByFilter;
+  let dataByFilter!: typeof dataArr[0][];
+  let noDataContent!: JSX.Element;
 
   if (dataToDisplay === "all") {
     dataByFilter = useAppSelector((state) => state.dataArr);
+
+    if (dataByFilter.length <= 0) {
+      noDataContent = (
+        <Heading color="white" size="sm" textAlign="center">
+          Please, give me some data to work with! 📈
+        </Heading>
+      );
+    }
   }
 
   if (dataToDisplay === "expenses") {
     const allData = useAppSelector((state) => state.dataArr);
     dataByFilter = allData.filter((item) => item.type === "expense");
+
+    if (dataByFilter.length <= 0) {
+      noDataContent = (
+        <Heading color="white" size="sm" textAlign="center">
+          Please, add expenses! 📉
+        </Heading>
+      );
+    }
   }
 
   if (dataToDisplay === "incomes") {
     const allData = useAppSelector((state) => state.dataArr);
     dataByFilter = allData.filter((item) => item.type === "income");
+
+    if (dataByFilter.length <= 0) {
+      noDataContent = (
+        <Heading color="white" size="sm" textAlign="center">
+          Please, add incomes! 🤑
+        </Heading>
+      );
+    }
   }
 
   function renderDataItem(
@@ -47,16 +72,6 @@ const DataList: React.FC<Props> = ({ dataArr, dataToDisplay }) => {
         amount={dataItem.amount}
         type={dataItem.type}
       />
-    );
-  }
-
-  let noDataContent!: JSX.Element;
-
-  if (dataArr.length <= 0) {
-    noDataContent = (
-      <Heading color="white" size="sm" textAlign="center">
-        Please, add something! 😉
-      </Heading>
     );
   }
 

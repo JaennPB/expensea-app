@@ -20,7 +20,7 @@ const IncomesScreen: React.FC = () => {
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="success.500"
-          data={"-$" + incomesSum.toFixed(2)}
+          data={"$" + incomesSum.toFixed(2)}
           type="Incomes:"
         />
       </VStack>

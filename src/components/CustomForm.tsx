@@ -75,7 +75,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       id: new Date().getTime() + "",
       title: data.title.trim(),
       amount: +data.amount,
-      date: moment().format("MMM Do YY"),
+      date: moment().format("MMMM Do YYYY"),
       type: isExpense ? "expense" : "income",
     };
 
@@ -150,13 +150,19 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         />
       </VStack>
       <Flex direction="row" w="100%" mt={5} justify="space-between">
-        <Button w={150} variant="ghost" onPress={() => navigation.goBack()}>
+        <Button
+          w={120}
+          variant="ghost"
+          onPress={() => navigation.goBack()}
+          _text={{ fontSize: "md", color: "error.400", fontWeight: "medium" }}
+        >
           Cancel
         </Button>
         <Button
-          w={150}
+          w={120}
           bg={isExpense ? "error.400" : "success.400"}
           onPress={submitOrUpdateDataHandler.bind(this, data)}
+          _text={{ fontSize: "md", fontWeight: "medium" }}
         >
           {isEditing ? "Update" : "Add"}
         </Button>

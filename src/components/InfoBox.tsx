@@ -18,10 +18,10 @@ const InfoBox: React.FC<Props> = ({ color, data, type }) => {
       bg={color}
       borderRadius={5}
     >
-      <Text color="white" fontSize="md">
+      <Text color="white" fontSize="lg">
         {type}
       </Text>
-      <Text color="white" fontSize="md">
+      <Text color="white" fontSize="lg">
         {data}
       </Text>
     </Flex>
