@@ -16,11 +16,11 @@ interface Props {
   }[];
 }
 
-const DataList: React.FC<Props> = (props: Props) => {
-  const dataArr = useAppSelector((state) => state.dataArr);
+const DataList: React.FC<Props> = ({ dataArr }) => {
+  const dataArray = useAppSelector((state) => state.dataArr);
 
   function renderDataItem(
-    itemData: ListRenderItemInfo<typeof props.dataArr[0]>
+    itemData: ListRenderItemInfo<typeof dataArr[0]>
   ): JSX.Element {
     const dataItem = itemData.item;
 
@@ -49,7 +49,7 @@ const DataList: React.FC<Props> = (props: Props) => {
     <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
       {noDataContent}
       <FlatList
-        data={props.dataArr}
+        data={dataArray}
         renderItem={renderDataItem}
         keyExtractor={(item) => item.id}
       />

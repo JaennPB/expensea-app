@@ -13,12 +13,12 @@ interface Props {
   type: string;
 }
 
-const DataItem: React.FC<Props> = (props: Props) => {
+const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
   const navigation = useAppNavigation();
 
   function navigateToEditDataItemHandler(): void {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    navigation.navigate("ManageDataScreen", { itemId: props.id });
+    navigation.navigate("ManageDataScreen", { itemId: id });
   }
 
   return (
@@ -29,23 +29,21 @@ const DataItem: React.FC<Props> = (props: Props) => {
       <Flex flexDir="row" justify="space-between" borderRadius={5}>
         <Box>
           <Text color="lightText" fontSize="lg">
-            {props.title}
+            {title}
           </Text>
           <Text color="muted.300" fontSize="xs">
-            {props.date}
+            {date}
           </Text>
         </Box>
         <Flex
-          bg={props.type === "income" ? "success.500" : "error.400"}
+          bg={type === "income" ? "success.500" : "error.400"}
           justify="center"
           align="center"
           w={100}
           borderRadius={5}
         >
           <Text color="white" fontSize="md">
-            {props.type === "expense"
-              ? "-$" + props.amount
-              : "$" + props.amount}
+            {type === "expense" ? "-$" + amount : "$" + amount}
           </Text>
         </Flex>
       </Flex>

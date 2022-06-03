@@ -7,7 +7,7 @@ interface Props {
   color: "success.500" | "error.400";
 }
 
-const InfoBox: React.FC<Props> = (props: Props) => {
+const InfoBox: React.FC<Props> = ({ color, data, type }) => {
   return (
     <Flex
       direction="row"
@@ -15,14 +15,14 @@ const InfoBox: React.FC<Props> = (props: Props) => {
       align="center"
       px={5}
       py={2}
-      bg={props.color}
+      bg={color}
       borderRadius={5}
     >
       <Text color="white" fontSize="md">
-        {props.type}
+        {type}
       </Text>
       <Text color="white" fontSize="md">
-        {props.data}
+        {data}
       </Text>
     </Flex>
   );

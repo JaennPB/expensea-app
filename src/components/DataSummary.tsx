@@ -14,13 +14,9 @@ interface Props {
   period: string;
 }
 
-const DataSummary: React.FC<Props> = (props: Props) => {
-  const expensesArr = props.dataArr.filter(
-    (element) => element.type === "expense"
-  );
-  const incomesArr = props.dataArr.filter(
-    (element) => element.type === "income"
-  );
+const DataSummary: React.FC<Props> = ({ dataArr, period }) => {
+  const expensesArr = dataArr.filter((element) => element.type === "expense");
+  const incomesArr = dataArr.filter((element) => element.type === "income");
 
   const expensesSum: number = expensesArr.reduce((sum, expense) => {
     return sum + expense.amount;
@@ -42,7 +38,7 @@ const DataSummary: React.FC<Props> = (props: Props) => {
       <InfoBox
         color="success.500"
         data={"$" + total.toFixed(2)}
-        type={props.period}
+        type={period}
       />
     </VStack>
   );
