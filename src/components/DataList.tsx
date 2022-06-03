@@ -14,10 +14,25 @@ interface Props {
     date: string;
     type: string;
   }[];
+  dataToDisplay: "all" | "expenses" | "incomes";
 }
 
-const DataList: React.FC<Props> = ({ dataArr }) => {
-  const dataArray = useAppSelector((state) => state.dataArr);
+const DataList: React.FC<Props> = ({ dataArr, dataToDisplay }) => {
+  let dataByFilter;
+
+  if (dataToDisplay === "all") {
+    dataByFilter = useAppSelector((state) => state.dataArr);
+  }
+
+  if (dataToDisplay === "expenses") {
+    const allData = useAppSelector((state) => state.dataArr);
+    dataByFilter = allData.filter((item) => item.type === "expense");
+  }
+
+  if (dataToDisplay === "incomes") {
+    const allData = useAppSelector((state) => state.dataArr);
+    dataByFilter = allData.filter((item) => item.type === "income");
+  }
 
   function renderDataItem(
     itemData: ListRenderItemInfo<typeof dataArr[0]>
@@ -49,7 +64,7 @@ const DataList: React.FC<Props> = ({ dataArr }) => {
     <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
       {noDataContent}
       <FlatList
-        data={dataArray}
+        data={dataByFilter}
         renderItem={renderDataItem}
         keyExtractor={(item) => item.id}
       />

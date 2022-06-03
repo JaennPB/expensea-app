@@ -24,7 +24,7 @@ const AllDataScreen: React.FC = () => {
 
   return (
     <Flex flex={1} bg="darkBlue.800">
-      <VStack p={5} space={2}>
+      <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="success.500"
           data={"$" + incomesSum.toFixed(2)}
@@ -43,8 +43,7 @@ const AllDataScreen: React.FC = () => {
           type="Total Net Worth:"
         />
       </VStack>
-
-      <DataList dataArr={dataArr} />
+      <DataList dataArr={dataArr} dataToDisplay="all" />
     </Flex>
   );
 };

@@ -17,7 +17,7 @@ const ExpensesScreen: React.FC = () => {
 
   return (
     <Flex flex={1} bg="darkBlue.800">
-      <VStack p={5} space={2}>
+      <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="error.400"
           data={"-$" + expensesSum.toFixed(2)}
@@ -25,7 +25,7 @@ const ExpensesScreen: React.FC = () => {
         />
       </VStack>
 
-      <DataList dataArr={dataArr} />
+      <DataList dataArr={dataArr} dataToDisplay="expenses" />
     </Flex>
   );
 };
