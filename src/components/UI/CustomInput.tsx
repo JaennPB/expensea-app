@@ -9,10 +9,10 @@ interface Props {
   value: string;
 }
 
-const CustomInput: React.FC<Props> = (props: Props) => {
+const CustomInput: React.FC<Props> = ({ onChangeText, title, type, value }) => {
   return (
     <Input
-      placeholder={props.title}
+      placeholder={title}
       variant="filled"
       size="2xl"
       p={5}
@@ -20,11 +20,11 @@ const CustomInput: React.FC<Props> = (props: Props) => {
       color="white"
       placeholderTextColor="darkBlue.500"
       selectionColor="darkBlue.500"
-      keyboardType={props.type}
+      keyboardType={type}
       backgroundColor="darkBlue.600"
       borderWidth={0}
-      onChangeText={props.onChangeText}
-      value={props.value}
+      onChangeText={onChangeText}
+      value={value}
       autoCapitalize="sentences"
     />
   );
