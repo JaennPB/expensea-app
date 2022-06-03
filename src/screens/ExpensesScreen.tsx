@@ -24,7 +24,6 @@ const ExpensesScreen: React.FC = () => {
           type="Expenses:"
         />
       </VStack>
-
       <DataList dataArr={dataArr} dataToDisplay="expenses" />
     </Flex>
   );

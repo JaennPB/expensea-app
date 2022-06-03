@@ -24,7 +24,6 @@ const IncomesScreen: React.FC = () => {
           type="Incomes:"
         />
       </VStack>
-
       <DataList dataArr={dataArr} dataToDisplay="incomes" />
     </Flex>
   );
