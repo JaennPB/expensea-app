@@ -4,7 +4,7 @@ import { Text, Flex } from "native-base";
 interface Props {
   type: string;
   data: string | number;
-  color: "success.500" | "error.400";
+  color: "success.500" | "error.400" | "darkBlue.700";
 }
 
 const InfoBox: React.FC<Props> = ({ color, data, type }) => {

@@ -1,16 +1,31 @@
 import React from "react";
-import { Flex } from "native-base";
+import { Flex, VStack } from "native-base";
 
-import { DUMMY_DATA } from "../../DUMMY_DATA";
+import { useAppSelector } from "../hooks/reduxHooks";
 
 import DataList from "../components/DataList";
-import DataSummary from "../components/DataSummary";
+import InfoBox from "../components/InfoBox";
 
 const ExpensesScreen: React.FC = () => {
+  const dataArr = useAppSelector((state) => state.dataArr);
+
+  const expensesArr = dataArr.filter((element) => element.type === "expense");
+
+  const expensesSum: number = expensesArr.reduce((sum, expense) => {
+    return sum + expense.amount;
+  }, 0);
+
   return (
     <Flex flex={1} bg="darkBlue.800">
-      <DataSummary period="Last 7 days" dataArr={DUMMY_DATA} />
-      <DataList dataArr={DUMMY_DATA} />
+      <VStack p={5} space={2}>
+        <InfoBox
+          color="error.400"
+          data={"-$" + expensesSum.toFixed(2)}
+          type="Expenses:"
+        />
+      </VStack>
+
+      <DataList dataArr={dataArr} />
     </Flex>
   );
 };
