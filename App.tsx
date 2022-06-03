@@ -12,16 +12,19 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import AllDataScreen from "./src/screens/AllDataScreen";
-import RecentDataScreen from "./src/screens/RecentDataScreen";
+import ExpesesScreen from "./src/screens/ExpensesScreen";
 import ManageDataScreen from "./src/screens/ManageDataScreen";
+import IncomesScreen from "./src/screens/IncomesScreen";
 import AddButton from "./src/components/UI/AddButton";
 
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export type NavParams = {
   AllDataScreen: undefined;
-  RecentDataScreen: undefined;
+  ExpensesScreen: undefined;
+  IncomesScreen: undefined;
   BottomTabsNav: undefined;
   ManageDataScreen: {
     itemId?: string | null;
@@ -55,7 +58,7 @@ function BottomTabsNav() {
         name="AllDataScreen"
         component={AllDataScreen}
         options={{
-          headerTitle: "All Expenses",
+          headerTitle: "Net Worth",
           tabBarLabel: "All",
           tabBarLabelStyle: { fontSize: 13 },
           tabBarIcon: ({ color }) => (
@@ -64,14 +67,26 @@ function BottomTabsNav() {
         }}
       />
       <BottomTabs.Screen
-        name="RecentDataScreen"
-        component={RecentDataScreen}
+        name="ExpensesScreen"
+        component={ExpesesScreen}
         options={{
-          headerTitle: "Recent Expenses",
-          tabBarLabel: "Recent",
+          headerTitle: "All Expenses",
+          tabBarLabel: "Expenses",
           tabBarLabelStyle: { fontSize: 13 },
           tabBarIcon: ({ color }) => (
-            <AntDesign name="back" size={24} color={color} />
+            <MaterialIcons name="money-off" size={24} color={color} />
+          ),
+        }}
+      />
+      <BottomTabs.Screen
+        name="IncomesScreen"
+        component={IncomesScreen}
+        options={{
+          headerTitle: "All Incomes",
+          tabBarLabel: "Incomes",
+          tabBarLabelStyle: { fontSize: 13 },
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="attach-money" size={24} color={color} />
           ),
         }}
       />
