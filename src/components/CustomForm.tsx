@@ -13,6 +13,9 @@ import CustomInput from "./UI/CustomInput";
 
 import { Entypo } from "@expo/vector-icons";
 
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../db/firebase";
+
 interface Props {
   isEditing: boolean;
   itemToEditId: string;
@@ -31,6 +34,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const [isIncome, setIsIncome] = React.useState<boolean>(
     isEditing ? !!(itemData.type === "income") : false
   );
+
   const [data, setData] = React.useState<{
     title: string;
     amount: string;
@@ -51,10 +55,10 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     });
   }
 
-  function submitOrUpdateDataHandler(data: {
+  async function submitOrUpdateDataHandler(data: {
     title: string;
     amount: string;
-  }): void {
+  }): Promise<void> {
     const titleIsInvalid = data.title.trim() === "";
     const amountIsInvalid = +data.amount <= 0;
 
@@ -81,6 +85,15 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
 
     if (isEditing) {
       dispatch(removeItem(itemToEditId));
+    }
+
+    try {
+      const docRef = await addDoc(collection(db, "data"), {
+        ...modifiedDataObject,
+      });
+      console.log(docRef.id);
+    } catch {
+      Alert.alert("error uploading", "please try again ❌");
     }
 
     dispatch(addItem(modifiedDataObject));
