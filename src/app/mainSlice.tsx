@@ -1,4 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  QuerySnapshot,
+} from "firebase/firestore";
+import { WritableDraft } from "immer/dist/internal";
 
 interface MainState {
   dataArr: {
@@ -35,8 +41,11 @@ const mainSlice = createSlice({
       );
       state.dataArr = updatedArr;
     },
+    setData: (state, action: PayloadAction<any>) => {
+      state.dataArr.unshift(action.payload);
+    },
   },
 });
 
-export const { addItem, removeItem } = mainSlice.actions;
+export const { addItem, removeItem, setData } = mainSlice.actions;
 export default mainSlice.reducer;

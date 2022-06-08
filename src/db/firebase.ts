@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { FirebaseApp, initializeApp } from "firebase/app";
+import { Firestore, getFirestore } from "firebase/firestore";
 
 // Config data exposed but db has security measures implemented
 const firebaseConfig = {
@@ -13,6 +13,6 @@ const firebaseConfig = {
   appId: "1:165008697907:web:90b8f2c7879af6786f5146",
 };
 
-const app = initializeApp(firebaseConfig);
+const app: FirebaseApp = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
+export const db: Firestore = getFirestore(app);
