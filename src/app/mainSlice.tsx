@@ -1,28 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  DocumentData,
-  QueryDocumentSnapshot,
-  QuerySnapshot,
-} from "firebase/firestore";
-import { WritableDraft } from "immer/dist/internal";
+import { DataObj } from "../../App";
 
 interface MainState {
-  dataArr: {
-    id: string;
-    title: string;
-    amount: number;
-    date: string;
-    type: string;
-  }[];
+  dataArr: DataObj[];
 }
-
-type DataObject = {
-  id: string;
-  title: string;
-  amount: number;
-  date: string;
-  type: string;
-};
 
 const initialState: MainState = {
   dataArr: [],
@@ -32,7 +13,7 @@ const mainSlice = createSlice({
   name: "main",
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<DataObject>) => {
+    addItem: (state, action: PayloadAction<DataObj>) => {
       state.dataArr.unshift(action.payload);
     },
     removeItem: (state, action: PayloadAction<string>) => {
@@ -41,7 +22,8 @@ const mainSlice = createSlice({
       );
       state.dataArr = updatedArr;
     },
-    setData: (state, action: PayloadAction<any>) => {
+    setData: (state, action: PayloadAction<DataObj[]>) => {
+      // reverse() action payload
       state.dataArr.unshift(action.payload);
     },
   },

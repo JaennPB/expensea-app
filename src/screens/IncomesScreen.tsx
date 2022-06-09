@@ -12,9 +12,9 @@ import { db } from "../db/firebase";
 
 const IncomesScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
-
   const incomesArr = dataArr.filter((element) => element.type === "income");
 
+  // FIXME:
   const incomesSum: number = incomesArr.reduce((sum, income) => {
     return sum + income.amount;
   }, 0);

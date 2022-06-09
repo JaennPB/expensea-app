@@ -16,6 +16,8 @@ import { Entypo } from "@expo/vector-icons";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../db/firebase";
 
+import { DataObj } from "../../App";
+
 interface Props {
   isEditing: boolean;
   itemToEditId: string;
@@ -35,12 +37,12 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     isEditing ? !!(itemData.type === "income") : false
   );
 
-  const [data, setData] = React.useState<{
-    title: string;
-    amount: string;
-  }>({
+  const [data, setData] = React.useState<DataObj>({
+    id: "",
     title: isEditing ? itemData.title : "",
     amount: isEditing ? itemData.amount.toString() : "",
+    date: moment().format("MMMM Do YYYY"),
+    type: isExpense ? "expense" : "income",
   });
 
   function dataEnteredHandler(
@@ -55,10 +57,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     });
   }
 
-  async function submitOrUpdateDataHandler(data: {
-    title: string;
-    amount: string;
-  }): Promise<void> {
+  async function submitDataHandler(data: DataObj): Promise<void> {
     const titleIsInvalid = data.title.trim() === "";
     const amountIsInvalid = +data.amount <= 0;
 
@@ -75,29 +74,18 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       return;
     }
 
-    const modifiedDataObject = {
-      id: new Date().getTime() + "",
-      title: data.title.trim(),
-      amount: +data.amount,
-      date: moment().format("MMMM Do YYYY"),
-      type: isExpense ? "expense" : "income",
-    };
-
-    if (isEditing) {
-      dispatch(removeItem(itemToEditId));
-    }
-
     try {
-      const docRef = await addDoc(collection(db, "data"), {
-        ...modifiedDataObject,
-      });
-      console.log(docRef.id);
+      const docRef = await addDoc(collection(db, "data"), data);
+      const firebaseId = docRef.id;
+      const modifiedObj = {
+        ...data,
+        id: firebaseId,
+      };
+      dispatch(addItem(modifiedObj));
+      navigation.goBack();
     } catch {
       Alert.alert("error uploading", "please try again ❌");
     }
-
-    dispatch(addItem(modifiedDataObject));
-    navigation.goBack();
   }
 
   function toggleExpenseOrIncomeHandler(dataType: string): void {
@@ -174,7 +162,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         <Button
           w={120}
           bg={isExpense ? "error.400" : "success.400"}
-          onPress={submitOrUpdateDataHandler.bind(this, data)}
+          onPress={submitDataHandler.bind(this, data)}
           _text={{ fontSize: "md", fontWeight: "medium" }}
         >
           {isEditing ? "Update" : "Add"}

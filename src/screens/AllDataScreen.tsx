@@ -18,29 +18,46 @@ const AllDataScreen: React.FC = () => {
   const expensesArr = dataArr.filter((element) => element.type === "expense");
   const incomesArr = dataArr.filter((element) => element.type === "income");
 
-  const expensesSum: number = expensesArr.reduce((sum, expense) => {
-    return sum + expense.amount;
-  }, 0);
+  // TODO: maybe move into own hook or util fn
+  function reduceItems(): {
+    expensesSum: number;
+    incomesSum: number;
+    total: number;
+  } {
+    const expensesSum: number = expensesArr.reduce(
+      (sum, expense) => sum + +expense.amount,
+      0
+    );
 
-  const incomesSum: number = incomesArr.reduce((sum, income) => {
-    return sum + income.amount;
-  }, 0);
+    const incomesSum: number = incomesArr.reduce(
+      (sum, income) => sum + +income.amount,
+      0
+    );
 
-  const total = incomesSum - expensesSum;
+    const total = incomesSum - expensesSum;
+
+    return {
+      expensesSum,
+      incomesSum,
+      total,
+    };
+  }
+
+  async function getData(): Promise<void> {
+    try {
+      const data = await getDocs(collection(db, "data"));
+
+      if (!data.empty) {
+        const newArr: any = [];
+        data.forEach((doc) => newArr.unshift(doc.data()));
+        dispatch(setData(newArr));
+      }
+    } catch {
+      Alert.alert("No data from server");
+    }
+  }
 
   React.useEffect(() => {
-    async function getData(): Promise<void> {
-      try {
-        const data = await getDocs(collection(db, "data"));
-
-        if (!data.empty) {
-          data.forEach((doc) => dispatch(setData(doc.data())));
-        }
-      } catch {
-        Alert.alert("No data from server");
-      }
-    }
-
     getData();
   }, []);
 
@@ -49,19 +66,19 @@ const AllDataScreen: React.FC = () => {
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="success.500"
-          data={"$" + incomesSum.toFixed(2)}
+          data={"$" + reduceItems().incomesSum.toFixed(2)}
           type="Incomes:"
         />
 
         <InfoBox
           color="error.400"
-          data={"-$" + expensesSum.toFixed(2)}
+          data={"-$" + reduceItems().expensesSum.toFixed(2)}
           type="Expenses:"
         />
 
         <InfoBox
           color="darkBlue.700"
-          data={"$" + total.toFixed(2)}
+          data={"$" + reduceItems().total.toFixed(2)}
           type="Total Net Worth:"
         />
       </VStack>

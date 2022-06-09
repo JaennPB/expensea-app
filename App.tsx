@@ -30,6 +30,14 @@ export type NavParams = {
   };
 };
 
+export type DataObj = {
+  id: string;
+  title: string;
+  amount: string;
+  date: string;
+  type: string;
+};
+
 const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();
 

@@ -6,14 +6,10 @@ import { useAppSelector } from "../hooks/reduxHooks";
 
 import DataItem from "./DataItem";
 
+import { DataObj } from "../../App";
+
 interface Props {
-  dataArr: {
-    id: string;
-    title: string;
-    amount: number;
-    date: string;
-    type: string;
-  }[];
+  dataArr: DataObj[];
   dataToDisplay: "all" | "expenses" | "incomes";
 }
 

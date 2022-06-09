@@ -8,7 +8,7 @@ import { useAppNavigation } from "../hooks/navigationHooks";
 interface Props {
   id: string;
   title: string;
-  amount: number;
+  amount: string;
   date: string;
   type: string;
 }
