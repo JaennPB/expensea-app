@@ -16,7 +16,7 @@ interface Props {
 const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
   const navigation = useAppNavigation();
 
-  function navigateToEditDataItemHandler(): void {
+  function navigateToEditItemHandler(): void {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     navigation.navigate("ManageDataScreen", { itemId: id });
   }
@@ -24,7 +24,7 @@ const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
   return (
     <Pressable
       _pressed={{ opacity: 0.5 }}
-      onLongPress={navigateToEditDataItemHandler}
+      onLongPress={navigateToEditItemHandler}
     >
       <Flex flexDir="row" justify="space-between" borderRadius={5}>
         <Box>
@@ -36,7 +36,7 @@ const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
           </Text>
         </Box>
         <Flex
-          bg={type === "income" ? "success.500" : "error.400"}
+          bg={type === "expense" ? "error.400" : "success.500"}
           justify="center"
           align="center"
           w={100}

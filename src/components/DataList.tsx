@@ -14,7 +14,7 @@ interface Props {
 }
 
 const DataList: React.FC<Props> = ({ dataArr, dataToDisplay }) => {
-  let dataByFilter!: typeof dataArr[0][];
+  let dataByFilter!: DataObj[];
   let noDataContent!: JSX.Element;
 
   if (dataToDisplay === "all") {
@@ -55,9 +55,7 @@ const DataList: React.FC<Props> = ({ dataArr, dataToDisplay }) => {
     }
   }
 
-  function renderDataItem(
-    itemData: ListRenderItemInfo<typeof dataArr[0]>
-  ): JSX.Element {
+  function renderDataItem(itemData: ListRenderItemInfo<DataObj>): JSX.Element {
     const dataItem = itemData.item;
 
     return (

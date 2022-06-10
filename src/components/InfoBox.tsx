@@ -2,12 +2,12 @@ import React from "react";
 import { Text, Flex } from "native-base";
 
 interface Props {
-  type: string;
+  title: string;
   data: string | number;
   color: "success.500" | "error.400" | "darkBlue.700";
 }
 
-const InfoBox: React.FC<Props> = ({ color, data, type }) => {
+const InfoBox: React.FC<Props> = ({ color, data, title }) => {
   return (
     <Flex
       direction="row"
@@ -19,7 +19,7 @@ const InfoBox: React.FC<Props> = ({ color, data, type }) => {
       borderRadius={5}
     >
       <Text color="white" fontSize="lg">
-        {type}
+        {title}
       </Text>
       <Text color="white" fontSize="lg">
         {data}

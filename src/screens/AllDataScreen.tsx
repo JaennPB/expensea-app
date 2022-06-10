@@ -9,7 +9,11 @@ import InfoBox from "../components/InfoBox";
 
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../db/firebase";
-import { setData } from "../app/mainSlice";
+import { addItem, setData } from "../app/mainSlice";
+
+import { useReduceItems } from "../hooks/utils";
+
+import { DataObj } from "../../App";
 
 const AllDataScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
@@ -18,46 +22,26 @@ const AllDataScreen: React.FC = () => {
   const expensesArr = dataArr.filter((element) => element.type === "expense");
   const incomesArr = dataArr.filter((element) => element.type === "income");
 
-  // TODO: maybe move into own hook or util fn
-  function reduceItems(): {
-    expensesSum: number;
-    incomesSum: number;
-    total: number;
-  } {
-    const expensesSum: number = expensesArr.reduce(
-      (sum, expense) => sum + +expense.amount,
-      0
-    );
-
-    const incomesSum: number = incomesArr.reduce(
-      (sum, income) => sum + +income.amount,
-      0
-    );
-
-    const total = incomesSum - expensesSum;
-
-    return {
-      expensesSum,
-      incomesSum,
-      total,
-    };
-  }
-
-  async function getData(): Promise<void> {
-    try {
-      const data = await getDocs(collection(db, "data"));
-
-      if (!data.empty) {
-        const newArr: any = [];
-        data.forEach((doc) => newArr.unshift(doc.data()));
-        dispatch(setData(newArr));
-      }
-    } catch {
-      Alert.alert("No data from server");
-    }
-  }
+  // FIXME: get data and set redux store with data to make it local
 
   React.useEffect(() => {
+    async function getData(): Promise<void> {
+      try {
+        const data = await getDocs(collection(db, "data"));
+
+        if (!data.empty) {
+          let dataArr: any = [];
+          data.forEach((doc) => {
+            dataArr.unshift({ ...doc.data(), id: doc.id });
+          });
+
+          dispatch(setData(dataArr));
+        }
+      } catch {
+        Alert.alert("No data from server");
+      }
+    }
+
     getData();
   }, []);
 
@@ -66,20 +50,21 @@ const AllDataScreen: React.FC = () => {
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="success.500"
-          data={"$" + reduceItems().incomesSum.toFixed(2)}
-          type="Incomes:"
+          data={"$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
+          title="Incomes:"
         />
-
         <InfoBox
           color="error.400"
-          data={"-$" + reduceItems().expensesSum.toFixed(2)}
-          type="Expenses:"
+          data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
+          title="Expenses:"
         />
-
         <InfoBox
           color="darkBlue.700"
-          data={"$" + reduceItems().total.toFixed(2)}
-          type="Total Net Worth:"
+          data={
+            "$" +
+            useReduceItems({ incomesArr, expensesArr }, "total").toFixed(2)
+          }
+          title="Total Net Worth:"
         />
       </VStack>
       <DataList dataArr={dataArr} dataToDisplay="all" />

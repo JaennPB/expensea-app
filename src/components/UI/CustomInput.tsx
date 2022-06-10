@@ -5,8 +5,8 @@ import { Input } from "native-base";
 interface Props {
   title: string;
   type: KeyboardTypeOptions;
-  onChangeText: (text: string) => void;
   value: string;
+  onChangeText: (text: string) => void;
 }
 
 const CustomInput: React.FC<Props> = ({ onChangeText, title, type, value }) => {

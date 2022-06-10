@@ -10,15 +10,13 @@ import InfoBox from "../components/InfoBox";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../db/firebase";
 
+import { useReduceItems } from "../hooks/utils";
+
 const ExpensesScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
-
   const expensesArr = dataArr.filter((element) => element.type === "expense");
 
-  const expensesSum: number = expensesArr.reduce((sum, expense) => {
-    return sum + expense.amount;
-  }, 0);
-
+  // FIXME: get data and set redux store with data to make it local
   React.useEffect(() => {
     async function getData(): Promise<void> {
       try {
@@ -37,8 +35,8 @@ const ExpensesScreen: React.FC = () => {
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="error.400"
-          data={"-$" + expensesSum.toFixed(2)}
-          type="Expenses:"
+          data={"-$" + useReduceItems({ expensesArr }, "expenses")}
+          title="Expenses:"
         />
       </VStack>
       <DataList dataArr={dataArr} dataToDisplay="expenses" />

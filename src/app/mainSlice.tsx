@@ -14,6 +14,7 @@ const mainSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<DataObj>) => {
+      // TODO: check that id and type is sending correctly
       state.dataArr.unshift(action.payload);
     },
     removeItem: (state, action: PayloadAction<string>) => {
@@ -22,9 +23,8 @@ const mainSlice = createSlice({
       );
       state.dataArr = updatedArr;
     },
-    setData: (state, action: PayloadAction<DataObj[]>) => {
-      // reverse() action payload
-      state.dataArr.unshift(action.payload);
+    setData: (state, action: PayloadAction<any>) => {
+      state.dataArr = action.payload;
     },
   },
 });

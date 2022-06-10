@@ -5,7 +5,7 @@ import { VStack, Flex, Button, Heading, IconButton, Icon } from "native-base";
 import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
-import { addItem, removeItem } from "../app/mainSlice";
+import { addItem } from "../app/mainSlice";
 
 import moment from "moment";
 
@@ -27,29 +27,35 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
 
-  const dataArr = useAppSelector((state) => state.dataArr);
-  const itemData = dataArr.find((item) => item.id === itemToEditId)!;
+  let itemToEditData: DataObj;
+  if (isEditing) {
+    const dataArr = useAppSelector((state) => state.dataArr);
+    itemToEditData = dataArr.find((item) => item.id === itemToEditId)!;
+  }
 
-  const [isExpense, setIsExpense] = React.useState<boolean>(
-    isEditing ? !!(itemData.type === "expense") : true
-  );
-  const [isIncome, setIsIncome] = React.useState<boolean>(
-    isEditing ? !!(itemData.type === "income") : false
-  );
-
-  const [data, setData] = React.useState<DataObj>({
-    id: "",
-    title: isEditing ? itemData.title : "",
-    amount: isEditing ? itemData.amount.toString() : "",
+  const [inputData, setInputData] = React.useState<DataObj>({
+    // TODO: check id and if its needed in firebase
+    id: isEditing ? itemToEditData!.id : "",
+    title: isEditing ? itemToEditData!.title : "",
+    amount: isEditing ? itemToEditData!.amount.toString() : "",
     date: moment().format("MMMM Do YYYY"),
-    type: isExpense ? "expense" : "income",
+    type: "expense",
   });
+
+  function toggleExpenseOrIncomeHandler(dataType: "expense" | "income"): void {
+    setInputData((prevState) => {
+      return {
+        ...prevState,
+        type: dataType,
+      };
+    });
+  }
 
   function dataEnteredHandler(
     inputIdentifier: string,
     enteredText: string
   ): void {
-    setData((prevState) => {
+    setInputData((prevState) => {
       return {
         ...prevState,
         [inputIdentifier]: enteredText,
@@ -57,9 +63,9 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     });
   }
 
-  async function submitDataHandler(data: DataObj): Promise<void> {
-    const titleIsInvalid = data.title.trim() === "";
-    const amountIsInvalid = +data.amount <= 0;
+  async function submitDataHandler(inputData: DataObj): Promise<void> {
+    const titleIsInvalid = inputData.title.trim() === "";
+    const amountIsInvalid = +inputData.amount <= 0;
 
     if (titleIsInvalid) {
       Alert.alert("Please enter a title! 🤯");
@@ -75,28 +81,16 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     }
 
     try {
-      const docRef = await addDoc(collection(db, "data"), data);
+      const docRef = await addDoc(collection(db, "data"), inputData);
       const firebaseId = docRef.id;
       const modifiedObj = {
-        ...data,
+        ...inputData,
         id: firebaseId,
       };
       dispatch(addItem(modifiedObj));
       navigation.goBack();
     } catch {
       Alert.alert("error uploading", "please try again ❌");
-    }
-  }
-
-  function toggleExpenseOrIncomeHandler(dataType: string): void {
-    if (dataType === "expense" && !isExpense) {
-      setIsExpense(true);
-      setIsIncome(false);
-    }
-
-    if (dataType === "income" && !isIncome) {
-      setIsIncome(true);
-      setIsExpense(false);
     }
   }
 
@@ -113,21 +107,21 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       >
         <IconButton
           icon={<Icon as={Entypo} name="minus" color="white" />}
-          bgColor={isExpense ? "darkBlue.600" : null}
+          bgColor={inputData.type === "expense" ? "darkBlue.600" : null}
           w={66}
           onPress={toggleExpenseOrIncomeHandler.bind(this, "expense")}
         />
         <IconButton
           icon={<Icon as={Entypo} name="plus" color="white" />}
-          bgColor={isIncome ? "darkBlue.600" : null}
+          bgColor={inputData.type === "income" ? "darkBlue.600" : null}
           w={66}
           onPress={toggleExpenseOrIncomeHandler.bind(this, "income")}
         />
       </Button.Group>
     );
 
-    if (isExpense) headingContent = "New expense";
-    if (isIncome) headingContent = "New income";
+    if (inputData.type === "expense") headingContent = "New expense";
+    if (inputData.type === "income") headingContent = "New income";
   }
 
   return (
@@ -141,13 +135,13 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           title="Title"
           type="default"
           onChangeText={dataEnteredHandler.bind(this, "title")}
-          value={data.title}
+          value={inputData.title}
         />
         <CustomInput
           title="Amount"
           type="decimal-pad"
           onChangeText={dataEnteredHandler.bind(this, "amount")}
-          value={data.amount}
+          value={inputData.amount}
         />
       </VStack>
       <Flex direction="row" w="100%" mt={5} justify="space-between">
@@ -161,11 +155,11 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         </Button>
         <Button
           w={120}
-          bg={isExpense ? "error.400" : "success.400"}
-          onPress={submitDataHandler.bind(this, data)}
+          bg={inputData.type === "expense" ? "error.400" : "success.400"}
+          onPress={submitDataHandler.bind(this, inputData)}
           _text={{ fontSize: "md", fontWeight: "medium" }}
         >
-          {isEditing ? "Update" : "Add"}
+          Add
         </Button>
       </Flex>
     </>
