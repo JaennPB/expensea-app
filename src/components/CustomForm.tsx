@@ -6,6 +6,7 @@ import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 import { addItem } from "../app/mainSlice";
+import { DataObj } from "../../App";
 
 import moment from "moment";
 
@@ -15,8 +16,6 @@ import { Entypo } from "@expo/vector-icons";
 
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../db/firebase";
-
-import { DataObj } from "../../App";
 
 interface Props {
   isEditing: boolean;
@@ -155,7 +154,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         </Button>
         <Button
           w={120}
-          bg={inputData.type === "expense" ? "error.400" : "success.400"}
+          bg={inputData.type === "expense" ? "danger.400" : "tertiary.500"}
           onPress={submitDataHandler.bind(this, inputData)}
           _text={{ fontSize: "md", fontWeight: "medium" }}
         >

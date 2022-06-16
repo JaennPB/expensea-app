@@ -36,7 +36,7 @@ const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
           </Text>
         </Box>
         <Flex
-          bg={type === "expense" ? "error.400" : "success.500"}
+          bg={type === "expense" ? "danger.400" : "tertiary.500"}
           justify="center"
           align="center"
           w={100}

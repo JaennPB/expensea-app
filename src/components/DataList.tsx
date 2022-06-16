@@ -9,11 +9,10 @@ import DataItem from "./DataItem";
 import { DataObj } from "../../App";
 
 interface Props {
-  dataArr: DataObj[];
   dataToDisplay: "all" | "expenses" | "incomes";
 }
 
-const DataList: React.FC<Props> = ({ dataArr, dataToDisplay }) => {
+const DataList: React.FC<Props> = ({ dataToDisplay }) => {
   let dataByFilter!: DataObj[];
   let noDataContent!: JSX.Element;
 

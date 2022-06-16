@@ -1,4 +1,5 @@
 import React from "react";
+import { Alert } from "react-native";
 import { Button, Flex } from "native-base";
 
 import { useAppDispatch } from "../hooks/reduxHooks";
@@ -6,18 +7,28 @@ import { removeItem } from "../app/mainSlice";
 
 import { useAppRoute, useAppNavigation } from "../hooks/navigationHooks";
 
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../db/firebase";
+
 import CustomForm from "../components/CustomForm";
 
 const ManageDataScreen: React.FC = () => {
+  // TODO: add spinner when adding, updating and deleting data
   const route = useAppRoute();
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
   const itemId = route.params.itemId!;
   const isEditing = !!itemId;
 
-  function deleteItemHandler(): void {
+  async function deleteItemHandler(): Promise<void> {
     dispatch(removeItem(itemId));
     navigation.goBack();
+
+    try {
+      await deleteDoc(doc(db, "data", itemId));
+    } catch {
+      Alert.alert("Error deleting... ❌");
+    }
   }
 
   React.useLayoutEffect(() => {
@@ -28,7 +39,11 @@ const ManageDataScreen: React.FC = () => {
         isEditing && (
           <Button
             variant="ghost"
-            _text={{ color: "error.400", fontSize: "md", fontWeight: "medium" }}
+            _text={{
+              color: "danger.400",
+              fontSize: "md",
+              fontWeight: "medium",
+            }}
             size="lg"
             onPress={deleteItemHandler}
           >

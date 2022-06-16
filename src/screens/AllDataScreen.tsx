@@ -13,8 +13,6 @@ import { addItem, setData } from "../app/mainSlice";
 
 import { useReduceItems } from "../hooks/utils";
 
-import { DataObj } from "../../App";
-
 const AllDataScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const dispatch = useAppDispatch();
@@ -22,7 +20,7 @@ const AllDataScreen: React.FC = () => {
   const expensesArr = dataArr.filter((element) => element.type === "expense");
   const incomesArr = dataArr.filter((element) => element.type === "income");
 
-  // FIXME: get data and set redux store with data to make it local
+  // TODO: add spinner when loading screen
 
   React.useEffect(() => {
     async function getData(): Promise<void> {
@@ -49,17 +47,17 @@ const AllDataScreen: React.FC = () => {
     <Flex flex={1} bg="darkBlue.800">
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
-          color="success.500"
+          color="darkBlue.700"
           data={"$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
           title="Incomes:"
         />
         <InfoBox
-          color="error.400"
+          color="darkBlue.700"
           data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
           title="Expenses:"
         />
         <InfoBox
-          color="darkBlue.700"
+          color="darkBlue.600"
           data={
             "$" +
             useReduceItems({ incomesArr, expensesArr }, "total").toFixed(2)
@@ -67,7 +65,7 @@ const AllDataScreen: React.FC = () => {
           title="Total Net Worth:"
         />
       </VStack>
-      <DataList dataArr={dataArr} dataToDisplay="all" />
+      <DataList dataToDisplay="all" />
     </Flex>
   );
 };

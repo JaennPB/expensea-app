@@ -39,7 +39,7 @@ const IncomesScreen: React.FC = () => {
           title="Incomes:"
         />
       </VStack>
-      <DataList dataArr={dataArr} dataToDisplay="incomes" />
+      <DataList dataToDisplay="incomes" />
     </Flex>
   );
 };

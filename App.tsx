@@ -31,7 +31,7 @@ export type NavParams = {
 };
 
 export type DataObj = {
-  id: string;
+  id?: string;
   title: string;
   amount: string;
   date: string;
