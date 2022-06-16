@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert } from "react-native";
-import { Flex, VStack } from "native-base";
+import { Flex, VStack, Text } from "native-base";
 
 import { useAppSelector, useAppDispatch } from "../hooks/reduxHooks";
 
@@ -9,7 +9,7 @@ import InfoBox from "../components/InfoBox";
 
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../db/firebase";
-import { addItem, setData } from "../app/mainSlice";
+import { setData } from "../app/mainSlice";
 
 import { useReduceItems } from "../hooks/utils";
 
@@ -17,15 +17,17 @@ const AllDataScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const dispatch = useAppDispatch();
 
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
   const expensesArr = dataArr.filter((element) => element.type === "expense");
   const incomesArr = dataArr.filter((element) => element.type === "income");
-
-  // TODO: add spinner when loading screen
 
   React.useEffect(() => {
     async function getData(): Promise<void> {
       try {
+        setIsLoading(true);
         const data = await getDocs(collection(db, "data"));
+        setIsLoading(false);
 
         if (!data.empty) {
           let dataArr: any = [];

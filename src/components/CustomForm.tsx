@@ -26,6 +26,8 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
 
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
   let itemToEditData: DataObj;
   if (isEditing) {
     const dataArr = useAppSelector((state) => state.dataArr);
@@ -34,7 +36,6 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   }
 
   const [inputData, setInputData] = React.useState<DataObj>({
-    // TODO: check id and if its needed in firebase
     id: isEditing ? itemToEditData!.id : "",
     title: isEditing ? itemToEditData!.title : "",
     amount: isEditing ? itemToEditData!.amount.toString() : "",
@@ -81,7 +82,9 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     }
 
     try {
+      setIsLoading(true);
       const docRef = await addDoc(collection(db, "data"), inputData);
+      setIsLoading(false);
       const firebaseId = docRef.id;
       const modifiedObj = {
         ...inputData,
@@ -96,7 +99,9 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     if (isEditing) {
       dispatch(removeItem(itemToEditId));
       try {
+        setIsLoading(true);
         await deleteDoc(doc(db, "data", itemToEditId));
+        setIsLoading(false);
       } catch {
         Alert.alert("Error deleting... ❌");
       }
@@ -170,6 +175,8 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           }
           onPress={submitDataHandler.bind(this, inputData)}
           _text={{ fontSize: "md", fontWeight: "medium" }}
+          isLoading={isLoading}
+          isLoadingText={isEditing ? "Updating" : "Adding"}
         >
           {isEditing ? "Update" : "Add"}
         </Button>

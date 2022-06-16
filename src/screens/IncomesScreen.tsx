@@ -16,7 +16,6 @@ const IncomesScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const incomesArr = dataArr.filter((element) => element.type === "income");
 
-  // FIXME: get data and set redux store with data to make it local
   React.useEffect(() => {
     async function getData(): Promise<void> {
       try {
@@ -34,7 +33,7 @@ const IncomesScreen: React.FC = () => {
     <Flex flex={1} bg="darkBlue.800">
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
-          color="success.500"
+          color="tertiary.500"
           data={"$" + useReduceItems({ incomesArr }, "incomes")}
           title="Incomes:"
         />
