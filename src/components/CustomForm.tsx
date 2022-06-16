@@ -5,7 +5,7 @@ import { VStack, Flex, Button, Heading, IconButton, Icon } from "native-base";
 import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
-import { addItem } from "../app/mainSlice";
+import { addItem, removeItem } from "../app/mainSlice";
 import { DataObj } from "../../App";
 
 import moment from "moment";
@@ -14,7 +14,7 @@ import CustomInput from "./UI/CustomInput";
 
 import { Entypo } from "@expo/vector-icons";
 
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 interface Props {
@@ -30,6 +30,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   if (isEditing) {
     const dataArr = useAppSelector((state) => state.dataArr);
     itemToEditData = dataArr.find((item) => item.id === itemToEditId)!;
+    console.log(itemToEditId);
   }
 
   const [inputData, setInputData] = React.useState<DataObj>({
@@ -38,7 +39,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     title: isEditing ? itemToEditData!.title : "",
     amount: isEditing ? itemToEditData!.amount.toString() : "",
     date: moment().format("MMMM Do YYYY"),
-    type: "expense",
+    type: isEditing ? itemToEditData!.type : "expense",
   });
 
   function toggleExpenseOrIncomeHandler(dataType: "expense" | "income"): void {
@@ -90,6 +91,15 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       navigation.goBack();
     } catch {
       Alert.alert("error uploading", "please try again ❌");
+    }
+
+    if (isEditing) {
+      dispatch(removeItem(itemToEditId));
+      try {
+        await deleteDoc(doc(db, "data", itemToEditId));
+      } catch {
+        Alert.alert("Error deleting... ❌");
+      }
     }
   }
 
@@ -154,11 +164,14 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         </Button>
         <Button
           w={120}
-          bg={inputData.type === "expense" ? "danger.400" : "tertiary.500"}
+          bg={
+            (isEditing && "darkBlue.600") ||
+            (inputData.type === "expense" ? "danger.400" : "tertiary.500")
+          }
           onPress={submitDataHandler.bind(this, inputData)}
           _text={{ fontSize: "md", fontWeight: "medium" }}
         >
-          Add
+          {isEditing ? "Update" : "Add"}
         </Button>
       </Flex>
     </>
