@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, ListRenderItemInfo } from "react-native";
-import { Flex, Heading, Spinner } from "native-base";
+import { Flex, Heading, HStack, Spinner } from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
 
@@ -10,16 +10,32 @@ import { DataObj } from "../../App";
 
 interface Props {
   dataToDisplay: "all" | "expenses" | "incomes";
+  isLoading?: boolean;
 }
 
-const DataList: React.FC<Props> = ({ dataToDisplay }) => {
+const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
   let dataByFilter!: DataObj[];
   let noDataContent!: JSX.Element;
+
+  if (isLoading) {
+    noDataContent = (
+      <HStack space={2} justifyContent="center" alignItems="center">
+        <Spinner
+          accessibilityLabel="Loading data"
+          color="darkBlue.600"
+          size="lg"
+        />
+        <Heading fontSize="lg" color="darkBlue.600">
+          Loading
+        </Heading>
+      </HStack>
+    );
+  }
 
   if (dataToDisplay === "all") {
     dataByFilter = useAppSelector((state) => state.dataArr);
 
-    if (dataByFilter.length <= 0) {
+    if (!isLoading && dataByFilter.length <= 0) {
       noDataContent = (
         <Heading color="white" size="sm" textAlign="center">
           Please, give me some data to work with! 📈
@@ -32,7 +48,7 @@ const DataList: React.FC<Props> = ({ dataToDisplay }) => {
     const allData = useAppSelector((state) => state.dataArr);
     dataByFilter = allData.filter((item) => item.type === "expense");
 
-    if (dataByFilter.length <= 0) {
+    if (!isLoading && dataByFilter.length <= 0) {
       noDataContent = (
         <Heading color="white" size="sm" textAlign="center">
           Please, add expenses! 📉
@@ -45,7 +61,7 @@ const DataList: React.FC<Props> = ({ dataToDisplay }) => {
     const allData = useAppSelector((state) => state.dataArr);
     dataByFilter = allData.filter((item) => item.type === "income");
 
-    if (dataByFilter.length <= 0) {
+    if (!isLoading && dataByFilter.length <= 0) {
       noDataContent = (
         <Heading color="white" size="sm" textAlign="center">
           Please, add incomes! 🤑

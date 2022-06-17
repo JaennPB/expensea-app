@@ -17,7 +17,7 @@ const AllDataScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const dispatch = useAppDispatch();
 
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const expensesArr = dataArr.filter((element) => element.type === "expense");
   const incomesArr = dataArr.filter((element) => element.type === "income");
@@ -25,7 +25,6 @@ const AllDataScreen: React.FC = () => {
   React.useEffect(() => {
     async function getData(): Promise<void> {
       try {
-        setIsLoading(true);
         const data = await getDocs(collection(db, "data"));
         setIsLoading(false);
 
@@ -67,7 +66,7 @@ const AllDataScreen: React.FC = () => {
           title="Total Net Worth:"
         />
       </VStack>
-      <DataList dataToDisplay="all" />
+      <DataList dataToDisplay="all" isLoading={isLoading} />
     </Flex>
   );
 };

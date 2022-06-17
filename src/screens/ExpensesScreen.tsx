@@ -16,19 +16,6 @@ const ExpensesScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const expensesArr = dataArr.filter((element) => element.type === "expense");
 
-  React.useEffect(() => {
-    async function getData(): Promise<void> {
-      try {
-        const data = await getDocs(collection(db, "data"));
-        data.forEach((doc) => console.log(doc.data()));
-      } catch {
-        Alert.alert("No data from server");
-      }
-    }
-
-    getData();
-  }, []);
-
   return (
     <Flex flex={1} bg="darkBlue.800">
       <VStack pb={5} px={5} py={2} space={2}>

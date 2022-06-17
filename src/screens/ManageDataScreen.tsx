@@ -13,7 +13,6 @@ import { db } from "../db/firebase";
 import CustomForm from "../components/CustomForm";
 
 const ManageDataScreen: React.FC = () => {
-  // TODO: add spinner when adding, updating and deleting data
   const route = useAppRoute();
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();

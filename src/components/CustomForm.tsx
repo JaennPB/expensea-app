@@ -29,6 +29,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   let itemToEditData: DataObj;
+
   if (isEditing) {
     const dataArr = useAppSelector((state) => state.dataArr);
     itemToEditData = dataArr.find((item) => item.id === itemToEditId)!;
@@ -68,6 +69,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     const titleIsInvalid = inputData.title.trim() === "";
     const amountIsInvalid = +inputData.amount <= 0;
 
+    // FIXME: fix some error with async
     if (titleIsInvalid) {
       Alert.alert("Please enter a title! 🤯");
       return;
@@ -94,6 +96,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       navigation.goBack();
     } catch {
       Alert.alert("error uploading", "please try again ❌");
+      return;
     }
 
     if (isEditing) {
@@ -104,6 +107,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         setIsLoading(false);
       } catch {
         Alert.alert("Error deleting... ❌");
+        return;
       }
     }
   }
