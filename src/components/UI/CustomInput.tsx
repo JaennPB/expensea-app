@@ -3,9 +3,9 @@ import { KeyboardTypeOptions } from "react-native";
 import { Input } from "native-base";
 
 interface Props {
-  title: string;
+  title: string | undefined;
   type: KeyboardTypeOptions;
-  value: string;
+  value: string | undefined;
   onChangeText: (text: string) => void;
 }
 

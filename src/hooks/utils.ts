@@ -1,6 +1,3 @@
-import { DataObj } from "../../App";
-
-// sum/reduce items
 export function useReduceItems(
   data: {
     expensesArr?: DataObj[];

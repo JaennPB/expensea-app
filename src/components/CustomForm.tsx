@@ -6,7 +6,6 @@ import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 import { addItem, removeItem } from "../app/mainSlice";
-import { DataObj } from "../../App";
 
 import moment from "moment";
 
@@ -27,21 +26,21 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [finishedEditing, setFinishedEditing] = React.useState<boolean>(false);
 
-  let itemToEditData: DataObj;
-
+  let itemToEditData!: DataObj;
   if (isEditing) {
     const dataArr = useAppSelector((state) => state.dataArr);
-    itemToEditData = dataArr.find((item) => item.id === itemToEditId)!;
-    console.log(itemToEditId);
+    itemToEditData = dataArr.find((item) => item.id === itemToEditId);
   }
 
-  const [inputData, setInputData] = React.useState<DataObj>({
-    id: isEditing ? itemToEditData!.id : "",
-    title: isEditing ? itemToEditData!.title : "",
-    amount: isEditing ? itemToEditData!.amount.toString() : "",
+  const [inputData, setInputData] = React.useState({
+    id: isEditing && !finishedEditing ? itemToEditData.id : "",
+    title: isEditing && !finishedEditing ? itemToEditData.title : "",
+    amount:
+      isEditing && !finishedEditing ? itemToEditData.amount.toString() : "",
     date: moment().format("MMMM Do YYYY"),
-    type: isEditing ? itemToEditData!.type : "expense",
+    type: isEditing && !finishedEditing ? itemToEditData.type : "expense",
   });
 
   function toggleExpenseOrIncomeHandler(dataType: "expense" | "income"): void {
@@ -66,16 +65,15 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   }
 
   async function submitDataHandler(inputData: DataObj): Promise<void> {
-    const titleIsInvalid = inputData.title.trim() === "";
-    const amountIsInvalid = +inputData.amount <= 0;
+    const titleIsValid = !!inputData.title?.trim();
+    const amountIsValid = !!inputData.amount;
 
-    // FIXME: fix some error with async
-    if (titleIsInvalid) {
+    if (!titleIsValid) {
       Alert.alert("Please enter a title! 🤯");
       return;
     }
 
-    if (amountIsInvalid) {
+    if (!amountIsValid) {
       Alert.alert(
         "Please enter a valid amount! 🤯",
         "Must be a number greater than 0"
@@ -86,34 +84,65 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     try {
       setIsLoading(true);
       const docRef = await addDoc(collection(db, "data"), inputData);
-      setIsLoading(false);
       const firebaseId = docRef.id;
-      const modifiedObj = {
+
+      const modifiedObjectWithId = {
         ...inputData,
         id: firebaseId,
       };
-      dispatch(addItem(modifiedObj));
+      setIsLoading(false);
+
+      dispatch(addItem(modifiedObjectWithId));
       navigation.goBack();
+      return;
     } catch {
       Alert.alert("error uploading", "please try again ❌");
       return;
     }
+  }
 
-    if (isEditing) {
+  async function editDataHandler(inputData: DataObj): Promise<void> {
+    const titleIsValid = !!inputData.title?.trim();
+    const amountIsValid = !!inputData.amount;
+
+    if (!titleIsValid) {
+      Alert.alert("Please enter a title! 🤯");
+      return;
+    }
+
+    if (!amountIsValid) {
+      Alert.alert(
+        "Please enter a valid amount! 🤯",
+        "Must be a number greater than 0"
+      );
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      await deleteDoc(doc(db, "data", itemToEditId));
+      const docRef = await addDoc(collection(db, "data"), inputData);
+      const firebaseId = docRef.id;
+
+      const modifiedObjectWithId = {
+        ...inputData,
+        id: firebaseId,
+      };
+      setIsLoading(false);
+      setFinishedEditing(true);
+
+      dispatch(addItem(modifiedObjectWithId));
       dispatch(removeItem(itemToEditId));
-      try {
-        setIsLoading(true);
-        await deleteDoc(doc(db, "data", itemToEditId));
-        setIsLoading(false);
-      } catch {
-        Alert.alert("Error deleting... ❌");
-        return;
-      }
+      navigation.goBack();
+      return;
+    } catch {
+      Alert.alert("Error deleting... ❌");
+      return;
     }
   }
 
-  let topContent!: JSX.Element;
-  let headingContent!: string;
+  let topContent: JSX.Element;
+  let headingContent: string;
 
   if (!isEditing) {
     topContent = (
@@ -144,9 +173,9 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
 
   return (
     <>
-      {topContent}
+      {topContent!}
       <Heading color="white" mt={isEditing ? 0 : 5}>
-        {headingContent}
+        {headingContent!}
       </Heading>
       <VStack w="100%" mt={isEditing ? 0 : 5} space={5}>
         <CustomInput
@@ -177,7 +206,11 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
             (isEditing && "darkBlue.600") ||
             (inputData.type === "expense" ? "danger.400" : "tertiary.500")
           }
-          onPress={submitDataHandler.bind(this, inputData)}
+          onPress={
+            isEditing
+              ? editDataHandler.bind(this, inputData)
+              : submitDataHandler.bind(this, inputData)
+          }
           _text={{ fontSize: "md", fontWeight: "medium" }}
           isLoading={isLoading}
           isLoadingText={isEditing ? "Updating" : "Adding"}

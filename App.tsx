@@ -20,24 +20,6 @@ import AddButton from "./src/components/UI/AddButton";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export type NavParams = {
-  AllDataScreen: undefined;
-  ExpensesScreen: undefined;
-  IncomesScreen: undefined;
-  BottomTabsNav: undefined;
-  ManageDataScreen: {
-    itemId?: string | null;
-  };
-};
-
-export type DataObj = {
-  id: string;
-  title: string;
-  amount: string;
-  date: string;
-  type: string;
-};
-
 const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();
 

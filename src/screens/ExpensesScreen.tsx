@@ -1,14 +1,10 @@
 import React from "react";
-import { Alert } from "react-native";
 import { Flex, VStack } from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
 
 import DataList from "../components/DataList";
-import InfoBox from "../components/InfoBox";
-
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "../db/firebase";
+import InfoBox from "../components/UI/InfoBox";
 
 import { useReduceItems } from "../hooks/utils";
 

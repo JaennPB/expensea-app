@@ -3,7 +3,7 @@ import { Text, Flex } from "native-base";
 
 interface Props {
   title: string;
-  data: string | number;
+  data: string;
   color: "danger.400" | "tertiary.500" | "darkBlue.600" | "darkBlue.700";
 }
 

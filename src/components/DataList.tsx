@@ -4,9 +4,7 @@ import { Flex, Heading, HStack, Spinner } from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
 
-import DataItem from "./DataItem";
-
-import { DataObj } from "../../App";
+import DataItem from "./UI/DataItem";
 
 interface Props {
   dataToDisplay: "all" | "expenses" | "incomes";
@@ -14,8 +12,8 @@ interface Props {
 }
 
 const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
-  let dataByFilter!: DataObj[];
-  let noDataContent!: JSX.Element;
+  let dataByFilter: DataObj[];
+  let noDataContent: JSX.Element;
 
   if (isLoading) {
     noDataContent = (
@@ -86,9 +84,9 @@ const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
 
   return (
     <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
-      {noDataContent}
+      {noDataContent!}
       <FlatList
-        data={dataByFilter}
+        data={dataByFilter!}
         renderItem={renderDataItem}
         keyExtractor={(item) => item.id}
       />

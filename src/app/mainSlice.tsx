@@ -14,7 +14,6 @@ const mainSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<DataObj>) => {
-      // TODO: check that id and type is sending correctly
       state.dataArr.unshift(action.payload);
     },
     removeItem: (state, action: PayloadAction<string>) => {
