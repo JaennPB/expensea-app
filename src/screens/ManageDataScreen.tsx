@@ -27,6 +27,7 @@ const ManageDataScreen: React.FC = () => {
       await deleteDoc(doc(db, "data", itemId));
     } catch {
       Alert.alert("Error deleting... ❌");
+      return;
     }
   }
 

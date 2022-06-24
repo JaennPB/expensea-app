@@ -17,7 +17,7 @@ const ExpensesScreen: React.FC = () => {
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="danger.400"
-          data={"-$" + useReduceItems({ expensesArr }, "expenses")}
+          data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
           title="Expenses:"
         />
       </VStack>

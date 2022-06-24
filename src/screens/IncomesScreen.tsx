@@ -17,7 +17,7 @@ const IncomesScreen: React.FC = () => {
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="tertiary.500"
-          data={"$" + useReduceItems({ incomesArr }, "incomes")}
+          data={"$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
           title="Incomes:"
         />
       </VStack>
