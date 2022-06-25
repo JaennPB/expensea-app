@@ -1,11 +1,19 @@
 import React from "react";
+import { Alert } from "react-native";
 import { Flex, VStack, Center, Heading, Button, Divider } from "native-base";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
 
+import { auth } from "../../db/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth/react-native";
+
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { authenticate } from "../../app/mainSlice";
+
 const LoginScreen: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
   const [data, setData] = React.useState({
     email: "",
@@ -22,6 +30,23 @@ const LoginScreen: React.FC = () => {
         [inputIdentifier]: enteredText,
       };
     });
+  }
+
+  async function logInUser(): Promise<void> {
+    try {
+      const response = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      const userId = response.user.uid;
+      dispatch(authenticate(userId));
+    } catch {
+      Alert.alert(
+        "Please verify your credentials",
+        "Wrong email or password 🤯"
+      );
+    }
   }
 
   return (
@@ -47,6 +72,7 @@ const LoginScreen: React.FC = () => {
           <Button
             bg="darkBlue.500"
             _text={{ fontSize: "md", fontWeight: "medium" }}
+            onPress={logInUser}
           >
             Login
           </Button>
@@ -58,9 +84,9 @@ const LoginScreen: React.FC = () => {
               color: "darkBlue.500",
             }}
             variant="ghost"
-            onPress={() => navigation.replace("SignupScreen")}
+            onPress={() => navigation.replace("WelcomeScreen")}
           >
-            Or Sign Up
+            Or Create Account
           </Button>
         </VStack>
       </Center>

@@ -15,6 +15,7 @@ import { useAppSelector } from "./src/hooks/reduxHooks";
 
 import LoginScreen from "./src/screens/auth/LoginScreen";
 import SignupScreen from "./src/screens/auth/SignupScreen";
+import WelcomeScreen from "./src/screens/auth/WelcomeScreen";
 import AllDataScreen from "./src/screens/AllDataScreen";
 import ExpesesScreen from "./src/screens/ExpensesScreen";
 import ManageDataScreen from "./src/screens/ManageDataScreen";
@@ -99,6 +100,11 @@ function AuthNav(): JSX.Element {
         options={{ headerShown: false }}
         name="SignupScreen"
         component={SignupScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="WelcomeScreen"
+        component={WelcomeScreen}
       />
     </Stack.Navigator>
   );

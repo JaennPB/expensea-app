@@ -1,5 +1,10 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { Firestore, getFirestore } from "firebase/firestore";
+import {
+  initializeAuth,
+  getReactNativePersistence,
+} from "firebase/auth/react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Config data exposed but db has security measures implemented
 const firebaseConfig = {
@@ -16,3 +21,7 @@ const firebaseConfig = {
 const app: FirebaseApp = initializeApp(firebaseConfig);
 
 export const db: Firestore = getFirestore(app);
+
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});

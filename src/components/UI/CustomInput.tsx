@@ -10,7 +10,13 @@ interface Props {
   secureTextEntry?: boolean;
 }
 
-const CustomInput: React.FC<Props> = ({ onChangeText, title, type, value }) => {
+const CustomInput: React.FC<Props> = ({
+  onChangeText,
+  title,
+  type,
+  value,
+  secureTextEntry,
+}) => {
   return (
     <Input
       placeholder={title}
@@ -27,6 +33,7 @@ const CustomInput: React.FC<Props> = ({ onChangeText, title, type, value }) => {
       onChangeText={onChangeText}
       value={value}
       autoCapitalize="sentences"
+      secureTextEntry={secureTextEntry}
     />
   );
 };

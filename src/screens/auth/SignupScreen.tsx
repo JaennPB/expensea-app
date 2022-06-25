@@ -1,15 +1,34 @@
 import React from "react";
-import { Flex, VStack, Center, Heading, Button, Divider } from "native-base";
+import { Alert } from "react-native";
+import {
+  Flex,
+  VStack,
+  Center,
+  Heading,
+  Button,
+  Divider,
+  Text,
+} from "native-base";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
+import { useAppRoute } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
 
+import { auth } from "../../db/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth/react-native";
+
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { authenticate } from "../../app/mainSlice";
+
 const SignupScreen: React.FC = () => {
+  const route = useAppRoute();
+  const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
   const [data, setData] = React.useState({
     email: "",
     password: "",
+    password2: "",
   });
 
   function dataEnteredHandler(
@@ -24,9 +43,33 @@ const SignupScreen: React.FC = () => {
     });
   }
 
+  async function signUpHandler(): Promise<void> {
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password2
+      );
+      const userId = response.user.uid;
+      dispatch(authenticate(userId));
+    } catch {
+      Alert.alert(
+        "Please verify your credentials",
+        "User may already exist 🤯"
+      );
+    }
+  }
+
   return (
     <Flex bg="darkBlue.800" flex={1} pt={20}>
       <Center>
+        <Heading color="white" textAlign="center" mb={5}>
+          Hello! {route.params.name}.
+        </Heading>
+        <Text color="white" mb={5}>
+          Please enter your data below
+        </Text>
+
         <VStack w="80%" bg="darkBlue.700" p={5} space={5} borderRadius={5}>
           <Heading color="white" textAlign="center">
             Sign Up
@@ -45,15 +88,16 @@ const SignupScreen: React.FC = () => {
             secureTextEntry={true}
           />
           <CustomInput
-            title="Re-enter password"
+            title="Confirm password"
             type="default"
-            onChangeText={dataEnteredHandler.bind(this, "password")}
-            value={data.password}
+            onChangeText={dataEnteredHandler.bind(this, "password2")}
+            value={data.password2}
             secureTextEntry={true}
           />
           <Button
             _text={{ fontSize: "md", fontWeight: "medium" }}
             bg="darkBlue.500"
+            onPress={signUpHandler}
           >
             Login
           </Button>

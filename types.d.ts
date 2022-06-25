@@ -1,6 +1,7 @@
 type NavParams = {
   LoginScreen: undefined;
-  SignupScreen: undefined;
+  SignupScreen: { name: string };
+  WelcomeScreen: undefined;
   AllDataScreen: undefined;
   ExpensesScreen: undefined;
   IncomesScreen: undefined;
