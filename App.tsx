@@ -11,6 +11,10 @@ import {
 } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import { useAppSelector } from "./src/hooks/reduxHooks";
+
+import LoginScreen from "./src/screens/auth/LoginScreen";
+import SignupScreen from "./src/screens/auth/SignupScreen";
 import AllDataScreen from "./src/screens/AllDataScreen";
 import ExpesesScreen from "./src/screens/ExpensesScreen";
 import ManageDataScreen from "./src/screens/ManageDataScreen";
@@ -25,7 +29,7 @@ const BottomTabs = createBottomTabNavigator<NavParams>();
 
 export type AppScreenProp = NativeStackNavigationProp<NavParams>;
 
-function BottomTabsNav() {
+function BottomTabsNav(): JSX.Element {
   return (
     <BottomTabs.Navigator
       screenOptions={{
@@ -83,33 +87,60 @@ function BottomTabsNav() {
   );
 }
 
+function MainNav(): JSX.Element {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="BottomTabsNav"
+        component={BottomTabsNav}
+      />
+      <Stack.Screen
+        options={{
+          presentation: "modal",
+          headerStyle: {
+            backgroundColor: "#002851",
+          },
+          headerTintColor: "white",
+          headerTitleAlign: "center",
+        }}
+        name="ManageDataScreen"
+        component={ManageDataScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function AuthNav(): JSX.Element {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="LoginScreen"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignupScreen"
+        component={SignupScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
 export default function App() {
+  // const isAuth = useAppSelector((state) => state.isAuth);
+  const isAuth = false;
+
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <NativeBaseProvider>
+      <NativeBaseProvider>
+        <NavigationContainer>
           <StatusBar barStyle="light-content" backgroundColor="#002851" />
-          <Stack.Navigator>
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name="BottomTabsNav"
-              component={BottomTabsNav}
-            />
-            <Stack.Screen
-              name="ManageDataScreen"
-              component={ManageDataScreen}
-              options={{
-                presentation: "modal",
-                headerStyle: {
-                  backgroundColor: "#002851",
-                },
-                headerTintColor: "white",
-                headerTitleAlign: "center",
-              }}
-            />
-          </Stack.Navigator>
-        </NativeBaseProvider>
-      </NavigationContainer>
+          {!isAuth && <AuthNav />}
+          {isAuth && <MainNav />}
+        </NavigationContainer>
+      </NativeBaseProvider>
     </Provider>
   );
 }

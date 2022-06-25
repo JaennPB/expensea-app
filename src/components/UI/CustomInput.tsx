@@ -7,6 +7,7 @@ interface Props {
   type: KeyboardTypeOptions;
   value: string | undefined;
   onChangeText: (text: string) => void;
+  secureTextEntry?: boolean;
 }
 
 const CustomInput: React.FC<Props> = ({ onChangeText, title, type, value }) => {
