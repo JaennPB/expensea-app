@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface MainState {
   token: string | null;
   isAuth: boolean;
+  name: string;
   dataArr: DataObj[];
 }
 
 const initialState: MainState = {
   token: "",
   isAuth: false,
+  name: "",
   dataArr: [],
 };
 
@@ -18,11 +20,14 @@ const mainSlice = createSlice({
   reducers: {
     authenticate: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
-      state.isAuth = true;
+      state.isAuth = !!state.token;
+    },
+    setName: (state, action: PayloadAction<string>) => {
+      state.name = action.payload;
     },
     logout: (state) => {
       state.token = null;
-      state.isAuth = false;
+      state.isAuth = !!state.token;
     },
     setData: (state, action: PayloadAction<any>) => {
       state.dataArr = action.payload;

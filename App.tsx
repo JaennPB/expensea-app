@@ -113,3 +113,10 @@ export default function App() {
     </Provider>
   );
 }
+
+// Two nav stacks =====
+// Auth stack
+// Main stack (nested)
+//    BottomTabs
+//    Stack
+// swap between them with redux (isAuth)
