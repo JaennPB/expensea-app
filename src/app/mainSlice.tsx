@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DataObj } from "../../App";
 
 interface MainState {
+  token: string | null;
+  isAuth: boolean;
   dataArr: DataObj[];
 }
 
 const initialState: MainState = {
+  token: "",
+  isAuth: false,
   dataArr: [],
 };
 
@@ -13,6 +16,17 @@ const mainSlice = createSlice({
   name: "main",
   initialState,
   reducers: {
+    authenticate: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+      state.isAuth = true;
+    },
+    logout: (state) => {
+      state.token = null;
+      state.isAuth = false;
+    },
+    setData: (state, action: PayloadAction<any>) => {
+      state.dataArr = action.payload;
+    },
     addItem: (state, action: PayloadAction<DataObj>) => {
       state.dataArr.unshift(action.payload);
     },
@@ -22,11 +36,9 @@ const mainSlice = createSlice({
       );
       state.dataArr = updatedArr;
     },
-    setData: (state, action: PayloadAction<any>) => {
-      state.dataArr = action.payload;
-    },
   },
 });
 
-export const { addItem, removeItem, setData } = mainSlice.actions;
+export const { authenticate, logout, setData, addItem, removeItem } =
+  mainSlice.actions;
 export default mainSlice.reducer;
