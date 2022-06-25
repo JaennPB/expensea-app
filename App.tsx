@@ -87,6 +87,23 @@ function BottomTabsNav(): JSX.Element {
   );
 }
 
+function AuthNav(): JSX.Element {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="LoginScreen"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignupScreen"
+        component={SignupScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function MainNav(): JSX.Element {
   return (
     <Stack.Navigator>
@@ -111,43 +128,24 @@ function MainNav(): JSX.Element {
   );
 }
 
-function AuthNav(): JSX.Element {
+function AllNavs(): JSX.Element {
+  const isAuth = useAppSelector((state) => state.isAuth);
+
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="LoginScreen"
-        component={LoginScreen}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="SignupScreen"
-        component={SignupScreen}
-      />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <StatusBar barStyle="light-content" backgroundColor="#002851" />
+      {!isAuth && <AuthNav />}
+      {isAuth && <MainNav />}
+    </NavigationContainer>
   );
 }
 
 export default function App() {
-  // const isAuth = useAppSelector((state) => state.isAuth);
-  const isAuth = false;
-
   return (
     <Provider store={store}>
       <NativeBaseProvider>
-        <NavigationContainer>
-          <StatusBar barStyle="light-content" backgroundColor="#002851" />
-          {!isAuth && <AuthNav />}
-          {isAuth && <MainNav />}
-        </NavigationContainer>
+        <AllNavs />
       </NativeBaseProvider>
     </Provider>
   );
 }
-
-// Two nav stacks =====
-// Auth stack
-// Main stack (nested)
-//    BottomTabs
-//    Stack
-// swap between them with redux (isAuth)

@@ -1,9 +1,12 @@
 import React from "react";
-import { Text, Flex, VStack, Center, Heading, Button } from "native-base";
+import { Flex, VStack, Center, Heading, Button, Divider } from "native-base";
+
+import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
 
 const LoginScreen: React.FC = () => {
+  const navigation = useAppNavigation();
   const [data, setData] = React.useState({
     email: "",
     password: "",
@@ -26,7 +29,7 @@ const LoginScreen: React.FC = () => {
       <Center>
         <VStack w="80%" bg="darkBlue.700" p={5} space={5} borderRadius={5}>
           <Heading color="white" textAlign="center">
-            Login
+            Log In
           </Heading>
           <CustomInput
             title="E-mail"
@@ -41,7 +44,24 @@ const LoginScreen: React.FC = () => {
             value={data.password}
             secureTextEntry={true}
           />
-          <Button bg="darkBlue.500">Login</Button>
+          <Button
+            bg="darkBlue.500"
+            _text={{ fontSize: "md", fontWeight: "medium" }}
+          >
+            Login
+          </Button>
+          <Divider thickness={1} bg="darkBlue.600" />
+          <Button
+            _text={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "darkBlue.500",
+            }}
+            variant="ghost"
+            onPress={() => navigation.replace("SignupScreen")}
+          >
+            Or Sign Up
+          </Button>
         </VStack>
       </Center>
     </Flex>
