@@ -31,7 +31,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   let itemToEditData!: DataObj;
   if (isEditing) {
     const dataArr = useAppSelector((state) => state.dataArr);
-    itemToEditData = dataArr.find((item) => item.id === itemToEditId);
+    itemToEditData = dataArr.find((item) => item.id === itemToEditId)!;
   }
 
   const [inputData, setInputData] = React.useState({
