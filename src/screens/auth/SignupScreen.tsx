@@ -15,15 +15,17 @@ import { useAppRoute } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
 
-import { auth } from "../../db/firebase";
+import { auth, db } from "../../db/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth/react-native";
+import { setDoc, doc, addDoc, collection } from "firebase/firestore";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { authenticate } from "../../app/mainSlice";
+import { authenticate, setCurrUserDocId } from "../../app/mainSlice";
 
 const SignupScreen: React.FC = () => {
   const route = useAppRoute();
   const dispatch = useAppDispatch();
+  const currUserName = route.params.name;
   const navigation = useAppNavigation();
   const [data, setData] = React.useState({
     email: "",
@@ -52,6 +54,12 @@ const SignupScreen: React.FC = () => {
       );
       const userId = response.user.uid;
       dispatch(authenticate(userId));
+
+      const userDocId = data.email;
+      await setDoc(doc(db, "users", userDocId), {
+        name: currUserName,
+      });
+      dispatch(setCurrUserDocId(userDocId));
     } catch {
       Alert.alert(
         "Please verify your credentials",
@@ -64,7 +72,7 @@ const SignupScreen: React.FC = () => {
     <Flex bg="darkBlue.800" flex={1} pt={20}>
       <Center>
         <Heading color="white" textAlign="center" mb={5}>
-          Hello! {route.params.name}.
+          Hello! {currUserName}.
         </Heading>
         <Text color="white" mb={5}>
           Please enter your data below

@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface MainState {
   token: string | null;
   isAuth: boolean;
+  currUserDocId: string;
   dataArr: DataObj[];
 }
 
 const initialState: MainState = {
   token: "",
   isAuth: false,
+  currUserDocId: "",
   dataArr: [],
 };
 
@@ -24,8 +26,11 @@ const mainSlice = createSlice({
       state.token = null;
       state.isAuth = !!state.token;
     },
+    setCurrUserDocId: (state, action: PayloadAction<string>) => {
+      state.currUserDocId = action.payload;
+    },
     setData: (state, action: PayloadAction<any>) => {
-      state.dataArr = action.payload;
+      state.dataArr.push(action.payload);
     },
     addItem: (state, action: PayloadAction<DataObj>) => {
       state.dataArr.unshift(action.payload);
@@ -39,6 +44,12 @@ const mainSlice = createSlice({
   },
 });
 
-export const { authenticate, logout, setData, addItem, removeItem } =
-  mainSlice.actions;
+export const {
+  authenticate,
+  logout,
+  setCurrUserDocId,
+  setData,
+  addItem,
+  removeItem,
+} = mainSlice.actions;
 export default mainSlice.reducer;

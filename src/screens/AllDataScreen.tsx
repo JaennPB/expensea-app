@@ -7,7 +7,14 @@ import { useAppSelector, useAppDispatch } from "../hooks/reduxHooks";
 import DataList from "../components/DataList";
 import InfoBox from "../components/UI/InfoBox";
 
-import { getDocs, collection } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  doc,
+  where,
+  query,
+  DocumentData,
+} from "firebase/firestore";
 import { db } from "../db/firebase";
 import { setData } from "../app/mainSlice";
 
@@ -15,6 +22,7 @@ import { useReduceItems } from "../hooks/utils";
 
 const AllDataScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
+  const currUserDocId = useAppSelector((state) => state.currUserDocId);
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -25,24 +33,23 @@ const AllDataScreen: React.FC = () => {
   React.useEffect(() => {
     async function getData(): Promise<void> {
       try {
-        const data = await getDocs(collection(db, "data"));
+        const data = await getDocs(
+          collection(db, "users", currUserDocId, "data")
+        );
+        data.forEach((doc) => {
+          dispatch(setData({ ...doc.data(), id: doc.id }));
+        });
         setIsLoading(false);
-
-        if (!data.empty) {
-          let dataArr: any = [];
-          data.forEach((doc) => {
-            dataArr.unshift({ ...doc.data(), id: doc.id });
-          });
-
-          dispatch(setData(dataArr));
-        }
       } catch {
-        Alert.alert("No data from server");
+        Alert.alert("Error from server", "Please reload app 🤯");
+        setIsLoading(false);
       }
     }
 
-    getData();
-  }, []);
+    if (currUserDocId) {
+      getData();
+    }
+  }, [currUserDocId]);
 
   return (
     <Flex flex={1} bg="darkBlue.800">

@@ -6,11 +6,12 @@ import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
 
-import { auth } from "../../db/firebase";
+import { auth, db } from "../../db/firebase";
+import { addDoc, collection } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth/react-native";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { authenticate } from "../../app/mainSlice";
+import { authenticate, setCurrUserDocId } from "../../app/mainSlice";
 
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -39,8 +40,10 @@ const LoginScreen: React.FC = () => {
         data.email,
         data.password
       );
+
       const userId = response.user.uid;
       dispatch(authenticate(userId));
+      dispatch(setCurrUserDocId(data.email));
     } catch {
       Alert.alert(
         "Please verify your credentials",
