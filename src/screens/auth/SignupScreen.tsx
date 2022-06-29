@@ -52,14 +52,14 @@ const SignupScreen: React.FC = () => {
         data.email,
         data.password2
       );
-      const userId = response.user.uid;
-      dispatch(authenticate(userId));
 
-      const userDocId = data.email;
-      await setDoc(doc(db, "users", userDocId), {
+      dispatch(authenticate(response.user.uid));
+
+      await setDoc(doc(db, "users", response.user.uid), {
         name: currUserName,
       });
-      dispatch(setCurrUserDocId(userDocId));
+
+      dispatch(setCurrUserDocId(response.user.uid));
     } catch {
       Alert.alert(
         "Please verify your credentials",

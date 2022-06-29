@@ -36,9 +36,12 @@ const AllDataScreen: React.FC = () => {
         const data = await getDocs(
           collection(db, "users", currUserDocId, "data")
         );
-        data.forEach((doc) => {
-          dispatch(setData({ ...doc.data(), id: doc.id }));
-        });
+
+        if (!data.empty) {
+          data.forEach((doc) => {
+            dispatch(setData({ ...doc.data(), id: doc.id }));
+          });
+        }
         setIsLoading(false);
       } catch {
         Alert.alert("Error from server", "Please reload app 🤯");
@@ -49,7 +52,7 @@ const AllDataScreen: React.FC = () => {
     if (currUserDocId) {
       getData();
     }
-  }, [currUserDocId]);
+  }, [currUserDocId, db]);
 
   return (
     <Flex flex={1} bg="darkBlue.800">

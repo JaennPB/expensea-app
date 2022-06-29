@@ -43,7 +43,7 @@ const LoginScreen: React.FC = () => {
 
       const userId = response.user.uid;
       dispatch(authenticate(userId));
-      dispatch(setCurrUserDocId(data.email));
+      dispatch(setCurrUserDocId(response.user.uid));
     } catch {
       Alert.alert(
         "Please verify your credentials",
