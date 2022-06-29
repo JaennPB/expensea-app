@@ -25,6 +25,7 @@ const mainSlice = createSlice({
     logout: (state) => {
       state.token = null;
       state.isAuth = !!state.token;
+      state.currUserDocId = "";
     },
     setCurrUserDocId: (state, action: PayloadAction<string>) => {
       state.currUserDocId = action.payload;
