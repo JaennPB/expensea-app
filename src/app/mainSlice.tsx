@@ -1,16 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// TODO: Add "name" to interface
 interface MainState {
-  token: string | null;
+  userId: string;
   isAuth: boolean;
-  currUserDocId: string;
   dataArr: DataObj[];
 }
 
 const initialState: MainState = {
-  token: "",
+  userId: "",
   isAuth: false,
-  currUserDocId: "",
   dataArr: [],
 };
 
@@ -19,16 +18,12 @@ const mainSlice = createSlice({
   initialState,
   reducers: {
     authenticate: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
-      state.isAuth = !!state.token;
+      state.userId = action.payload;
+      state.isAuth = true;
     },
     logout: (state) => {
-      state.token = null;
-      state.isAuth = !!state.token;
-      state.currUserDocId = "";
-    },
-    setCurrUserDocId: (state, action: PayloadAction<string>) => {
-      state.currUserDocId = action.payload;
+      state.userId = "";
+      state.isAuth = false;
     },
     setData: (state, action: PayloadAction<any>) => {
       state.dataArr.push(action.payload);
@@ -45,12 +40,6 @@ const mainSlice = createSlice({
   },
 });
 
-export const {
-  authenticate,
-  logout,
-  setCurrUserDocId,
-  setData,
-  addItem,
-  removeItem,
-} = mainSlice.actions;
+export const { authenticate, logout, setData, addItem, removeItem } =
+  mainSlice.actions;
 export default mainSlice.reducer;

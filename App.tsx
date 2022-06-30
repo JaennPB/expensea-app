@@ -30,11 +30,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as SplashScreen from "expo-splash-screen";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authenticate, setCurrUserDocId } from "./src/app/mainSlice";
+import { authenticate } from "./src/app/mainSlice";
 
 const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();
-
 export type AppScreenProp = NativeStackNavigationProp<NavParams>;
 
 function BottomTabsNav(): JSX.Element {
@@ -155,20 +154,19 @@ function MainNav(): JSX.Element {
 
 function AllNavs(): JSX.Element {
   const isAuth = useAppSelector((state) => state.isAuth);
-  const isThereUserId = useAppSelector((state) => state.currUserDocId);
+  const userId = useAppSelector((state) => state.userId);
   const dispatch = useAppDispatch();
-  const [appIsReady, setAppIsReady] = React.useState(false);
 
   React.useEffect(() => {
     async function fetchUserId() {
-      const userId = await AsyncStorage.getItem("userId");
-      if (userId) {
-        dispatch(authenticate(userId));
-        dispatch(setCurrUserDocId(userId));
+      const userIdStorage = await AsyncStorage.getItem("userId");
+
+      if (userIdStorage) {
+        dispatch(authenticate(userIdStorage!));
       }
     }
 
-    if (!isAuth && !isThereUserId) {
+    if (!isAuth && !userId) {
       fetchUserId();
     }
   }, []);

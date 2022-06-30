@@ -13,7 +13,7 @@ import CustomInput from "./UI/CustomInput";
 
 import { Entypo } from "@expo/vector-icons";
 
-import { addDoc, collection, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 interface Props {
@@ -28,7 +28,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [finishedEditing, setFinishedEditing] = React.useState<boolean>(false);
 
-  const currUserDocId = useAppSelector((state) => state.currUserDocId);
+  const currUserDocId = useAppSelector((state) => state.userId);
 
   let itemToEditData!: DataObj;
   if (isEditing) {
@@ -90,12 +90,12 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         inputData
       );
       const firebaseId = docRef.id;
+      setIsLoading(false);
 
       const modifiedObjectWithId = {
         ...inputData,
         id: firebaseId,
       };
-      setIsLoading(false);
 
       dispatch(addItem(modifiedObjectWithId));
       navigation.goBack();
@@ -106,6 +106,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     }
   }
 
+  // TODO: fix
   async function editDataHandler(inputData: DataObj): Promise<void> {
     const titleIsValid = !!inputData.title?.trim();
     const amountIsValid = !!inputData.amount;

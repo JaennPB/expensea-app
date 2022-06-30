@@ -15,7 +15,7 @@ import { useReduceItems } from "../hooks/utils";
 
 const AllDataScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
-  const currUserDocId = useAppSelector((state) => state.currUserDocId);
+  const currUserDocId = useAppSelector((state) => state.userId);
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = React.useState<boolean>(true);

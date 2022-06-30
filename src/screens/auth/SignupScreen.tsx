@@ -20,7 +20,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth/react-native";
 import { setDoc, doc } from "firebase/firestore";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { authenticate, setCurrUserDocId } from "../../app/mainSlice";
+import { authenticate } from "../../app/mainSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignupScreen: React.FC = () => {
@@ -49,13 +49,11 @@ const SignupScreen: React.FC = () => {
 
   async function signUpHandler(): Promise<void> {
     try {
-      setIsLoading(true);
       const response = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password2
       );
-
       const userId = response.user.uid;
 
       await setDoc(doc(db, "users", userId), {
@@ -63,10 +61,8 @@ const SignupScreen: React.FC = () => {
       });
 
       dispatch(authenticate(userId));
-      dispatch(setCurrUserDocId(userId));
 
       AsyncStorage.setItem("userId", userId);
-      setIsLoading(false);
     } catch {
       Alert.alert(
         "Please verify your credentials",
