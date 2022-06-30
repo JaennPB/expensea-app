@@ -49,6 +49,7 @@ const SignupScreen: React.FC = () => {
 
   async function signUpHandler(): Promise<void> {
     try {
+      setIsLoading(true);
       const response = await createUserWithEmailAndPassword(
         auth,
         data.email,
@@ -59,6 +60,7 @@ const SignupScreen: React.FC = () => {
       await setDoc(doc(db, "users", userId), {
         name: currUserName,
       });
+      setIsLoading(false);
 
       dispatch(authenticate(userId));
 
@@ -109,8 +111,10 @@ const SignupScreen: React.FC = () => {
             _text={{ fontSize: "md", fontWeight: "medium" }}
             bg="darkBlue.500"
             onPress={signUpHandler}
+            isLoading={isLoading}
+            isLoadingText="Signing up"
           >
-            Login
+            Sign me up!
           </Button>
           <Divider thickness={1} bg="darkBlue.600" />
           <Button

@@ -37,11 +37,13 @@ const LoginScreen: React.FC = () => {
 
   async function logInUser(): Promise<void> {
     try {
+      setIsLoading(true);
       const response = await signInWithEmailAndPassword(
         auth,
         data.email,
         data.password
       );
+      setIsLoading(false);
 
       const userId = response.user.uid;
 
@@ -80,6 +82,8 @@ const LoginScreen: React.FC = () => {
             bg="darkBlue.500"
             _text={{ fontSize: "md", fontWeight: "medium" }}
             onPress={logInUser}
+            isLoading={isLoading}
+            isLoadingText="Loggin in"
           >
             Login
           </Button>
