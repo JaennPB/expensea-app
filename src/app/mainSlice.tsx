@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// TODO: Add "name" to interface
 interface MainState {
   userId: string;
   isAuth: boolean;
@@ -31,6 +30,17 @@ const mainSlice = createSlice({
     addItem: (state, action: PayloadAction<DataObj>) => {
       state.dataArr.unshift(action.payload);
     },
+    updateItem: (
+      state,
+      action: PayloadAction<{ id: string; data: DataObj }>
+    ) => {
+      const itemToUpdateIndex = state.dataArr.findIndex(
+        (element) => element.id === action.payload.id
+      );
+      const itemInDataArray = state.dataArr[itemToUpdateIndex];
+      const updatedItem = { ...itemInDataArray, ...action.payload.data };
+      state.dataArr[itemToUpdateIndex] = updatedItem;
+    },
     removeItem: (state, action: PayloadAction<string>) => {
       const updatedArr = state.dataArr.filter(
         (item) => item.id !== action.payload
@@ -40,6 +50,12 @@ const mainSlice = createSlice({
   },
 });
 
-export const { authenticate, logout, setData, addItem, removeItem } =
-  mainSlice.actions;
+export const {
+  authenticate,
+  logout,
+  setData,
+  addItem,
+  updateItem,
+  removeItem,
+} = mainSlice.actions;
 export default mainSlice.reducer;

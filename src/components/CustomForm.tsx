@@ -5,7 +5,7 @@ import { VStack, Flex, Button, Heading, IconButton, Icon } from "native-base";
 import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
-import { addItem, removeItem } from "../app/mainSlice";
+import { addItem, updateItem } from "../app/mainSlice";
 
 import moment from "moment";
 
@@ -13,13 +13,7 @@ import CustomInput from "./UI/CustomInput";
 
 import { Entypo } from "@expo/vector-icons";
 
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 interface Props {
@@ -140,14 +134,9 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       });
       setIsLoading(false);
 
-      const modifiedObjectWithId = {
-        ...inputData,
-        id: itemToEditId,
-      };
+      dispatch(updateItem({ id: itemToEditId, data: inputData }));
       setFinishedEditing(true);
 
-      dispatch(removeItem(itemToEditId));
-      dispatch(addItem(modifiedObjectWithId));
       navigation.goBack();
       return;
     } catch {
