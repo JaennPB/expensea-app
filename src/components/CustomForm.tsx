@@ -13,7 +13,13 @@ import CustomInput from "./UI/CustomInput";
 
 import { Entypo } from "@expo/vector-icons";
 
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../db/firebase";
 
 interface Props {
@@ -25,6 +31,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
 
+  // TODO: maybe load in the background
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [finishedEditing, setFinishedEditing] = React.useState<boolean>(false);
 
@@ -125,20 +132,22 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     }
 
     try {
+      const docRef = doc(db, "users", currUserDocId, "data", itemToEditId);
       setIsLoading(true);
-      await deleteDoc(doc(db, "data", itemToEditId));
-      const docRef = await addDoc(collection(db, "data"), inputData);
-      const firebaseId = docRef.id;
+      await updateDoc(docRef, {
+        title: inputData.title,
+        amount: inputData.amount,
+      });
+      setIsLoading(false);
 
       const modifiedObjectWithId = {
         ...inputData,
-        id: firebaseId,
+        id: itemToEditId,
       };
-      setIsLoading(false);
       setFinishedEditing(true);
 
-      dispatch(addItem(modifiedObjectWithId));
       dispatch(removeItem(itemToEditId));
+      dispatch(addItem(modifiedObjectWithId));
       navigation.goBack();
       return;
     } catch {

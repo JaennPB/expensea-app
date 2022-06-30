@@ -6,13 +6,16 @@ import { useAppDispatch } from "../hooks/reduxHooks";
 import { removeItem } from "../app/mainSlice";
 
 import { useAppRoute, useAppNavigation } from "../hooks/navigationHooks";
+import { useAppSelector } from "../hooks/reduxHooks";
 
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, collection, doc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 import CustomForm from "../components/CustomForm";
 
 const ManageDataScreen: React.FC = () => {
+  const currUserDocId = useAppSelector((state) => state.userId);
+  const [isLoading, setIsLoading] = React.useState(false);
   const route = useAppRoute();
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
@@ -24,7 +27,7 @@ const ManageDataScreen: React.FC = () => {
     navigation.goBack();
 
     try {
-      await deleteDoc(doc(db, "data", itemId));
+      await deleteDoc(doc(db, "users", currUserDocId, "data", itemId));
     } catch {
       Alert.alert("Error deleting... ❌");
       return;
