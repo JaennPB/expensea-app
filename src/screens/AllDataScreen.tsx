@@ -7,14 +7,7 @@ import { useAppSelector, useAppDispatch } from "../hooks/reduxHooks";
 import DataList from "../components/DataList";
 import InfoBox from "../components/UI/InfoBox";
 
-import {
-  getDocs,
-  collection,
-  doc,
-  where,
-  query,
-  DocumentData,
-} from "firebase/firestore";
+import { getDocs, collection } from "firebase/firestore";
 import { db } from "../db/firebase";
 import { setData } from "../app/mainSlice";
 

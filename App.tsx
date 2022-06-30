@@ -11,10 +11,11 @@ import {
 } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { useAppSelector } from "./src/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "./src/hooks/reduxHooks";
 
 import LoginScreen from "./src/screens/auth/LoginScreen";
 import SignupScreen from "./src/screens/auth/SignupScreen";
+import AccountScreen from "./src/screens/AccountScreen";
 import WelcomeScreen from "./src/screens/auth/WelcomeScreen";
 import AllDataScreen from "./src/screens/AllDataScreen";
 import ExpesesScreen from "./src/screens/ExpensesScreen";
@@ -24,6 +25,12 @@ import AddButton from "./src/components/UI/AddButton";
 
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import * as SplashScreen from "expo-splash-screen";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { authenticate, setCurrUserDocId } from "./src/app/mainSlice";
 
 const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();
@@ -84,6 +91,18 @@ function BottomTabsNav(): JSX.Element {
           ),
         }}
       />
+      <BottomTabs.Screen
+        name="AccountScreen"
+        component={AccountScreen}
+        options={{
+          headerTitle: "Account",
+          tabBarLabel: "Account",
+          tabBarLabelStyle: { fontSize: 13 },
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" size={28} color={color} />
+          ),
+        }}
+      />
     </BottomTabs.Navigator>
   );
 }
@@ -136,6 +155,23 @@ function MainNav(): JSX.Element {
 
 function AllNavs(): JSX.Element {
   const isAuth = useAppSelector((state) => state.isAuth);
+  const isThereUserId = useAppSelector((state) => state.currUserDocId);
+  const dispatch = useAppDispatch();
+  const [appIsReady, setAppIsReady] = React.useState(false);
+
+  React.useEffect(() => {
+    async function fetchUserId() {
+      const userId = await AsyncStorage.getItem("userId");
+      if (userId) {
+        dispatch(authenticate(userId));
+        dispatch(setCurrUserDocId(userId));
+      }
+    }
+
+    if (!isAuth && !isThereUserId) {
+      fetchUserId();
+    }
+  }, []);
 
   return (
     <NavigationContainer>

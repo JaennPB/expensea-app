@@ -6,16 +6,18 @@ import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
 
-import { auth, db } from "../../db/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { auth } from "../../db/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth/react-native";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { authenticate, setCurrUserDocId } from "../../app/mainSlice";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
+  const [isLoading, setIsLoading] = React.useState(false);
   const [data, setData] = React.useState({
     email: "",
     password: "",
@@ -35,6 +37,7 @@ const LoginScreen: React.FC = () => {
 
   async function logInUser(): Promise<void> {
     try {
+      setIsLoading(true);
       const response = await signInWithEmailAndPassword(
         auth,
         data.email,
@@ -42,8 +45,12 @@ const LoginScreen: React.FC = () => {
       );
 
       const userId = response.user.uid;
+
       dispatch(authenticate(userId));
-      dispatch(setCurrUserDocId(response.user.uid));
+      dispatch(setCurrUserDocId(userId));
+
+      AsyncStorage.setItem("userId", userId);
+      setIsLoading(false);
     } catch {
       Alert.alert(
         "Please verify your credentials",
