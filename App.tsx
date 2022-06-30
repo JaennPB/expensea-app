@@ -1,5 +1,6 @@
 import React from "react";
-import { NativeBaseProvider, StatusBar } from "native-base";
+import { Alert } from "react-native";
+import { NativeBaseProvider, StatusBar, View } from "native-base";
 
 import { Provider } from "react-redux";
 import { store } from "./src/app/store";
@@ -152,17 +153,26 @@ function MainNav(): JSX.Element {
   );
 }
 
-function AllNavs(): JSX.Element {
+function AllNavs(): JSX.Element | null {
   const isAuth = useAppSelector((state) => state.isAuth);
   const userId = useAppSelector((state) => state.userId);
+  const [appIsReady, setAppIsReady] = React.useState(false);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     async function fetchUserId() {
-      const userIdStorage = await AsyncStorage.getItem("userId");
+      try {
+        await SplashScreen.preventAutoHideAsync();
 
-      if (userIdStorage) {
-        dispatch(authenticate(userIdStorage!));
+        const userIdStorage = await AsyncStorage.getItem("userId");
+
+        if (userIdStorage) {
+          dispatch(authenticate(userIdStorage!));
+        }
+      } catch {
+        Alert.alert("Something went wrong", "Please reload app");
+      } finally {
+        setAppIsReady(true);
       }
     }
 
@@ -171,11 +181,23 @@ function AllNavs(): JSX.Element {
     }
   }, []);
 
+  const onLayoutRootView = React.useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <StatusBar barStyle="light-content" backgroundColor="#002851" />
-      {!isAuth && <AuthNav />}
-      {isAuth && <MainNav />}
+      <View onLayout={onLayoutRootView} flex={1}>
+        {!isAuth && <AuthNav />}
+        {isAuth && <MainNav />}
+      </View>
     </NavigationContainer>
   );
 }
