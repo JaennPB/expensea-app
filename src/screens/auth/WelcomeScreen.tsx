@@ -1,5 +1,14 @@
 import React from "react";
-import { Flex, Heading, Center, Text, VStack, Button } from "native-base";
+import {
+  Flex,
+  Heading,
+  Center,
+  Text,
+  VStack,
+  Button,
+  KeyboardAvoidingView,
+} from "native-base";
+import { Platform } from "react-native";
 
 import CustomInput from "../../components/UI/CustomInput";
 
@@ -14,7 +23,12 @@ const WelcomeScreen: React.FC = () => {
   }
 
   return (
-    <Flex bg="darkBlue.800" flex={1} pt={20}>
+    <KeyboardAvoidingView
+      flex={1}
+      bg="darkBlue.800"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      pt={10}
+    >
       <Center>
         <Heading color="white" size="xl" mb={5}>
           Welcome to Expensea!
@@ -48,7 +62,7 @@ const WelcomeScreen: React.FC = () => {
           </Button>
         </VStack>
       </Center>
-    </Flex>
+    </KeyboardAvoidingView>
   );
 };
 
