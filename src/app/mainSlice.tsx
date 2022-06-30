@@ -23,6 +23,7 @@ const mainSlice = createSlice({
     logout: (state) => {
       state.userId = "";
       state.isAuth = false;
+      state.dataArr = [];
     },
     setData: (state, action: PayloadAction<any>) => {
       state.dataArr.push(action.payload);
