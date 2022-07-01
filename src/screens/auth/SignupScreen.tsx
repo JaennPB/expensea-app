@@ -20,13 +20,12 @@ import { createUserWithEmailAndPassword } from "firebase/auth/react-native";
 import { setDoc, doc } from "firebase/firestore";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { authenticate } from "../../app/mainSlice";
+import { authenticate, setUserName } from "../../app/mainSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignupScreen: React.FC = () => {
   const route = useAppRoute();
   const dispatch = useAppDispatch();
-  const currUserName = route.params.name;
   const navigation = useAppNavigation();
   const [isLoading, setIsLoading] = React.useState(false);
   const [data, setData] = React.useState({
@@ -34,6 +33,8 @@ const SignupScreen: React.FC = () => {
     password: "",
     password2: "",
   });
+
+  const currUserName = route.params.name;
 
   function dataEnteredHandler(
     inputIdentifier: string,
@@ -60,10 +61,13 @@ const SignupScreen: React.FC = () => {
       await setDoc(doc(db, "users", userId), {
         name: currUserName,
       });
+
+      dispatch(setUserName(currUserName));
+      AsyncStorage.setItem("userName", currUserName);
+
       setIsLoading(false);
 
       dispatch(authenticate(userId));
-
       AsyncStorage.setItem("userId", userId);
     } catch {
       Alert.alert(

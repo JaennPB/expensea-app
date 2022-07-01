@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface MainState {
   userId: string;
   isAuth: boolean;
+  userName: string;
   dataArr: DataObj[];
 }
 
 const initialState: MainState = {
   userId: "",
   isAuth: false,
+  userName: "",
   dataArr: [],
 };
 
@@ -19,6 +21,9 @@ const mainSlice = createSlice({
     authenticate: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
       state.isAuth = true;
+    },
+    setUserName: (state, action: PayloadAction<string>) => {
+      state.userName = action.payload;
     },
     logout: (state) => {
       state.userId = "";
@@ -53,6 +58,7 @@ const mainSlice = createSlice({
 
 export const {
   authenticate,
+  setUserName,
   logout,
   setData,
   addItem,

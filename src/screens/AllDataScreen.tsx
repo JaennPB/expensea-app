@@ -3,6 +3,7 @@ import { Alert } from "react-native";
 import { Flex, VStack } from "native-base";
 
 import { useAppSelector, useAppDispatch } from "../hooks/reduxHooks";
+import { useAppNavigation } from "../hooks/navigationHooks";
 
 import DataList from "../components/DataList";
 import InfoBox from "../components/UI/InfoBox";
@@ -12,11 +13,14 @@ import { db } from "../db/firebase";
 import { setData } from "../app/mainSlice";
 
 import { useReduceItems } from "../hooks/utils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AllDataScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const currUserDocId = useAppSelector((state) => state.userId);
+  const currUserName = useAppSelector((state) => state.userName);
   const dispatch = useAppDispatch();
+  const navigation = useAppNavigation();
 
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
@@ -46,6 +50,25 @@ const AllDataScreen: React.FC = () => {
       getData();
     }
   }, [currUserDocId, db]);
+
+  React.useLayoutEffect(() => {
+    if (!currUserName) {
+      async function fetchUserName() {
+        const cachedUserName = await AsyncStorage.getItem("userName");
+
+        navigation.setOptions({
+          headerTitle: `Welcome back, ${cachedUserName}!`,
+        });
+      }
+
+      fetchUserName();
+      return;
+    }
+
+    navigation.setOptions({
+      headerTitle: `Welcome back, ${currUserName}!`,
+    });
+  }, []);
 
   return (
     <Flex flex={1} bg="darkBlue.800">

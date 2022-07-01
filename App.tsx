@@ -59,7 +59,7 @@ function BottomTabsNav(): JSX.Element {
         name="AllDataScreen"
         component={AllDataScreen}
         options={{
-          headerTitle: "Net Worth",
+          headerTitle: "Welcome!",
           tabBarLabel: "All",
           tabBarLabelStyle: { fontSize: 13 },
           tabBarIcon: ({ color }) => (
@@ -95,12 +95,13 @@ function BottomTabsNav(): JSX.Element {
         name="AccountScreen"
         component={AccountScreen}
         options={{
-          headerTitle: "Account",
+          headerTitle: "Your Account",
           tabBarLabel: "Account",
           tabBarLabelStyle: { fontSize: 13 },
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" size={28} color={color} />
           ),
+          headerRight: undefined,
         }}
       />
     </BottomTabs.Navigator>
@@ -156,8 +157,8 @@ function MainNav(): JSX.Element {
 function AllNavs(): JSX.Element | null {
   const isAuth = useAppSelector((state) => state.isAuth);
   const userId = useAppSelector((state) => state.userId);
-  const [appIsReady, setAppIsReady] = React.useState(false);
   const dispatch = useAppDispatch();
+  const [appIsReady, setAppIsReady] = React.useState(false);
 
   React.useEffect(() => {
     async function fetchUserId() {

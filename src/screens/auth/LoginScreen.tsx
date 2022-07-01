@@ -7,12 +7,17 @@ import { useAppNavigation } from "../../hooks/navigationHooks";
 import CustomInput from "../../components/UI/CustomInput";
 
 import { auth } from "../../db/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth/react-native";
+import {
+  signInWithEmailAndPassword,
+  updateCurrentUser,
+} from "firebase/auth/react-native";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { authenticate } from "../../app/mainSlice";
+import { authenticate, setUserName } from "../../app/mainSlice";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { collection, getDoc, doc } from "firebase/firestore";
+import { db } from "../../db/firebase";
 
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -43,12 +48,20 @@ const LoginScreen: React.FC = () => {
         data.email,
         data.password
       );
-      setIsLoading(false);
 
       const userId = response.user.uid;
 
-      dispatch(authenticate(userId));
+      const docResponse = await getDoc(doc(db, "users", userId));
+      if (docResponse.exists()) {
+        const currUserName = docResponse.data().name;
 
+        dispatch(setUserName(currUserName));
+        AsyncStorage.setItem("userName", currUserName);
+      }
+
+      setIsLoading(false);
+
+      dispatch(authenticate(userId));
       AsyncStorage.setItem("userId", userId);
     } catch {
       Alert.alert(
