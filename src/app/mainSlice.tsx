@@ -53,6 +53,9 @@ const mainSlice = createSlice({
       );
       state.dataArr = updatedArr;
     },
+    resetData: (state) => {
+      state.dataArr = [];
+    },
   },
 });
 
@@ -64,5 +67,6 @@ export const {
   addItem,
   updateItem,
   removeItem,
+  resetData,
 } = mainSlice.actions;
 export default mainSlice.reducer;
