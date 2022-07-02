@@ -14,8 +14,14 @@ import { useAppNavigation } from "../hooks/navigationHooks";
 import { logout, resetData } from "../app/mainSlice";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { getAuth, deleteUser } from "firebase/auth";
+import { deleteDoc, doc } from "firebase/firestore";
+import {
+  getAuth,
+  deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  EmailAuthCredential,
+} from "firebase/auth";
 
 import { db } from "../db/firebase";
 import { Alert } from "react-native";
@@ -25,54 +31,65 @@ const AccountScreen: React.FC = () => {
   const navigation = useAppNavigation();
   const currUserDocId = useAppSelector((state) => state.userId);
   const currUserDocsArray = useAppSelector((state) => state.dataArr);
-  const [isLoading, setIsloading] = React.useState(false);
 
-  function logoutHandler(): void {
-    dispatch(logout());
-    AsyncStorage.removeItem("userId");
-    AsyncStorage.removeItem("userName");
+  function getUserCredentials(): EmailAuthCredential {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    const userEmail = user?.email!;
+    const userPassword = "123456";
+
+    return EmailAuthProvider.credential(userEmail, userPassword);
   }
 
-  async function resetDataHandler(): Promise<void> {
+  async function logoutHandler(): Promise<void> {
+    dispatch(logout());
+    await AsyncStorage.removeItem("userId");
+    await AsyncStorage.removeItem("userName");
+  }
+
+  async function resetDataHandler(type: "normal" | "hard"): Promise<void> {
     const dataIds: string[] = [];
 
-    if (currUserDocsArray.length === 0) {
-      Alert.alert("No data to delete! ❌");
-      return;
-    }
-
-    setIsloading(true);
-
     currUserDocsArray.forEach((doc) => dataIds.push(doc.id));
-
     dataIds.forEach((element) => {
-      async function deleteData() {
+      async function deleteDataDocs() {
         await deleteDoc(doc(db, "users", currUserDocId, "data", element));
       }
 
-      deleteData();
+      deleteDataDocs();
     });
 
-    setIsloading(false);
+    if (type === "hard") {
+      async function deleteUserDoc() {
+        await deleteDoc(doc(db, "users", currUserDocId));
+      }
 
-    dispatch(resetData());
-    navigation.navigate("AllDataScreen");
-    Alert.alert("Data reset! ✔");
+      deleteUserDoc();
+    }
+
+    if (type === "normal") {
+      dispatch(resetData());
+      navigation.navigate("AllDataScreen");
+      Alert.alert("Data reset! ✅");
+    }
   }
 
-  function deleteAccountHandler(): void {
-    // TODO:
-    //re-authenticate
-    //delete data
-    //add a "are you sure" prompt
+  async function deleteAccountHandler(): Promise<void> {
+    await resetDataHandler("hard");
 
     const auth = getAuth();
     const user = auth.currentUser;
 
     if (user) {
-      deleteUser(user).then(() => {
-        dispatch(logout());
-      });
+      try {
+        const credentials = getUserCredentials();
+        await reauthenticateWithCredential(user, credentials);
+        await deleteUser(user);
+        logoutHandler();
+      } catch {
+        Alert.alert("Could not delete user");
+      }
     }
   }
 
@@ -87,9 +104,7 @@ const AccountScreen: React.FC = () => {
             <Button
               bg="darkBlue.500"
               _text={{ fontSize: "md", fontWeight: "medium" }}
-              onPress={resetDataHandler}
-              isLoading={isLoading}
-              isLoadingText="Deleting"
+              onPress={resetDataHandler.bind(this, "normal")}
             >
               Reset Data
             </Button>
