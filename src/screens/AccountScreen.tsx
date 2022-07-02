@@ -21,26 +21,20 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   EmailAuthCredential,
+  User,
 } from "firebase/auth";
 
 import { db } from "../db/firebase";
 import { Alert } from "react-native";
+
+import ModalCard from "../components/ModalCard";
 
 const AccountScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
   const currUserDocId = useAppSelector((state) => state.userId);
   const currUserDocsArray = useAppSelector((state) => state.dataArr);
-
-  function getUserCredentials(): EmailAuthCredential {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    const userEmail = user?.email!;
-    const userPassword = "123456";
-
-    return EmailAuthProvider.credential(userEmail, userPassword);
-  }
+  const [modalIsVisible, setModalIsVisible] = React.useState(false);
 
   async function logoutHandler(): Promise<void> {
     dispatch(logout());
@@ -75,58 +69,71 @@ const AccountScreen: React.FC = () => {
     }
   }
 
-  async function deleteAccountHandler(): Promise<void> {
+  async function getUserCredentials() {
     await resetDataHandler("hard");
 
     const auth = getAuth();
     const user = auth.currentUser;
 
-    if (user) {
-      try {
-        const credentials = getUserCredentials();
-        await reauthenticateWithCredential(user, credentials);
-        await deleteUser(user);
-        logoutHandler();
-      } catch {
-        Alert.alert("Could not delete user");
-      }
-    }
+    const userEmail = user?.email!;
+
+    setModalIsVisible(true);
+    const userPassword = "123456";
+
+    // only trigger on button press
+    // maybe save data on state?
+    confirmUserDeletionHandler(
+      user!,
+      EmailAuthProvider.credential(userEmail, userPassword)
+    );
+  }
+
+  async function confirmUserDeletionHandler(
+    user: User,
+    credentials: EmailAuthCredential
+  ) {
+    await reauthenticateWithCredential(user, credentials);
+    await deleteUser(user);
+    logoutHandler();
   }
 
   return (
-    <Flex bg="darkBlue.700" flex={1} pt={5}>
-      <Center>
-        <Box bg="darkBlue.800" p={5} borderRadius={5} w="80%">
-          <Heading color="white" mb={5}>
-            Settings
-          </Heading>
-          <VStack space={5}>
-            <Button
-              bg="darkBlue.500"
-              _text={{ fontSize: "md", fontWeight: "medium" }}
-              onPress={resetDataHandler.bind(this, "normal")}
-            >
-              Reset Data
-            </Button>
-            <Button
-              bg="darkBlue.500"
-              _text={{ fontSize: "md", fontWeight: "medium" }}
-              onPress={deleteAccountHandler}
-            >
-              Delete Account
-            </Button>
-            <Divider thickness={1} bg="darkBlue.600" />
-            <Button
-              bg="danger.400"
-              _text={{ fontSize: "md", fontWeight: "medium" }}
-              onPress={logoutHandler}
-            >
-              Log Out
-            </Button>
-          </VStack>
-        </Box>
-      </Center>
-    </Flex>
+    <>
+      <ModalCard isOpen={modalIsVisible} title="Credentials"></ModalCard>
+      <Flex bg="darkBlue.700" flex={1} pt={5}>
+        <Center>
+          <Box bg="darkBlue.800" p={5} borderRadius={5} w="80%">
+            <Heading color="white" mb={5}>
+              Settings
+            </Heading>
+            <VStack space={5}>
+              <Button
+                bg="darkBlue.500"
+                _text={{ fontSize: "md", fontWeight: "medium" }}
+                onPress={resetDataHandler.bind(this, "normal")}
+              >
+                Reset Data
+              </Button>
+              <Button
+                bg="darkBlue.500"
+                _text={{ fontSize: "md", fontWeight: "medium" }}
+                onPress={getUserCredentials}
+              >
+                Delete Account
+              </Button>
+              <Divider thickness={1} bg="darkBlue.600" />
+              <Button
+                bg="danger.400"
+                _text={{ fontSize: "md", fontWeight: "medium" }}
+                onPress={logoutHandler}
+              >
+                Log Out
+              </Button>
+            </VStack>
+          </Box>
+        </Center>
+      </Flex>
+    </>
   );
 };
 
