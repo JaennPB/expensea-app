@@ -51,24 +51,29 @@ const SignupScreen: React.FC = () => {
   async function signUpHandler(): Promise<void> {
     try {
       setIsLoading(true);
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password2
-      );
-      const userId = response.user.uid;
+      if (data.password === data.password2) {
+        const response = await createUserWithEmailAndPassword(
+          auth,
+          data.email,
+          data.password2
+        );
+        const userId = response.user.uid;
+        await setDoc(doc(db, "users", userId), {
+          name: currUserName,
+        });
+        dispatch(setUserName(currUserName));
+        AsyncStorage.setItem("userName", currUserName);
 
-      await setDoc(doc(db, "users", userId), {
-        name: currUserName,
-      });
+        setIsLoading(false);
 
-      dispatch(setUserName(currUserName));
-      AsyncStorage.setItem("userName", currUserName);
+        dispatch(authenticate(userId));
+        AsyncStorage.setItem("userId", userId);
+      }
 
-      setIsLoading(false);
-
-      dispatch(authenticate(userId));
-      AsyncStorage.setItem("userId", userId);
+      if (data.password != data.password2) {
+        Alert.alert("Passwords don't match");
+        setIsLoading(false);
+      }
     } catch {
       Alert.alert(
         "Please verify your credentials",
