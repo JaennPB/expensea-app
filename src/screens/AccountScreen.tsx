@@ -52,6 +52,7 @@ const AccountScreen: React.FC = () => {
     const dataIds: string[] = [];
 
     currUserDocsArray.forEach((doc) => dataIds.push(doc.id));
+
     dataIds.forEach((element) => {
       async function deleteDataDocs() {
         await deleteDoc(doc(db, "users", currUserDocId, "data", element));
@@ -88,6 +89,7 @@ const AccountScreen: React.FC = () => {
     const auth = getAuth();
     const user = auth.currentUser!;
 
+    // find a way to stop data deletion if password is wrong
     try {
       const credentials = EmailAuthProvider.credential(
         emailValue,
@@ -114,11 +116,14 @@ const AccountScreen: React.FC = () => {
     <>
       <ModalCard
         isOpen={modalIsVisible}
-        title="Please confirm password for user email:"
+        title="Please type your password to delete account"
         onCancel={cancelUserDeletionHandler}
         onConfirm={confirmUserDeletionHandler}
+        buttonCancel="Cancel"
+        buttonConfirm="Delete"
+        buttonConfirmColor="danger.400"
       >
-        <Text color="white" fontSize="lg" mb={5}>
+        <Text color="white" fontSize="lg" mb={5} ml={1}>
           {emailValue}
         </Text>
         <CustomInput
@@ -126,14 +131,12 @@ const AccountScreen: React.FC = () => {
           type="default"
           onChangeText={(value) => setPasswordValue(value)}
           value={passwordValue}
+          secureTextEntry={true}
         />
       </ModalCard>
-      <Flex bg="darkBlue.700" flex={1} pt={5}>
+      <Flex bg="darkBlue.700" flex={1}>
         <Center>
-          <Box bg="darkBlue.800" p={5} borderRadius={5} w="80%">
-            <Heading color="white" mb={5}>
-              Settings
-            </Heading>
+          <Box bg="darkBlue.700" p={5} w="90%">
             <VStack space={5}>
               <Button
                 bg="darkBlue.500"

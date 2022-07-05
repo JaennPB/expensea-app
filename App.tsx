@@ -95,7 +95,7 @@ function BottomTabsNav(): JSX.Element {
         name="AccountScreen"
         component={AccountScreen}
         options={{
-          headerTitle: "Your Account",
+          headerTitle: "Settings",
           tabBarLabel: "Account",
           tabBarLabelStyle: { fontSize: 13 },
           tabBarIcon: ({ color }) => (
