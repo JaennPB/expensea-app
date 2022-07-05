@@ -1,25 +1,17 @@
-import React, { Children } from "react";
+import React from "react";
 import { Button, Modal } from "native-base";
 
 interface Props {
   isOpen: boolean;
-  title: string;
   onCancel: () => void;
   onConfirm: () => void;
-  buttonCancel: string;
-  buttonConfirm: string;
-  buttonConfirmColor: "danger.400" | "tertiary.500";
 }
 
-const ModalCard: React.FC<Props> = ({
+const DeleteAccModal: React.FC<Props> = ({
   isOpen,
-  title,
   children,
   onCancel,
   onConfirm,
-  buttonCancel,
-  buttonConfirm,
-  buttonConfirmColor,
 }) => {
   return (
     <Modal isOpen={isOpen}>
@@ -30,7 +22,7 @@ const ModalCard: React.FC<Props> = ({
           borderBottomWidth={0}
           p={5}
         >
-          {title}
+          Please enter your password to delete account and data
         </Modal.Header>
         <Modal.Body bg="darkBlue.700" p={5}>
           {children}
@@ -42,14 +34,14 @@ const ModalCard: React.FC<Props> = ({
             _text={{ color: "white" }}
             mr={5}
           >
-            {buttonCancel}
+            Cancel
           </Button>
           <Button
-            bg={buttonConfirmColor}
             _text={{ color: "white" }}
             onPress={onConfirm}
+            bg="danger.400"
           >
-            {buttonConfirm}
+            Delete account and data
           </Button>
         </Modal.Footer>
       </Modal.Content>
@@ -57,4 +49,4 @@ const ModalCard: React.FC<Props> = ({
   );
 };
 
-export default ModalCard;
+export default DeleteAccModal;

@@ -2,12 +2,14 @@ import React from "react";
 import {
   Flex,
   Box,
-  Heading,
   Button,
   Center,
   VStack,
   Divider,
   Text,
+  Heading,
+  Spinner,
+  HStack,
 } from "native-base";
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
@@ -21,14 +23,12 @@ import {
   deleteUser,
   reauthenticateWithCredential,
   EmailAuthProvider,
-  EmailAuthCredential,
-  User,
 } from "firebase/auth";
 
 import { db } from "../db/firebase";
 import { Alert } from "react-native";
 
-import ModalCard from "../components/ModalCard";
+import DeleteAccModal from "../components/DeleteAccModal";
 import CustomInput from "../components/UI/CustomInput";
 
 const AccountScreen: React.FC = () => {
@@ -41,6 +41,7 @@ const AccountScreen: React.FC = () => {
   const [passwordValue, setPasswordValue] = React.useState("");
   const [emailValue, setEmailValue] = React.useState("");
   const [modalIsVisible, setModalIsVisible] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   async function logoutHandler(): Promise<void> {
     dispatch(logout());
@@ -48,7 +49,13 @@ const AccountScreen: React.FC = () => {
     await AsyncStorage.removeItem("userName");
   }
 
-  async function resetDataHandler(type: "normal" | "hard"): Promise<void> {
+  function cancelUserDeletionHandler() {
+    setModalIsVisible(false);
+    setEmailValue("");
+    setPasswordValue("");
+  }
+
+  function deleteDocsHandler() {
     const dataIds: string[] = [];
 
     currUserDocsArray.forEach((doc) => dataIds.push(doc.id));
@@ -60,8 +67,11 @@ const AccountScreen: React.FC = () => {
 
       deleteDataDocs();
     });
+  }
 
+  async function resetDataHandler(type: "normal" | "hard"): Promise<void> {
     if (type === "hard") {
+      deleteDocsHandler();
       async function deleteUserDoc() {
         await deleteDoc(doc(db, "users", currUserDocId));
       }
@@ -70,7 +80,14 @@ const AccountScreen: React.FC = () => {
     }
 
     if (type === "normal") {
+      if (currUserDocsArray.length === 0) {
+        Alert.alert("No data to delete!", "Please add some data");
+        return;
+      }
+
+      deleteDocsHandler();
       dispatch(resetData());
+
       navigation.navigate("AllDataScreen");
       Alert.alert("Data reset! ✅");
     }
@@ -89,81 +106,95 @@ const AccountScreen: React.FC = () => {
     const auth = getAuth();
     const user = auth.currentUser!;
 
-    // find a way to stop data deletion if password is wrong
     try {
+      setIsLoading(true);
       const credentials = EmailAuthProvider.credential(
         emailValue,
         passwordValue
       );
 
-      await resetDataHandler("hard");
-      await reauthenticateWithCredential(user, credentials);
-      await deleteUser(user);
+      const respose = await reauthenticateWithCredential(user, credentials);
 
-      logoutHandler();
+      if (respose) {
+        await resetDataHandler("hard");
+        await deleteUser(user);
+        setModalIsVisible(false);
+        setIsLoading(false);
+
+        logoutHandler();
+      }
     } catch {
       Alert.alert("Wrong password!", "Please try again.");
+      setIsLoading(false);
+      cancelUserDeletionHandler();
+      return;
     }
-  }
-
-  function cancelUserDeletionHandler() {
-    setModalIsVisible(false);
-    setEmailValue("");
-    setPasswordValue("");
   }
 
   return (
     <>
-      <ModalCard
-        isOpen={modalIsVisible}
-        title="Please type your password to delete account"
-        onCancel={cancelUserDeletionHandler}
-        onConfirm={confirmUserDeletionHandler}
-        buttonCancel="Cancel"
-        buttonConfirm="Delete"
-        buttonConfirmColor="danger.400"
-      >
-        <Text color="white" fontSize="lg" mb={5} ml={1}>
-          {emailValue}
-        </Text>
-        <CustomInput
-          title="Password"
-          type="default"
-          onChangeText={(value) => setPasswordValue(value)}
-          value={passwordValue}
-          secureTextEntry={true}
-        />
-      </ModalCard>
-      <Flex bg="darkBlue.700" flex={1}>
-        <Center>
-          <Box bg="darkBlue.700" p={5} w="90%">
-            <VStack space={5}>
-              <Button
-                bg="darkBlue.500"
-                _text={{ fontSize: "md", fontWeight: "medium" }}
-                onPress={resetDataHandler.bind(this, "normal")}
-              >
-                Reset Data
-              </Button>
-              <Button
-                bg="darkBlue.500"
-                _text={{ fontSize: "md", fontWeight: "medium" }}
-                onPress={getUserCredentials}
-              >
-                Delete Account
-              </Button>
-              <Divider thickness={1} bg="darkBlue.600" />
-              <Button
-                bg="danger.400"
-                _text={{ fontSize: "md", fontWeight: "medium" }}
-                onPress={logoutHandler}
-              >
-                Log Out
-              </Button>
-            </VStack>
-          </Box>
-        </Center>
-      </Flex>
+      {isLoading && (
+        <Flex bg="darkBlue.700" flex={1}>
+          <HStack space={2} justifyContent="center" mt={100}>
+            <Spinner accessibilityLabel="Deleting data" color="white" />
+            <Heading color="white" fontSize="lg">
+              Deleting user...
+            </Heading>
+          </HStack>
+        </Flex>
+      )}
+      {!isLoading && (
+        <>
+          <DeleteAccModal
+            isOpen={modalIsVisible}
+            onCancel={cancelUserDeletionHandler}
+            onConfirm={confirmUserDeletionHandler}
+          >
+            <Text color="white" fontSize="lg" mb={5} ml={1}>
+              {emailValue}
+            </Text>
+            <CustomInput
+              title="Password"
+              type="default"
+              onChangeText={(value) => setPasswordValue(value)}
+              value={passwordValue}
+              secureTextEntry={true}
+            />
+          </DeleteAccModal>
+          <Flex bg="darkBlue.700" flex={1}>
+            <Center>
+              <Box bg="darkBlue.700" p={5} w="90%">
+                <VStack space={5}>
+                  <Button
+                    bg="darkBlue.500"
+                    _text={{ fontSize: "md", fontWeight: "medium" }}
+                    onPress={resetDataHandler.bind(this, "normal")}
+                    isLoading={isLoading}
+                    isLoadingText="Deleting"
+                  >
+                    Reset Data
+                  </Button>
+                  <Button
+                    bg="darkBlue.500"
+                    _text={{ fontSize: "md", fontWeight: "medium" }}
+                    onPress={getUserCredentials}
+                  >
+                    Delete Account
+                  </Button>
+                  <Divider thickness={1} bg="darkBlue.600" />
+                  <Button
+                    bg="danger.400"
+                    _text={{ fontSize: "md", fontWeight: "medium" }}
+                    onPress={logoutHandler}
+                  >
+                    Log Out
+                  </Button>
+                </VStack>
+              </Box>
+            </Center>
+          </Flex>
+        </>
+      )}
     </>
   );
 };
