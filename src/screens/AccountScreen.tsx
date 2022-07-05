@@ -88,13 +88,20 @@ const AccountScreen: React.FC = () => {
     const auth = getAuth();
     const user = auth.currentUser!;
 
-    const credentials = EmailAuthProvider.credential(emailValue, passwordValue);
+    try {
+      const credentials = EmailAuthProvider.credential(
+        emailValue,
+        passwordValue
+      );
 
-    await resetDataHandler("hard");
-    await reauthenticateWithCredential(user, credentials);
-    await deleteUser(user);
+      await resetDataHandler("hard");
+      await reauthenticateWithCredential(user, credentials);
+      await deleteUser(user);
 
-    logoutHandler();
+      logoutHandler();
+    } catch {
+      Alert.alert("Wrong password!", "Please try again.");
+    }
   }
 
   function cancelUserDeletionHandler() {
