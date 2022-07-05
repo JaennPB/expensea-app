@@ -75,13 +75,15 @@ const AllDataScreen: React.FC = () => {
       <VStack pb={5} px={5} py={2} space={2}>
         <InfoBox
           color="darkBlue.700"
-          data={"$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
+          data={"+$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
           title="Incomes:"
+          dataColorType="tertiary.500"
         />
         <InfoBox
           color="darkBlue.700"
           data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
           title="Expenses:"
+          dataColorType="danger.400"
         />
         <InfoBox
           color="darkBlue.600"
@@ -89,7 +91,8 @@ const AllDataScreen: React.FC = () => {
             "$" +
             useReduceItems({ incomesArr, expensesArr }, "total").toFixed(2)
           }
-          title="Total Net Worth:"
+          title="Total balance:"
+          dataColorType="white"
         />
       </VStack>
       <DataList dataToDisplay="all" isLoading={isLoading} />

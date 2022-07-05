@@ -22,13 +22,10 @@ const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
   }
 
   return (
-    <Pressable
-      _pressed={{ opacity: 0.5 }}
-      onLongPress={navigateToEditItemHandler}
-    >
+    <Pressable _pressed={{ opacity: 0.5 }} onPress={navigateToEditItemHandler}>
       <Flex flexDir="row" justify="space-between" borderRadius={5}>
         <Box>
-          <Text color="lightText" fontSize="lg">
+          <Text color="lightText" fontSize="20">
             {title}
           </Text>
           <Text color="muted.300" fontSize="xs">
@@ -42,7 +39,7 @@ const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
           w={100}
           borderRadius={5}
         >
-          <Text color="white" fontSize="md">
+          <Text color="white" fontSize="lg" fontWeight="semibold">
             {type === "expense" ? "-$" + amount : "$" + amount}
           </Text>
         </Flex>

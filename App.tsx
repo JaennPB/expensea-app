@@ -53,6 +53,7 @@ function BottomTabsNav(): JSX.Element {
         tabBarActiveTintColor: "#1979d3",
         tabBarInactiveTintColor: "white",
         headerRight: () => <AddButton />,
+        headerTitleAlign: "left",
       }}
     >
       <BottomTabs.Screen

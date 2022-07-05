@@ -36,7 +36,7 @@ const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
     if (!isLoading && dataByFilter.length <= 0) {
       noDataContent = (
         <Heading color="white" size="sm" textAlign="center">
-          Please, give me some data to work with! 📈
+          Nothing here... please add some data! 📈
         </Heading>
       );
     }

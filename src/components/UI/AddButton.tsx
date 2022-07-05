@@ -18,7 +18,7 @@ const AddButton: React.FC = () => {
       bg="darkBlue.700"
       onPress={() => navigation.navigate("ManageDataScreen", { itemId: null })}
     >
-      <AntDesign name="plus" size={25} color="white" />
+      <AntDesign name="plus" size={30} color="white" />
     </Pressable>
   );
 };

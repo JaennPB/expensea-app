@@ -19,6 +19,7 @@ const IncomesScreen: React.FC = () => {
           color="tertiary.500"
           data={"$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
           title="Incomes:"
+          dataColorType="white"
         />
       </VStack>
       <DataList dataToDisplay="incomes" />

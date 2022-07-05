@@ -4,10 +4,11 @@ import { Text, Flex } from "native-base";
 interface Props {
   title: string;
   data: string;
-  color: "danger.400" | "tertiary.500" | "darkBlue.600" | "darkBlue.700";
+  color: "darkBlue.600" | "darkBlue.700" | "danger.400" | "tertiary.500";
+  dataColorType: "danger.400" | "tertiary.500" | "white";
 }
 
-const InfoBox: React.FC<Props> = ({ color, data, title }) => {
+const InfoBox: React.FC<Props> = ({ color, data, title, dataColorType }) => {
   return (
     <Flex
       direction="row"
@@ -21,7 +22,7 @@ const InfoBox: React.FC<Props> = ({ color, data, title }) => {
       <Text color="white" fontSize="lg">
         {title}
       </Text>
-      <Text color="white" fontSize="lg">
+      <Text color={dataColorType} fontSize="lg">
         {data}
       </Text>
     </Flex>

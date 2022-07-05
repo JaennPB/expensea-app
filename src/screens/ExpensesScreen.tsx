@@ -19,6 +19,7 @@ const ExpensesScreen: React.FC = () => {
           color="danger.400"
           data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
           title="Expenses:"
+          dataColorType="white"
         />
       </VStack>
       <DataList dataToDisplay="expenses" />
