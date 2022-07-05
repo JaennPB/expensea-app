@@ -55,7 +55,7 @@ const AccountScreen: React.FC = () => {
     setPasswordValue("");
   }
 
-  function deleteDocsHandler() {
+  async function deleteDocsHandler() {
     const dataIds: string[] = [];
 
     currUserDocsArray.forEach((doc) => dataIds.push(doc.id));
@@ -69,28 +69,22 @@ const AccountScreen: React.FC = () => {
     });
   }
 
-  async function resetDataHandler(type: "normal" | "hard"): Promise<void> {
-    if (type === "hard") {
-      deleteDocsHandler();
-      async function deleteUserDoc() {
-        await deleteDoc(doc(db, "users", currUserDocId));
-      }
+  async function deleteUserDocsAndData() {
+    await deleteDocsHandler();
+    await deleteDoc(doc(db, "users", currUserDocId));
+  }
 
-      deleteUserDoc();
+  async function resetDataHandler(): Promise<void> {
+    if (currUserDocsArray.length === 0) {
+      Alert.alert("No data to delete!", "Please add some data");
+      return;
     }
 
-    if (type === "normal") {
-      if (currUserDocsArray.length === 0) {
-        Alert.alert("No data to delete!", "Please add some data");
-        return;
-      }
+    await deleteDocsHandler();
+    dispatch(resetData());
 
-      deleteDocsHandler();
-      dispatch(resetData());
-
-      navigation.navigate("AllDataScreen");
-      Alert.alert("Data reset! ✅");
-    }
+    navigation.navigate("AllDataScreen");
+    Alert.alert("Data reset! ✅");
   }
 
   async function getUserCredentials() {
@@ -116,7 +110,7 @@ const AccountScreen: React.FC = () => {
       const respose = await reauthenticateWithCredential(user, credentials);
 
       if (respose) {
-        await resetDataHandler("hard");
+        await deleteUserDocsAndData();
         await deleteUser(user);
         setModalIsVisible(false);
         setIsLoading(false);
@@ -168,7 +162,7 @@ const AccountScreen: React.FC = () => {
                   <Button
                     bg="darkBlue.500"
                     _text={{ fontSize: "md", fontWeight: "medium" }}
-                    onPress={resetDataHandler.bind(this, "normal")}
+                    onPress={resetDataHandler}
                     isLoading={isLoading}
                     isLoadingText="Deleting"
                   >
