@@ -7,6 +7,7 @@ import {
   Center,
   VStack,
   Divider,
+  Text,
 } from "native-base";
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
@@ -28,12 +29,17 @@ import { db } from "../db/firebase";
 import { Alert } from "react-native";
 
 import ModalCard from "../components/ModalCard";
+import CustomInput from "../components/UI/CustomInput";
 
 const AccountScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
+
   const currUserDocId = useAppSelector((state) => state.userId);
   const currUserDocsArray = useAppSelector((state) => state.dataArr);
+
+  const [passwordValue, setPasswordValue] = React.useState("");
+  const [emailValue, setEmailValue] = React.useState("");
   const [modalIsVisible, setModalIsVisible] = React.useState(false);
 
   async function logoutHandler(): Promise<void> {
@@ -70,36 +76,51 @@ const AccountScreen: React.FC = () => {
   }
 
   async function getUserCredentials() {
-    await resetDataHandler("hard");
+    setModalIsVisible(true);
 
     const auth = getAuth();
-    const user = auth.currentUser;
+    const user = auth.currentUser!;
 
-    const userEmail = user?.email!;
-
-    setModalIsVisible(true);
-    const userPassword = "123456";
-
-    // only trigger on button press
-    // maybe save data on state?
-    confirmUserDeletionHandler(
-      user!,
-      EmailAuthProvider.credential(userEmail, userPassword)
-    );
+    setEmailValue(user?.email!);
   }
 
-  async function confirmUserDeletionHandler(
-    user: User,
-    credentials: EmailAuthCredential
-  ) {
+  async function confirmUserDeletionHandler() {
+    const auth = getAuth();
+    const user = auth.currentUser!;
+
+    const credentials = EmailAuthProvider.credential(emailValue, passwordValue);
+
+    await resetDataHandler("hard");
     await reauthenticateWithCredential(user, credentials);
     await deleteUser(user);
+
     logoutHandler();
+  }
+
+  function cancelUserDeletionHandler() {
+    setModalIsVisible(false);
+    setEmailValue("");
+    setPasswordValue("");
   }
 
   return (
     <>
-      <ModalCard isOpen={modalIsVisible} title="Credentials"></ModalCard>
+      <ModalCard
+        isOpen={modalIsVisible}
+        title="Please confirm password for user email:"
+        onCancel={cancelUserDeletionHandler}
+        onConfirm={confirmUserDeletionHandler}
+      >
+        <Text color="white" fontSize="lg" mb={5}>
+          {emailValue}
+        </Text>
+        <CustomInput
+          title="Password"
+          type="default"
+          onChangeText={(value) => setPasswordValue(value)}
+          value={passwordValue}
+        />
+      </ModalCard>
       <Flex bg="darkBlue.700" flex={1} pt={5}>
         <Center>
           <Box bg="darkBlue.800" p={5} borderRadius={5} w="80%">
