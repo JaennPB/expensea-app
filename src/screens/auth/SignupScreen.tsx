@@ -28,6 +28,8 @@ const SignupScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [emailIsInvalid, setEmailIsInvalid] = React.useState(false);
+  const [passwordIsInvalid, setPassworIsInvalid] = React.useState(false);
   const [data, setData] = React.useState({
     email: "",
     password: "",
@@ -72,6 +74,7 @@ const SignupScreen: React.FC = () => {
 
       if (data.password != data.password2) {
         Alert.alert("Passwords don't match! 🔑");
+        setPassworIsInvalid(true);
         setIsLoading(false);
         return;
       }
@@ -81,14 +84,17 @@ const SignupScreen: React.FC = () => {
       if (error.code === "auth/invalid-email") {
         errorMessage = "Invalid email! Please try again. 📩";
         setData({ ...data, email: "" });
+        setEmailIsInvalid(true);
       }
       if (error.code === "auth/weak-password") {
         errorMessage = "Password must be atleast 6 characters! 🔑";
         setData({ ...data, password: "", password2: "" });
+        setPassworIsInvalid(true);
       }
       if (error.code === "auth/email-already-in-use") {
         errorMessage = "Email already in use, try a diferent one! 🤯";
         setData({ ...data, email: "" });
+        setEmailIsInvalid(true);
       }
       Alert.alert(errorMessage!);
       setIsLoading(false);
@@ -114,6 +120,8 @@ const SignupScreen: React.FC = () => {
             type="email-address"
             onChangeText={dataEnteredHandler.bind(this, "email")}
             value={data.email}
+            validationColor={emailIsInvalid ? "danger.400" : "darkBlue.600"}
+            isInvalid={emailIsInvalid}
           />
           <CustomInput
             title="Password"
@@ -121,6 +129,8 @@ const SignupScreen: React.FC = () => {
             onChangeText={dataEnteredHandler.bind(this, "password")}
             value={data.password}
             secureTextEntry={true}
+            validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
+            isInvalid={passwordIsInvalid}
           />
           <CustomInput
             title="Confirm password"
@@ -128,6 +138,8 @@ const SignupScreen: React.FC = () => {
             onChangeText={dataEnteredHandler.bind(this, "password2")}
             value={data.password2}
             secureTextEntry={true}
+            validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
+            isInvalid={passwordIsInvalid}
           />
           <Button
             _text={{ fontSize: "md", fontWeight: "medium" }}

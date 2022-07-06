@@ -23,6 +23,8 @@ const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [emailIsInvalid, setEmailIsInvalid] = React.useState(false);
+  const [passwordIsInvalid, setPassworIsInvalid] = React.useState(false);
   const [data, setData] = React.useState({
     email: "",
     password: "",
@@ -64,20 +66,22 @@ const LoginScreen: React.FC = () => {
       dispatch(authenticate(userId));
       AsyncStorage.setItem("userId", userId);
     } catch (error: any) {
-      console.log(error.code);
       let errorMessage: string;
 
       if (error.code === "auth/invalid-email") {
         errorMessage = "Invalid email! Please try again. 📩";
         setData({ ...data, email: "" });
+        setEmailIsInvalid(true);
       }
       if (error.code === "auth/wrong-password") {
         errorMessage = "Wrong password! Try again. 🔑";
         setData({ ...data, password: "" });
+        setPassworIsInvalid(true);
       }
       if (error.code === "auth/user-not-found") {
         errorMessage = "User not found! Try signing up 😉";
         setData({ password: "", email: "" });
+        setEmailIsInvalid(true);
       }
       Alert.alert(errorMessage!);
       setIsLoading(false);
@@ -96,6 +100,8 @@ const LoginScreen: React.FC = () => {
             type="email-address"
             onChangeText={dataEnteredHandler.bind(this, "email")}
             value={data.email}
+            validationColor={emailIsInvalid ? "danger.400" : "darkBlue.600"}
+            isInvalid={emailIsInvalid}
           />
           <CustomInput
             title="Password"
@@ -103,6 +109,8 @@ const LoginScreen: React.FC = () => {
             onChangeText={dataEnteredHandler.bind(this, "password")}
             value={data.password}
             secureTextEntry={true}
+            validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
+            isInvalid={passwordIsInvalid}
           />
           <Button
             bg="darkBlue.500"

@@ -8,6 +8,8 @@ interface Props {
   value: string | undefined;
   onChangeText: (text: string) => void;
   secureTextEntry?: boolean;
+  validationColor?: "darkBlue.600" | "danger.400";
+  isInvalid?: boolean;
 }
 
 const CustomInput: React.FC<Props> = ({
@@ -16,6 +18,8 @@ const CustomInput: React.FC<Props> = ({
   type,
   value,
   secureTextEntry,
+  validationColor,
+  isInvalid,
 }) => {
   return (
     <Input
@@ -34,6 +38,9 @@ const CustomInput: React.FC<Props> = ({
       value={value}
       autoCapitalize="sentences"
       secureTextEntry={secureTextEntry}
+      borderColor={validationColor}
+      borderBottomWidth={isInvalid ? 2 : 0}
+      _focus={{ borderBottomColor: validationColor }}
     />
   );
 };
