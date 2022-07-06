@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Flex,
   Heading,
   Center,
   Text,
@@ -8,7 +7,7 @@ import {
   Button,
   KeyboardAvoidingView,
 } from "native-base";
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
 
 import CustomInput from "../../components/UI/CustomInput";
 
@@ -19,6 +18,11 @@ const WelcomeScreen: React.FC = () => {
   const [name, setName] = React.useState<string>();
 
   function setNameAndNavigateHandler(): void {
+    if (!name) {
+      Alert.alert("Please add a name");
+      return;
+    }
+
     navigation.navigate("SignupScreen", { name: name! });
   }
 
@@ -26,8 +30,8 @@ const WelcomeScreen: React.FC = () => {
     <KeyboardAvoidingView
       flex={1}
       bg="darkBlue.800"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      pt={10}
+      behavior="padding"
+      pt={Platform.OS === "ios" ? 20 : 10}
     >
       <Center>
         <Heading color="white" size="xl" mb={5}>
@@ -40,7 +44,7 @@ const WelcomeScreen: React.FC = () => {
           borderRadius={5}
           py={5}
           px={9}
-          mt={20}
+          mt={10}
           space={10}
           w="80%"
         >

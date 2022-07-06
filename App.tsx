@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, SafeAreaView } from "react-native";
 import { NativeBaseProvider, StatusBar, View } from "native-base";
 
 import { Provider } from "react-redux";

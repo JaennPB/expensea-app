@@ -41,6 +41,7 @@ const CustomInput: React.FC<Props> = ({
       borderColor={validationColor}
       borderBottomWidth={isInvalid ? 2 : 0}
       _focus={{ borderBottomColor: validationColor }}
+      returnKeyType="done"
     />
   );
 };

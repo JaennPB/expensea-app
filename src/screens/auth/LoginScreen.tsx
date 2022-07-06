@@ -1,22 +1,26 @@
 import React from "react";
-import { Alert } from "react-native";
-import { Flex, VStack, Center, Heading, Button, Divider } from "native-base";
+import { Alert, Platform } from "react-native";
+import {
+  VStack,
+  Center,
+  Heading,
+  Button,
+  Divider,
+  KeyboardAvoidingView,
+} from "native-base";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
 
 import { auth } from "../../db/firebase";
-import {
-  signInWithEmailAndPassword,
-  updateCurrentUser,
-} from "firebase/auth/react-native";
+import { signInWithEmailAndPassword } from "firebase/auth/react-native";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { authenticate, setUserName } from "../../app/mainSlice";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { collection, getDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../db/firebase";
 
 const LoginScreen: React.FC = () => {
@@ -66,30 +70,39 @@ const LoginScreen: React.FC = () => {
       dispatch(authenticate(userId));
       AsyncStorage.setItem("userId", userId);
     } catch (error: any) {
-      let errorMessage: string;
+      let errorMessage1: string;
+      let errorMessage2: string;
 
       if (error.code === "auth/invalid-email") {
-        errorMessage = "Invalid email! Please try again. 📩";
+        errorMessage1 = "Invalid email!";
+        errorMessage2 = "Please try again. 📩";
         setData({ ...data, email: "" });
         setEmailIsInvalid(true);
       }
       if (error.code === "auth/wrong-password") {
-        errorMessage = "Wrong password! Try again. 🔑";
+        errorMessage1 = "Wrong password!";
+        errorMessage2 = "Please try again. 🔑";
         setData({ ...data, password: "" });
         setPassworIsInvalid(true);
       }
       if (error.code === "auth/user-not-found") {
-        errorMessage = "User not found! Try signing up 😉";
+        errorMessage1 = "User not found!";
+        errorMessage2 = "Please try signing up 😉";
         setData({ password: "", email: "" });
         setEmailIsInvalid(true);
       }
-      Alert.alert(errorMessage!);
+      Alert.alert(errorMessage1!, errorMessage2!);
       setIsLoading(false);
     }
   }
 
   return (
-    <Flex bg="darkBlue.800" flex={1} pt={20}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      bg="darkBlue.800"
+      flex={1}
+      pt={Platform.OS === "ios" ? 20 : 10}
+    >
       <Center>
         <VStack w="80%" bg="darkBlue.700" p={5} space={5} borderRadius={5}>
           <Heading color="white" textAlign="center">
@@ -135,7 +148,7 @@ const LoginScreen: React.FC = () => {
           </Button>
         </VStack>
       </Center>
-    </Flex>
+    </KeyboardAvoidingView>
   );
 };
 

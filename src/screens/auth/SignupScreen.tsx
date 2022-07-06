@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 import {
   Flex,
   VStack,
@@ -8,6 +8,7 @@ import {
   Button,
   Divider,
   Text,
+  KeyboardAvoidingView,
 } from "native-base";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
@@ -79,30 +80,39 @@ const SignupScreen: React.FC = () => {
         return;
       }
     } catch (error: any) {
-      let errorMessage: string;
+      let errorMessage1: string;
+      let errorMessage2: string;
 
       if (error.code === "auth/invalid-email") {
-        errorMessage = "Invalid email! Please try again. 📩";
+        errorMessage1 = "Invalid email!";
+        errorMessage2 = "Please try again. 📩";
         setData({ ...data, email: "" });
         setEmailIsInvalid(true);
       }
       if (error.code === "auth/weak-password") {
-        errorMessage = "Password must be atleast 6 characters! 🔑";
+        errorMessage1 = "Password must be at least 6 characters! ";
+        errorMessage2 = "Please try again. 🔑";
         setData({ ...data, password: "", password2: "" });
         setPassworIsInvalid(true);
       }
       if (error.code === "auth/email-already-in-use") {
-        errorMessage = "Email already in use, try a diferent one! 🤯";
+        errorMessage1 = "Email already in use";
+        errorMessage2 = "Please try a diferent one! 🤯";
         setData({ ...data, email: "" });
         setEmailIsInvalid(true);
       }
-      Alert.alert(errorMessage!);
+      Alert.alert(errorMessage1!, errorMessage2!);
       setIsLoading(false);
     }
   }
 
   return (
-    <Flex bg="darkBlue.800" flex={1} pt={20}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      bg="darkBlue.800"
+      flex={1}
+      pt={Platform.OS === "ios" ? 20 : 10}
+    >
       <Center>
         <Heading color="white" textAlign="center" mb={5}>
           Hello! {currUserName}.
@@ -164,7 +174,7 @@ const SignupScreen: React.FC = () => {
           </Button>
         </VStack>
       </Center>
-    </Flex>
+    </KeyboardAvoidingView>
   );
 };
 
