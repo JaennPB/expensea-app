@@ -63,11 +63,24 @@ const LoginScreen: React.FC = () => {
 
       dispatch(authenticate(userId));
       AsyncStorage.setItem("userId", userId);
-    } catch {
-      Alert.alert(
-        "Please verify your credentials",
-        "Wrong email or password 🤯"
-      );
+    } catch (error: any) {
+      console.log(error.code);
+      let errorMessage: string;
+
+      if (error.code === "auth/invalid-email") {
+        errorMessage = "Invalid email! Please try again. 📩";
+        setData({ ...data, email: "" });
+      }
+      if (error.code === "auth/wrong-password") {
+        errorMessage = "Wrong password! Try again. 🔑";
+        setData({ ...data, password: "" });
+      }
+      if (error.code === "auth/user-not-found") {
+        errorMessage = "User not found! Try signing up 😉";
+        setData({ password: "", email: "" });
+      }
+      Alert.alert(errorMessage!);
+      setIsLoading(false);
     }
   }
 

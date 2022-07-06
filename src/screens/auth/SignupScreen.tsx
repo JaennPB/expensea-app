@@ -71,14 +71,27 @@ const SignupScreen: React.FC = () => {
       }
 
       if (data.password != data.password2) {
-        Alert.alert("Passwords don't match");
+        Alert.alert("Passwords don't match! 🔑");
         setIsLoading(false);
+        return;
       }
-    } catch {
-      Alert.alert(
-        "Please verify your credentials",
-        "User may already exist 🤯"
-      );
+    } catch (error: any) {
+      let errorMessage: string;
+
+      if (error.code === "auth/invalid-email") {
+        errorMessage = "Invalid email! Please try again. 📩";
+        setData({ ...data, email: "" });
+      }
+      if (error.code === "auth/weak-password") {
+        errorMessage = "Password must be atleast 6 characters! 🔑";
+        setData({ ...data, password: "", password2: "" });
+      }
+      if (error.code === "auth/email-already-in-use") {
+        errorMessage = "Email already in use, try a diferent one! 🤯";
+        setData({ ...data, email: "" });
+      }
+      Alert.alert(errorMessage!);
+      setIsLoading(false);
     }
   }
 
