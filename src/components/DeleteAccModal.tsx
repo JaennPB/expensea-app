@@ -40,6 +40,7 @@ const DeleteAccModal: React.FC<Props> = ({
             _text={{ color: "white" }}
             onPress={onConfirm}
             bg="danger.400"
+            _pressed={{ backgroundColor: "danger.500" }}
           >
             Delete account and data
           </Button>

@@ -61,6 +61,7 @@ const WelcomeScreen: React.FC = () => {
             _text={{ fontSize: "md", fontWeight: "medium" }}
             bg="darkBlue.500"
             onPress={setNameAndNavigateHandler}
+            _pressed={{ backgroundColor: "darkBlue.600" }}
           >
             Let's go!
           </Button>

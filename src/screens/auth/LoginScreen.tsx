@@ -131,6 +131,7 @@ const LoginScreen: React.FC = () => {
             onPress={logInUser}
             isLoading={isLoading}
             isLoadingText="Loggin in"
+            _pressed={{ backgroundColor: "darkBlue.600" }}
           >
             Login
           </Button>

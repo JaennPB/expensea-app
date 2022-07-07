@@ -165,6 +165,7 @@ const AccountScreen: React.FC = () => {
                     onPress={resetDataHandler}
                     isLoading={isLoading}
                     isLoadingText="Deleting"
+                    _pressed={{ backgroundColor: "darkBlue.600" }}
                   >
                     Reset Data
                   </Button>
@@ -172,6 +173,7 @@ const AccountScreen: React.FC = () => {
                     bg="darkBlue.500"
                     _text={{ fontSize: "md", fontWeight: "medium" }}
                     onPress={getUserCredentials}
+                    _pressed={{ backgroundColor: "darkBlue.600" }}
                   >
                     Delete Account
                   </Button>
@@ -180,6 +182,7 @@ const AccountScreen: React.FC = () => {
                     bg="danger.400"
                     _text={{ fontSize: "md", fontWeight: "medium" }}
                     onPress={logoutHandler}
+                    _pressed={{ backgroundColor: "danger.500" }}
                   >
                     Log Out
                   </Button>

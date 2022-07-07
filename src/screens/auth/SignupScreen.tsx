@@ -157,6 +157,7 @@ const SignupScreen: React.FC = () => {
             onPress={signUpHandler}
             isLoading={isLoading}
             isLoadingText="Signing up"
+            _pressed={{ backgroundColor: "darkBlue.600" }}
           >
             Sign me up!
           </Button>
