@@ -16,6 +16,7 @@ interface DataObj {
   id: string;
   title: string;
   amount: string;
+  description: string;
   date: string;
   type: string;
 }

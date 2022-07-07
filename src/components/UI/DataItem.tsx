@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Box, Flex, Divider, Pressable } from "native-base";
+import { Text, Box, Flex, Divider, Pressable, HStack } from "native-base";
 
 import * as Haptics from "expo-haptics";
 
@@ -9,11 +9,19 @@ interface Props {
   id: string;
   title: string;
   amount: string;
+  description: string;
   date: string;
   type: string;
 }
 
-const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
+const DataItem: React.FC<Props> = ({
+  amount,
+  date,
+  description,
+  id,
+  title,
+  type,
+}) => {
   const navigation = useAppNavigation();
 
   function navigateToEditItemHandler(): void {
@@ -28,9 +36,18 @@ const DataItem: React.FC<Props> = ({ amount, date, id, title, type }) => {
           <Text color="lightText" fontSize="20">
             {title}
           </Text>
-          <Text color="muted.300" fontSize="xs">
-            {date}
-          </Text>
+          <HStack direction="row" alignItems="center" space={2}>
+            {description != "" ? (
+              <Text color="muted.300" fontSize="md">
+                {description}
+              </Text>
+            ) : null}
+            <Box bg="darkBlue.600" px={1} borderRadius={5} mt={1}>
+              <Text color="white" fontSize="xs" fontWeight="semibold">
+                {date}
+              </Text>
+            </Box>
+          </HStack>
         </Box>
         <Flex
           bg={type === "expense" ? "danger.400" : "tertiary.500"}

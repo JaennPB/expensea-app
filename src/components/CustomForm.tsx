@@ -25,7 +25,6 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
 
-  // TODO: maybe load in the background
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [finishedEditing, setFinishedEditing] = React.useState<boolean>(false);
 
@@ -42,6 +41,8 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     title: isEditing && !finishedEditing ? itemToEditData.title : "",
     amount:
       isEditing && !finishedEditing ? itemToEditData.amount.toString() : "",
+    description:
+      isEditing && !finishedEditing ? itemToEditData.description : "",
     date: moment().format("MMMM Do YYYY"),
     type: isEditing && !finishedEditing ? itemToEditData.type : "expense",
   });
@@ -107,7 +108,6 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     }
   }
 
-  // TODO: fix
   async function editDataHandler(inputData: DataObj): Promise<void> {
     const titleIsValid = !!inputData.title?.trim();
     const amountIsValid = !!inputData.amount;
@@ -131,6 +131,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       await updateDoc(docRef, {
         title: inputData.title,
         amount: inputData.amount,
+        description: inputData.description,
       });
       setIsLoading(false);
 
@@ -187,12 +188,21 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           type="default"
           onChangeText={dataEnteredHandler.bind(this, "title")}
           value={inputData.title}
+          maxLength={25}
         />
         <CustomInput
           title="Amount"
           type="decimal-pad"
           onChangeText={dataEnteredHandler.bind(this, "amount")}
           value={inputData.amount}
+          maxLength={7}
+        />
+        <CustomInput
+          title="Description (optional)"
+          type="default"
+          onChangeText={dataEnteredHandler.bind(this, "description")}
+          value={inputData.description}
+          maxLength={20}
         />
       </VStack>
       <Flex direction="row" w="100%" mt={5} justify="space-between">

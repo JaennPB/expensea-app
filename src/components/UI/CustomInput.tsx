@@ -10,6 +10,7 @@ interface Props {
   secureTextEntry?: boolean;
   validationColor?: "darkBlue.600" | "danger.400";
   isInvalid?: boolean;
+  maxLength?: number;
 }
 
 const CustomInput: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const CustomInput: React.FC<Props> = ({
   secureTextEntry,
   validationColor,
   isInvalid,
+  maxLength,
 }) => {
   return (
     <Input
@@ -42,6 +44,7 @@ const CustomInput: React.FC<Props> = ({
       borderBottomWidth={isInvalid ? 2 : 0}
       _focus={{ borderBottomColor: validationColor }}
       returnKeyType="done"
+      maxLength={maxLength}
     />
   );
 };

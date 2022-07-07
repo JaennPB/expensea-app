@@ -75,8 +75,9 @@ const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
       <DataItem
         id={dataItem.id}
         title={dataItem.title}
-        date={dataItem.date}
         amount={dataItem.amount}
+        description={dataItem.description}
+        date={dataItem.date}
         type={dataItem.type}
       />
     );
