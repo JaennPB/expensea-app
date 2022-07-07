@@ -2,18 +2,20 @@ import React from "react";
 import { Alert } from "react-native";
 import { Flex, VStack } from "native-base";
 
-import { useAppSelector, useAppDispatch } from "../hooks/reduxHooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { useAppNavigation } from "../hooks/navigationHooks";
+
+import { useAppSelector, useAppDispatch } from "../hooks/reduxHooks";
+import { setData } from "../app/mainSlice";
+
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../db/firebase";
 
 import DataList from "../components/DataList";
 import InfoBox from "../components/UI/InfoBox";
 
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "../db/firebase";
-import { setData } from "../app/mainSlice";
-
 import { useReduceItems } from "../hooks/utils";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AllDataScreen: React.FC = () => {
   const dataArr = useAppSelector((state) => state.dataArr);

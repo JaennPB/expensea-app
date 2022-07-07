@@ -2,27 +2,28 @@ import React from "react";
 import { Alert } from "react-native";
 import { Button, Flex } from "native-base";
 
-import { useAppDispatch } from "../hooks/reduxHooks";
+import { useAppNavigation } from "../hooks/navigationHooks";
+import { useRoute, RouteProp } from "@react-navigation/native";
+
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { removeItem } from "../app/mainSlice";
 
-import { useAppRoute, useAppNavigation } from "../hooks/navigationHooks";
-import { useAppSelector } from "../hooks/reduxHooks";
-
-import { deleteDoc, collection, doc } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 import CustomForm from "../components/CustomForm";
 
 const ManageDataScreen: React.FC = () => {
   const currUserDocId = useAppSelector((state) => state.userId);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const route = useAppRoute();
+  const route = useRoute<RouteProp<NavParams, "ManageDataScreen">>();
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
-  const itemId = route.params.itemId!;
+  const itemId = route.params.itemIdtoEdit;
   const isEditing = !!itemId;
 
   async function deleteItemHandler(): Promise<void> {
+    if (!itemId) return;
+
     dispatch(removeItem(itemId));
     navigation.goBack();
 
@@ -64,7 +65,7 @@ const ManageDataScreen: React.FC = () => {
       pt={isEditing ? 0 : 5}
       px={5}
     >
-      <CustomForm isEditing={isEditing} itemToEditId={itemId} />
+      <CustomForm isEditing={isEditing} itemToEditId={itemId!} />
     </Flex>
   );
 };

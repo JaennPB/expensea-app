@@ -7,6 +7,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Config data exposed but db has security measures implemented
+// Only signed up users can read/write specific data
 const firebaseConfig = {
   apiKey: "AIzaSyAVyKUWNIE_Za_ZkqWqfkVDipzU7WsS0xg",
   authDomain: "expense-tracker-ts-app-a2428.firebaseapp.com",

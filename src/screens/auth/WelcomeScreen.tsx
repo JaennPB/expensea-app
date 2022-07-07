@@ -1,4 +1,5 @@
 import React from "react";
+import { Alert, Platform } from "react-native";
 import {
   Heading,
   Center,
@@ -7,11 +8,10 @@ import {
   Button,
   KeyboardAvoidingView,
 } from "native-base";
-import { Alert, Platform } from "react-native";
-
-import CustomInput from "../../components/UI/CustomInput";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
+
+import CustomInput from "../../components/UI/CustomInput";
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useAppNavigation();
@@ -23,7 +23,7 @@ const WelcomeScreen: React.FC = () => {
       return;
     }
 
-    navigation.navigate("SignupScreen", { name: name! });
+    navigation.navigate("SignupScreen", { nameFromUser: name });
   }
 
   return (

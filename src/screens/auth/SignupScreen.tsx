@@ -1,7 +1,6 @@
 import React from "react";
 import { Alert, Platform } from "react-native";
 import {
-  Flex,
   VStack,
   Center,
   Heading,
@@ -11,21 +10,22 @@ import {
   KeyboardAvoidingView,
 } from "native-base";
 
-import { useAppNavigation } from "../../hooks/navigationHooks";
-import { useAppRoute } from "../../hooks/navigationHooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomInput from "../../components/UI/CustomInput";
+import { useAppNavigation } from "../../hooks/navigationHooks";
+import { useRoute, RouteProp } from "@react-navigation/native";
+
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { authenticate, setUserName } from "../../app/mainSlice";
 
 import { auth, db } from "../../db/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth/react-native";
 import { setDoc, doc } from "firebase/firestore";
 
-import { useAppDispatch } from "../../hooks/reduxHooks";
-import { authenticate, setUserName } from "../../app/mainSlice";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomInput from "../../components/UI/CustomInput";
 
 const SignupScreen: React.FC = () => {
-  const route = useAppRoute();
+  const route = useRoute<RouteProp<NavParams, "SignupScreen">>();
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -37,7 +37,7 @@ const SignupScreen: React.FC = () => {
     password2: "",
   });
 
-  const currUserName = route.params.name;
+  const currUserName = route.params.nameFromUser;
 
   function dataEnteredHandler(
     inputIdentifier: string,

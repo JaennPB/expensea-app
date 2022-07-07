@@ -1,6 +1,9 @@
 import React from "react";
-import { Alert, SafeAreaView } from "react-native";
+import { Alert } from "react-native";
 import { NativeBaseProvider, StatusBar, View } from "native-base";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from "expo-splash-screen";
 
 import { Provider } from "react-redux";
 import { store } from "./src/app/store";
@@ -13,6 +16,7 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { useAppDispatch, useAppSelector } from "./src/hooks/reduxHooks";
+import { authenticate } from "./src/app/mainSlice";
 
 import LoginScreen from "./src/screens/auth/LoginScreen";
 import SignupScreen from "./src/screens/auth/SignupScreen";
@@ -27,11 +31,6 @@ import AddButton from "./src/components/UI/AddButton";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-import * as SplashScreen from "expo-splash-screen";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authenticate } from "./src/app/mainSlice";
 
 const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();
@@ -111,22 +110,10 @@ function BottomTabsNav(): JSX.Element {
 
 function AuthNav(): JSX.Element {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="LoginScreen"
-        component={LoginScreen}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="SignupScreen"
-        component={SignupScreen}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="WelcomeScreen"
-        component={WelcomeScreen}
-      />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="SignupScreen" component={SignupScreen} />
+      <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
     </Stack.Navigator>
   );
 }

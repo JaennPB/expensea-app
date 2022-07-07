@@ -9,19 +9,18 @@ import {
   KeyboardAvoidingView,
 } from "native-base";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { useAppNavigation } from "../../hooks/navigationHooks";
-
-import CustomInput from "../../components/UI/CustomInput";
-
-import { auth } from "../../db/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth/react-native";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { authenticate, setUserName } from "../../app/mainSlice";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { auth, db } from "../../db/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth/react-native";
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "../../db/firebase";
+
+import CustomInput from "../../components/UI/CustomInput";
 
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();

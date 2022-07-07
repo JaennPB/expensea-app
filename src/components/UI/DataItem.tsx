@@ -26,7 +26,7 @@ const DataItem: React.FC<Props> = ({
 
   function navigateToEditItemHandler(): void {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    navigation.navigate("ManageDataScreen", { itemId: id });
+    navigation.navigate("ManageDataScreen", { itemIdtoEdit: id });
   }
 
   return (

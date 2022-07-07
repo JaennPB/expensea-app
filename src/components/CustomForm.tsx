@@ -2,19 +2,19 @@ import React from "react";
 import { Alert } from "react-native";
 import { VStack, Flex, Button, Heading, IconButton, Icon } from "native-base";
 
-import { useAppNavigation } from "../hooks/navigationHooks";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import moment from "moment";
 
+import { useAppNavigation } from "../hooks/navigationHooks";
+
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { addItem, updateItem } from "../app/mainSlice";
 
-import moment from "moment";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { db } from "../db/firebase";
 
 import CustomInput from "./UI/CustomInput";
 
 import { Entypo } from "@expo/vector-icons";
-
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
-import { db } from "../db/firebase";
 
 interface Props {
   isEditing: boolean;

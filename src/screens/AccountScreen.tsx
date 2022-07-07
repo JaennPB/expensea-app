@@ -1,4 +1,5 @@
 import React from "react";
+import { Alert } from "react-native";
 import {
   Flex,
   Box,
@@ -12,11 +13,13 @@ import {
   HStack,
 } from "native-base";
 
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { useAppNavigation } from "../hooks/navigationHooks";
+
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { logout, resetData } from "../app/mainSlice";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { deleteDoc, doc } from "firebase/firestore";
 import {
   getAuth,
@@ -24,9 +27,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
 } from "firebase/auth";
-
 import { db } from "../db/firebase";
-import { Alert } from "react-native";
 
 import DeleteAccModal from "../components/DeleteAccModal";
 import CustomInput from "../components/UI/CustomInput";
