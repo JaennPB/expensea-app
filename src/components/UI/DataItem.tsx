@@ -30,8 +30,17 @@ const DataItem: React.FC<Props> = ({
   }
 
   return (
-    <Pressable _pressed={{ opacity: 0.5 }} onPress={navigateToEditItemHandler}>
-      <Flex flexDir="row" justify="space-between" borderRadius={5}>
+    <Pressable
+      _pressed={{ opacity: 0.5 }}
+      onPress={navigateToEditItemHandler}
+      justifyContent="center"
+    >
+      <Flex
+        flexDir="row"
+        justify="space-between"
+        align="center"
+        borderRadius={5}
+      >
         <Box>
           <Text color="lightText" fontSize="20">
             {title}
@@ -54,6 +63,8 @@ const DataItem: React.FC<Props> = ({
           justify="center"
           align="center"
           w={100}
+          px={5}
+          py={2}
           borderRadius={5}
         >
           <Text color="white" fontSize="lg" fontWeight="semibold">

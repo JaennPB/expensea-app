@@ -75,7 +75,7 @@ const AllDataScreen: React.FC = () => {
 
   return (
     <Flex flex={1} bg="darkBlue.800">
-      <VStack pb={5} px={5} py={2} space={2}>
+      <VStack p={5} space={2}>
         <InfoBox
           color="darkBlue.700"
           data={"+$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}

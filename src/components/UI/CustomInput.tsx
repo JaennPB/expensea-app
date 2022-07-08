@@ -11,6 +11,7 @@ interface Props {
   validationColor?: "darkBlue.600" | "danger.400";
   isInvalid?: boolean;
   maxLength?: number;
+  autoCapitalize: "none" | "sentences";
 }
 
 const CustomInput: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const CustomInput: React.FC<Props> = ({
   validationColor,
   isInvalid,
   maxLength,
+  autoCapitalize,
 }) => {
   return (
     <Input
@@ -31,18 +33,20 @@ const CustomInput: React.FC<Props> = ({
       p={5}
       fontSize="xl"
       color="white"
-      placeholderTextColor="darkBlue.500"
-      selectionColor="darkBlue.500"
+      placeholderTextColor="darkBlue.400"
+      selectionColor="darkBlue.400"
       keyboardType={type}
       backgroundColor="darkBlue.600"
-      borderWidth={0}
       onChangeText={onChangeText}
       value={value}
-      autoCapitalize="sentences"
+      autoCapitalize={autoCapitalize}
       secureTextEntry={secureTextEntry}
       borderColor={validationColor}
-      borderBottomWidth={isInvalid ? 2 : 0}
-      _focus={{ borderBottomColor: validationColor }}
+      borderWidth={isInvalid ? 1 : 0}
+      _focus={{
+        borderColor: validationColor,
+        backgroundColor: "darkBlue.500",
+      }}
       returnKeyType="done"
       maxLength={maxLength}
     />

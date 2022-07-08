@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, VStack } from "native-base";
+import { Flex, View } from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
 
@@ -14,14 +14,14 @@ const IncomesScreen: React.FC = () => {
 
   return (
     <Flex flex={1} bg="darkBlue.800">
-      <VStack pb={5} px={5} py={2} space={2}>
+      <View p={5}>
         <InfoBox
           color="tertiary.500"
           data={"$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
           title="Incomes:"
           dataColorType="white"
         />
-      </VStack>
+      </View>
       <DataList dataToDisplay="incomes" />
     </Flex>
   );

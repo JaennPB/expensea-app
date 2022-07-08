@@ -2,7 +2,6 @@ import React from "react";
 import { Alert, Platform } from "react-native";
 import {
   VStack,
-  Center,
   Heading,
   Button,
   Divider,
@@ -23,6 +22,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth/react-native";
 import { setDoc, doc } from "firebase/firestore";
 
 import CustomInput from "../../components/UI/CustomInput";
+import Card from "../../components/UI/Card";
 
 const SignupScreen: React.FC = () => {
   const route = useRoute<RouteProp<NavParams, "SignupScreen">>();
@@ -108,73 +108,74 @@ const SignupScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
-      bg="darkBlue.800"
       flex={1}
-      pt={Platform.OS === "ios" ? 20 : 10}
+      bg="darkBlue.800"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      justifyContent="center"
+      alignItems="center"
     >
-      <Center>
-        <Heading color="white" textAlign="center" mb={5}>
-          Hello! {currUserName}.
+      <VStack space={2} mb={10}>
+        <Heading color="white" textAlign="center">
+          Hello, {currUserName}!
         </Heading>
-        <Text color="white" mb={5}>
-          Please enter your data below
-        </Text>
-
-        <VStack w="80%" bg="darkBlue.700" p={5} space={5} borderRadius={5}>
-          <Heading color="white" textAlign="center">
-            Sign Up
-          </Heading>
-          <CustomInput
-            title="E-mail"
-            type="email-address"
-            onChangeText={dataEnteredHandler.bind(this, "email")}
-            value={data.email}
-            validationColor={emailIsInvalid ? "danger.400" : "darkBlue.600"}
-            isInvalid={emailIsInvalid}
-          />
-          <CustomInput
-            title="Password"
-            type="default"
-            onChangeText={dataEnteredHandler.bind(this, "password")}
-            value={data.password}
-            secureTextEntry={true}
-            validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
-            isInvalid={passwordIsInvalid}
-          />
-          <CustomInput
-            title="Confirm password"
-            type="default"
-            onChangeText={dataEnteredHandler.bind(this, "password2")}
-            value={data.password2}
-            secureTextEntry={true}
-            validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
-            isInvalid={passwordIsInvalid}
-          />
-          <Button
-            _text={{ fontSize: "md", fontWeight: "medium" }}
-            bg="darkBlue.500"
-            onPress={signUpHandler}
-            isLoading={isLoading}
-            isLoadingText="Signing up"
-            _pressed={{ backgroundColor: "darkBlue.600" }}
-          >
-            Sign me up!
-          </Button>
-          <Divider thickness={1} bg="darkBlue.600" />
-          <Button
-            _text={{
-              fontSize: "md",
-              fontWeight: "medium",
-              color: "darkBlue.500",
-            }}
-            variant="ghost"
-            onPress={() => navigation.replace("LoginScreen")}
-          >
-            Or Log In
-          </Button>
-        </VStack>
-      </Center>
+        <Text color="white">Please, enter your data below.</Text>
+      </VStack>
+      <Card>
+        <Heading color="white" textAlign="center">
+          Sign Up
+        </Heading>
+        <CustomInput
+          title="E-mail"
+          type="email-address"
+          onChangeText={dataEnteredHandler.bind(this, "email")}
+          value={data.email}
+          validationColor={emailIsInvalid ? "danger.400" : "darkBlue.600"}
+          isInvalid={emailIsInvalid}
+          autoCapitalize="none"
+        />
+        <CustomInput
+          title="Password"
+          type="default"
+          onChangeText={dataEnteredHandler.bind(this, "password")}
+          value={data.password}
+          secureTextEntry={true}
+          validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
+          isInvalid={passwordIsInvalid}
+          autoCapitalize="none"
+        />
+        <CustomInput
+          title="Confirm password"
+          type="default"
+          onChangeText={dataEnteredHandler.bind(this, "password2")}
+          value={data.password2}
+          secureTextEntry={true}
+          validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
+          isInvalid={passwordIsInvalid}
+          autoCapitalize="none"
+        />
+        <Button
+          _text={{ fontSize: "md", fontWeight: "medium" }}
+          bg="darkBlue.500"
+          onPress={signUpHandler}
+          isLoading={isLoading}
+          isLoadingText="Signing up"
+          _pressed={{ backgroundColor: "darkBlue.600" }}
+        >
+          Sign Me Up!
+        </Button>
+        <Divider thickness={1} bg="darkBlue.600" />
+        <Button
+          _text={{
+            fontSize: "md",
+            fontWeight: "medium",
+            color: "darkBlue.500",
+          }}
+          variant="ghost"
+          onPress={() => navigation.replace("LoginScreen")}
+        >
+          Or Log In
+        </Button>
+      </Card>
     </KeyboardAvoidingView>
   );
 };

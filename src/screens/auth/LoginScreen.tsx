@@ -1,13 +1,6 @@
 import React from "react";
 import { Alert, Platform } from "react-native";
-import {
-  VStack,
-  Center,
-  Heading,
-  Button,
-  Divider,
-  KeyboardAvoidingView,
-} from "native-base";
+import { Heading, Button, Divider, KeyboardAvoidingView } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -21,6 +14,7 @@ import { signInWithEmailAndPassword } from "firebase/auth/react-native";
 import { getDoc, doc } from "firebase/firestore";
 
 import CustomInput from "../../components/UI/CustomInput";
+import Card from "../../components/UI/Card";
 
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -97,57 +91,58 @@ const LoginScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
-      bg="darkBlue.800"
       flex={1}
-      pt={Platform.OS === "ios" ? 20 : 10}
+      bg="darkBlue.800"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      justifyContent="center"
+      alignItems="center"
     >
-      <Center>
-        <VStack w="80%" bg="darkBlue.700" p={5} space={5} borderRadius={5}>
-          <Heading color="white" textAlign="center">
-            Log In
-          </Heading>
-          <CustomInput
-            title="E-mail"
-            type="email-address"
-            onChangeText={dataEnteredHandler.bind(this, "email")}
-            value={data.email}
-            validationColor={emailIsInvalid ? "danger.400" : "darkBlue.600"}
-            isInvalid={emailIsInvalid}
-          />
-          <CustomInput
-            title="Password"
-            type="default"
-            onChangeText={dataEnteredHandler.bind(this, "password")}
-            value={data.password}
-            secureTextEntry={true}
-            validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
-            isInvalid={passwordIsInvalid}
-          />
-          <Button
-            bg="darkBlue.500"
-            _text={{ fontSize: "md", fontWeight: "medium" }}
-            onPress={logInUser}
-            isLoading={isLoading}
-            isLoadingText="Loggin in"
-            _pressed={{ backgroundColor: "darkBlue.600" }}
-          >
-            Login
-          </Button>
-          <Divider thickness={1} bg="darkBlue.600" />
-          <Button
-            _text={{
-              fontSize: "md",
-              fontWeight: "medium",
-              color: "darkBlue.500",
-            }}
-            variant="ghost"
-            onPress={() => navigation.replace("WelcomeScreen")}
-          >
-            Or Create Account
-          </Button>
-        </VStack>
-      </Center>
+      <Card>
+        <Heading color="white" textAlign="center">
+          Log In
+        </Heading>
+        <CustomInput
+          title="E-mail"
+          type="email-address"
+          onChangeText={dataEnteredHandler.bind(this, "email")}
+          value={data.email}
+          validationColor={emailIsInvalid ? "danger.400" : "darkBlue.600"}
+          isInvalid={emailIsInvalid}
+          autoCapitalize="none"
+        />
+        <CustomInput
+          title="Password"
+          type="default"
+          onChangeText={dataEnteredHandler.bind(this, "password")}
+          value={data.password}
+          secureTextEntry={true}
+          validationColor={passwordIsInvalid ? "danger.400" : "darkBlue.600"}
+          isInvalid={passwordIsInvalid}
+          autoCapitalize="none"
+        />
+        <Button
+          bg="darkBlue.500"
+          _text={{ fontSize: "md", fontWeight: "medium" }}
+          onPress={logInUser}
+          isLoading={isLoading}
+          isLoadingText="Logging in"
+          _pressed={{ backgroundColor: "darkBlue.600" }}
+        >
+          Log In
+        </Button>
+        <Divider thickness={1} bg="darkBlue.600" />
+        <Button
+          _text={{
+            fontSize: "md",
+            fontWeight: "medium",
+            color: "darkBlue.500",
+          }}
+          variant="ghost"
+          onPress={() => navigation.replace("WelcomeScreen")}
+        >
+          Or Create Account
+        </Button>
+      </Card>
     </KeyboardAvoidingView>
   );
 };

@@ -2,7 +2,6 @@ import React from "react";
 import { Alert, Platform } from "react-native";
 import {
   Heading,
-  Center,
   Text,
   VStack,
   Button,
@@ -12,6 +11,7 @@ import {
 import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
+import Card from "../../components/UI/Card";
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useAppNavigation();
@@ -30,43 +30,38 @@ const WelcomeScreen: React.FC = () => {
     <KeyboardAvoidingView
       flex={1}
       bg="darkBlue.800"
-      behavior="padding"
-      pt={Platform.OS === "ios" ? 20 : 10}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      justifyContent="center"
+      alignItems="center"
     >
-      <Center>
-        <Heading color="white" size="xl" mb={5}>
+      <VStack space={2} mb={10}>
+        <Heading color="white" size="xl">
           Welcome to Expensea!
         </Heading>
-        <Text color="white">Your to-go money tracker.</Text>
-        <Text color="white">Simple. Minimalistic.</Text>
-        <VStack
-          bg="darkBlue.700"
-          borderRadius={5}
-          py={5}
-          px={9}
-          mt={10}
-          space={10}
-          w="80%"
+        <Text color="white" fontSize="md">
+          Your simple and minimalistic money tracker.
+        </Text>
+      </VStack>
+      <Card>
+        <Heading color="white" size="md">
+          How would you like to be called?
+        </Heading>
+        <CustomInput
+          title="Name"
+          type="default"
+          onChangeText={(value) => setName(value)}
+          value={name}
+          autoCapitalize="sentences"
+        />
+        <Button
+          _text={{ fontSize: "md", fontWeight: "medium" }}
+          bg="darkBlue.500"
+          onPress={setNameAndNavigateHandler}
+          _pressed={{ backgroundColor: "darkBlue.600" }}
         >
-          <Heading color="white" size="md">
-            How would you like to be called?
-          </Heading>
-          <CustomInput
-            title="Name"
-            type="default"
-            onChangeText={(value) => setName(value)}
-            value={name}
-          />
-          <Button
-            _text={{ fontSize: "md", fontWeight: "medium" }}
-            bg="darkBlue.500"
-            onPress={setNameAndNavigateHandler}
-            _pressed={{ backgroundColor: "darkBlue.600" }}
-          >
-            Let's go!
-          </Button>
-        </VStack>
-      </Center>
+          Confirm
+        </Button>
+      </Card>
     </KeyboardAvoidingView>
   );
 };

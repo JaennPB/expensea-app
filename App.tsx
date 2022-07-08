@@ -43,6 +43,9 @@ function BottomTabsNav(): JSX.Element {
         headerStyle: {
           backgroundColor: "#002851",
         },
+        headerTitleStyle: {
+          fontSize: 22,
+        },
         headerTintColor: "white",
         headerShadowVisible: false,
         tabBarStyle: {
@@ -95,7 +98,7 @@ function BottomTabsNav(): JSX.Element {
         name="AccountScreen"
         component={AccountScreen}
         options={{
-          headerTitle: "Settings",
+          headerTitle: "Account Settings",
           tabBarLabel: "Account",
           tabBarLabelStyle: { fontSize: 13 },
           tabBarIcon: ({ color }) => (

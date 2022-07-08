@@ -147,7 +147,6 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   }
 
   let topContent: JSX.Element;
-  let headingContent: string;
 
   if (!isEditing) {
     topContent = (
@@ -171,17 +170,11 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         />
       </Button.Group>
     );
-
-    if (inputData.type === "expense") headingContent = "New expense";
-    if (inputData.type === "income") headingContent = "New income";
   }
 
   return (
     <>
       {topContent!}
-      <Heading color="white" mt={isEditing ? 0 : 5}>
-        {headingContent!}
-      </Heading>
       <VStack w="100%" mt={isEditing ? 0 : 5} space={5}>
         <CustomInput
           title="Title"
@@ -189,6 +182,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           onChangeText={dataEnteredHandler.bind(this, "title")}
           value={inputData.title}
           maxLength={25}
+          autoCapitalize="sentences"
         />
         <CustomInput
           title="Amount"
@@ -196,6 +190,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           onChangeText={dataEnteredHandler.bind(this, "amount")}
           value={inputData.amount}
           maxLength={7}
+          autoCapitalize="none"
         />
         <CustomInput
           title="Description (optional)"
@@ -203,19 +198,18 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           onChangeText={dataEnteredHandler.bind(this, "description")}
           value={inputData.description}
           maxLength={20}
+          autoCapitalize="sentences"
         />
       </VStack>
       <Flex direction="row" w="100%" mt={5} justify="space-between">
         <Button
-          w={120}
           variant="ghost"
           onPress={() => navigation.goBack()}
-          _text={{ fontSize: "md", color: "error.400", fontWeight: "medium" }}
+          _text={{ fontSize: "md", color: "white", fontWeight: "medium" }}
         >
           Cancel
         </Button>
         <Button
-          w={120}
           bg={
             (isEditing && "darkBlue.600") ||
             (inputData.type === "expense" ? "danger.400" : "tertiary.500")
@@ -230,7 +224,10 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           isLoading={isLoading}
           isLoadingText={isEditing ? "Updating" : "Adding"}
         >
-          {isEditing ? "Update" : "Add"}
+          {(isEditing && inputData.type === "expense" && "Update Expense") ||
+            (isEditing && inputData.type === "income" && "Update Income") ||
+            (!isEditing && inputData.type === "expense" && "Add New Expense") ||
+            (!isEditing && inputData.type === "income" && "Add New Income")}
         </Button>
       </Flex>
     </>

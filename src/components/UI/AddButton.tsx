@@ -11,8 +11,7 @@ const AddButton: React.FC = () => {
   return (
     <Pressable
       _pressed={{ bg: "darkBlue.600" }}
-      px={2}
-      py={2}
+      p={2}
       mr={5}
       borderRadius={50}
       bg="darkBlue.700"
@@ -20,7 +19,7 @@ const AddButton: React.FC = () => {
         navigation.navigate("ManageDataScreen", { itemIdtoEdit: null })
       }
     >
-      <AntDesign name="plus" size={30} color="white" />
+      <AntDesign name="plus" size={29} color="white" />
     </Pressable>
   );
 };

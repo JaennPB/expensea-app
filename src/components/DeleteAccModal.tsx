@@ -15,7 +15,7 @@ const DeleteAccModal: React.FC<Props> = ({
 }) => {
   return (
     <Modal isOpen={isOpen}>
-      <Modal.Content w="90%">
+      <Modal.Content w="80%">
         <Modal.Header
           bg="darkBlue.700"
           _text={{ color: "white", fontSize: "lg" }}
@@ -31,18 +31,20 @@ const DeleteAccModal: React.FC<Props> = ({
           <Button
             variant="ghost"
             onPress={onCancel}
-            _text={{ color: "white" }}
+            _text={{ color: "white", fontSize: "md", fontWeight: "medium" }}
             mr={5}
           >
             Cancel
           </Button>
           <Button
-            _text={{ color: "white" }}
+            _text={{ color: "white", fontSize: "md", fontWeight: "medium" }}
             onPress={onConfirm}
             bg="danger.400"
-            _pressed={{ backgroundColor: "danger.500" }}
+            _pressed={{
+              backgroundColor: "danger.500",
+            }}
           >
-            Delete account and data
+            Delete account
           </Button>
         </Modal.Footer>
       </Modal.Content>

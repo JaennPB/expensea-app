@@ -88,7 +88,7 @@ const AccountScreen: React.FC = () => {
     Alert.alert("Data reset! ✅");
   }
 
-  async function getUserCredentials() {
+  function getUserCredentials() {
     setModalIsVisible(true);
 
     const auth = getAuth();
@@ -154,42 +154,39 @@ const AccountScreen: React.FC = () => {
               onChangeText={(value) => setPasswordValue(value)}
               value={passwordValue}
               secureTextEntry={true}
+              autoCapitalize="none"
             />
           </DeleteAccModal>
           <Flex bg="darkBlue.700" flex={1}>
-            <Center>
-              <Box bg="darkBlue.700" p={5} w="90%">
-                <VStack space={5}>
-                  <Button
-                    bg="darkBlue.500"
-                    _text={{ fontSize: "md", fontWeight: "medium" }}
-                    onPress={resetDataHandler}
-                    isLoading={isLoading}
-                    isLoadingText="Deleting"
-                    _pressed={{ backgroundColor: "darkBlue.600" }}
-                  >
-                    Reset Data
-                  </Button>
-                  <Button
-                    bg="darkBlue.500"
-                    _text={{ fontSize: "md", fontWeight: "medium" }}
-                    onPress={getUserCredentials}
-                    _pressed={{ backgroundColor: "darkBlue.600" }}
-                  >
-                    Delete Account
-                  </Button>
-                  <Divider thickness={1} bg="darkBlue.600" />
-                  <Button
-                    bg="danger.400"
-                    _text={{ fontSize: "md", fontWeight: "medium" }}
-                    onPress={logoutHandler}
-                    _pressed={{ backgroundColor: "danger.500" }}
-                  >
-                    Log Out
-                  </Button>
-                </VStack>
-              </Box>
-            </Center>
+            <VStack space={5} w="100%" p={5}>
+              <Button
+                bg="darkBlue.500"
+                _text={{ fontSize: "md", fontWeight: "medium" }}
+                onPress={resetDataHandler}
+                isLoading={isLoading}
+                isLoadingText="Deleting"
+                _pressed={{ backgroundColor: "darkBlue.600" }}
+              >
+                Reset Data
+              </Button>
+              <Button
+                bg="darkBlue.500"
+                _text={{ fontSize: "md", fontWeight: "medium" }}
+                onPress={getUserCredentials}
+                _pressed={{ backgroundColor: "darkBlue.600" }}
+              >
+                Delete Account
+              </Button>
+              <Divider thickness={1} bg="darkBlue.600" />
+              <Button
+                bg="danger.400"
+                _text={{ fontSize: "md", fontWeight: "medium" }}
+                onPress={logoutHandler}
+                _pressed={{ backgroundColor: "danger.500" }}
+              >
+                Log Out
+              </Button>
+            </VStack>
           </Flex>
         </>
       )}

@@ -19,7 +19,7 @@ const InfoBox: React.FC<Props> = ({ color, data, title, dataColorType }) => {
       bg={color}
       borderRadius={5}
     >
-      <Text color="white" fontSize="lg">
+      <Text color="white" fontSize={20}>
         {title}
       </Text>
       <Text color={dataColorType} fontSize="lg">

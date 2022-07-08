@@ -17,7 +17,7 @@ const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
 
   if (isLoading) {
     noDataContent = (
-      <HStack space={2} justifyContent="center" alignItems="center">
+      <HStack flex={1} space={2} justifyContent="center" alignItems="center">
         <Spinner
           accessibilityLabel="Loading data"
           color="darkBlue.600"
