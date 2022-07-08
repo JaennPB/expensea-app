@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Text, Box, Flex, Divider, HStack, VStack, View } from "native-base";
+import { Text, Box, Flex, Divider, HStack, VStack } from "native-base";
 
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -11,9 +11,8 @@ import Animated, {
 import * as Haptics from "expo-haptics";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
-import { MaterialIcons } from "@expo/vector-icons";
 
-import { FontAwesome5 } from "@expo/vector-icons";
+import HiddenButtons from "./HiddenButtons";
 
 interface Props {
   id: string;
@@ -34,10 +33,10 @@ const DataItem: React.FC<Props> = ({
 }) => {
   const navigation = useAppNavigation();
 
-  function vibrateOnSnap() {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    // navigation.navigate("ManageDataScreen", { itemIdtoEdit: id });
-  }
+  // function vibrateOnSnap() {
+  //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+  //   navigation.navigate("ManageDataScreen", { itemIdtoEdit: id });
+  // }
 
   const translateX = useSharedValue(0);
   const context = useSharedValue(0);
@@ -57,29 +56,17 @@ const DataItem: React.FC<Props> = ({
       }
     });
 
-  const rStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: translateX.value,
-        },
-      ],
-    };
-  });
+  const rStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: translateX.value,
+      },
+    ],
+  }));
 
   return (
     <>
-      <HStack
-        position="absolute"
-        right="0%"
-        alignItems="center"
-        flexDir="row"
-        mt={2}
-        space={6}
-      >
-        <MaterialIcons name="edit" size={30} color="#0077e6" />
-        <FontAwesome5 name="trash" size={25} color="#fb7185" />
-      </HStack>
+      <HiddenButtons translateX={translateX} />
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.container, rStyle]}>
           <VStack>
