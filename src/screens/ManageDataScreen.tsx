@@ -37,7 +37,7 @@ const ManageDataScreen: React.FC = () => {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: isEditing ? "Edit Item" : "Add New Item",
+      headerTitle: isEditing ? "Edit" : "Add",
       headerBackVisible: false,
       headerRight: () =>
         isEditing && (

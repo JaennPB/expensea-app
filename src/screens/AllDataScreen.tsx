@@ -29,7 +29,6 @@ const AllDataScreen: React.FC = () => {
   const expensesArr = dataArr.filter((element) => element.type === "expense");
   const incomesArr = dataArr.filter((element) => element.type === "income");
 
-  // TODO: check if fetching is in order
   React.useEffect(() => {
     async function getData(): Promise<void> {
       try {
