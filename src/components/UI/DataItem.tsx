@@ -28,6 +28,7 @@ const DataItem: React.FC<Props> = ({
   type,
   id,
 }) => {
+  const convertedAmount = +amount;
   const translateX = useSharedValue(0);
   const context = useSharedValue(0);
 
@@ -88,14 +89,15 @@ const DataItem: React.FC<Props> = ({
             bg={type === "expense" ? "danger.400" : "tertiary.500"}
             justify="center"
             align="center"
-            minW={125}
-            maxW={125}
-            px={5}
+            minW={130}
+            maxW={130}
             py={2}
             borderRadius={5}
           >
             <Text color="white" fontSize="lg" fontWeight="semibold">
-              {type === "expense" ? "-$" + amount : "$" + amount}
+              {type === "expense"
+                ? "-$" + convertedAmount.toFixed(2)
+                : "$" + convertedAmount.toFixed(2)}
             </Text>
           </Flex>
         </Animated.View>
