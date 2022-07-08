@@ -8,9 +8,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import * as Haptics from "expo-haptics";
-
-import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import HiddenButtons from "./HiddenButtons";
 
@@ -31,13 +28,6 @@ const DataItem: React.FC<Props> = ({
   type,
   id,
 }) => {
-  const navigation = useAppNavigation();
-
-  // function vibrateOnSnap() {
-  //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-  //   navigation.navigate("ManageDataScreen", { itemIdtoEdit: id });
-  // }
-
   const translateX = useSharedValue(0);
   const context = useSharedValue(0);
 
@@ -66,7 +56,7 @@ const DataItem: React.FC<Props> = ({
 
   return (
     <>
-      <HiddenButtons translateX={translateX} />
+      <HiddenButtons translateX={translateX} itemId={id} />
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.container, rStyle]}>
           <VStack>
@@ -90,7 +80,7 @@ const DataItem: React.FC<Props> = ({
             bg={type === "expense" ? "danger.400" : "tertiary.500"}
             justify="center"
             align="center"
-            w={100}
+            w={110}
             px={5}
             py={2}
             borderRadius={5}

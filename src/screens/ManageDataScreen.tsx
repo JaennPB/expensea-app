@@ -58,13 +58,7 @@ const ManageDataScreen: React.FC = () => {
   }, [navigation, isEditing]);
 
   return (
-    <Flex
-      flex={1}
-      bg="darkBlue.700"
-      align="center"
-      pt={isEditing ? 0 : 5}
-      px={5}
-    >
+    <Flex flex={1} bg="darkBlue.700" align="center" pt={5} px={5}>
       <CustomForm isEditing={isEditing} itemToEditId={itemId!} />
     </Flex>
   );
