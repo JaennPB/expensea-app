@@ -22,9 +22,14 @@ import { FontAwesome5 } from "@expo/vector-icons";
 interface Props {
   translateX: Animated.SharedValue<number>;
   itemId: string;
+  onResetAnimation: () => void;
 }
 
-const HiddenButtons: React.FC<Props> = ({ translateX, itemId }) => {
+const HiddenButtons: React.FC<Props> = ({
+  translateX,
+  itemId,
+  onResetAnimation,
+}) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
   const currUserDocId = useAppSelector((state) => state.userId);
@@ -32,6 +37,7 @@ const HiddenButtons: React.FC<Props> = ({ translateX, itemId }) => {
   function navigateToEditItem() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     navigation.navigate("ManageDataScreen", { itemIdtoEdit: itemId });
+    onResetAnimation();
   }
 
   async function deleteItemHandler(): Promise<void> {

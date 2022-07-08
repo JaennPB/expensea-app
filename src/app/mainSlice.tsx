@@ -31,7 +31,7 @@ const mainSlice = createSlice({
       state.dataArr = [];
     },
     setData: (state, action: PayloadAction<any>) => {
-      state.dataArr.push(action.payload);
+      state.dataArr.unshift(action.payload);
     },
     addItem: (state, action: PayloadAction<DataObj>) => {
       state.dataArr.unshift(action.payload);

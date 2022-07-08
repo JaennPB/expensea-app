@@ -54,9 +54,17 @@ const DataItem: React.FC<Props> = ({
     ],
   }));
 
+  function closeSwipeAnimation() {
+    translateX.value = withTiming(0);
+  }
+
   return (
     <>
-      <HiddenButtons translateX={translateX} itemId={id} />
+      <HiddenButtons
+        translateX={translateX}
+        itemId={id}
+        onResetAnimation={closeSwipeAnimation}
+      />
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.container, rStyle]}>
           <VStack>
@@ -80,7 +88,8 @@ const DataItem: React.FC<Props> = ({
             bg={type === "expense" ? "danger.400" : "tertiary.500"}
             justify="center"
             align="center"
-            w={110}
+            minW={125}
+            maxW={125}
             px={5}
             py={2}
             borderRadius={5}
