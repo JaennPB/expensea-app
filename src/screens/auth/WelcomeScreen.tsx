@@ -13,11 +13,12 @@ import { useAppNavigation } from "../../hooks/navigationHooks";
 import CustomInput from "../../components/UI/CustomInput";
 import Card from "../../components/UI/Card";
 
-const WelcomeScreen: React.FC = () => {
+const WelcomeScreen = () => {
   const navigation = useAppNavigation();
-  const [name, setName] = React.useState<string>();
 
-  function setNameAndNavigateHandler(): void {
+  const [name, setName] = React.useState("");
+
+  function setNameAndNavigateHandler() {
     if (!name) {
       Alert.alert("Please add a name");
       return;

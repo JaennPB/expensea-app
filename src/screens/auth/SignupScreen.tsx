@@ -24,10 +24,13 @@ import { setDoc, doc } from "firebase/firestore";
 import CustomInput from "../../components/UI/CustomInput";
 import Card from "../../components/UI/Card";
 
-const SignupScreen: React.FC = () => {
-  const route = useRoute<RouteProp<NavParams, "SignupScreen">>();
+const SignupScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
+
+  const route = useRoute<RouteProp<NavParams, "SignupScreen">>();
+  const currUserName = route.params.nameFromUser;
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [emailIsInvalid, setEmailIsInvalid] = React.useState(false);
   const [passwordIsInvalid, setPassworIsInvalid] = React.useState(false);
@@ -37,12 +40,7 @@ const SignupScreen: React.FC = () => {
     password2: "",
   });
 
-  const currUserName = route.params.nameFromUser;
-
-  function dataEnteredHandler(
-    inputIdentifier: string,
-    enteredText: string
-  ): void {
+  function dataEnteredHandler(inputIdentifier: string, enteredText: string) {
     setData((prevState) => {
       return {
         ...prevState,
@@ -51,7 +49,7 @@ const SignupScreen: React.FC = () => {
     });
   }
 
-  async function signUpHandler(): Promise<void> {
+  async function signUpHandler() {
     try {
       setIsLoading(true);
       if (data.password === data.password2) {

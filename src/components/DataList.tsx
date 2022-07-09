@@ -68,7 +68,7 @@ const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
     }
   }
 
-  function renderDataItem(itemData: ListRenderItemInfo<DataObj>): JSX.Element {
+  function renderDataItem(itemData: ListRenderItemInfo<DataObj>) {
     const dataItem = itemData.item;
 
     return (

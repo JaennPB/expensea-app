@@ -4,7 +4,7 @@ export function useReduceItems(
     incomesArr?: DataObj[];
   },
   returnType: "total" | "expenses" | "incomes"
-): number {
+) {
   const expensesSum: number | undefined = data.expensesArr?.reduce(
     (sum, expense) => sum + +expense.amount,
     0

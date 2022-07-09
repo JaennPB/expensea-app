@@ -32,7 +32,7 @@ import { db } from "../db/firebase";
 import DeleteAccModal from "../components/DeleteAccModal";
 import CustomInput from "../components/UI/CustomInput";
 
-const AccountScreen: React.FC = () => {
+const AccountScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
 
@@ -44,7 +44,7 @@ const AccountScreen: React.FC = () => {
   const [modalIsVisible, setModalIsVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  async function logoutHandler(): Promise<void> {
+  async function logoutHandler() {
     dispatch(logout());
     await AsyncStorage.removeItem("userId");
     await AsyncStorage.removeItem("userName");

@@ -8,7 +8,7 @@ import InfoBox from "../components/UI/InfoBox";
 
 import { useReduceItems } from "../hooks/utils";
 
-const IncomesScreen: React.FC = () => {
+const IncomesScreen = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const incomesArr = dataArr.filter((element) => element.type === "income");
 

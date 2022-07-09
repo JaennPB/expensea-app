@@ -5,7 +5,7 @@ import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import { AntDesign } from "@expo/vector-icons";
 
-const AddButton: React.FC = () => {
+const AddButton = () => {
   const navigation = useAppNavigation();
 
   return (

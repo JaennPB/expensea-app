@@ -14,14 +14,17 @@ import { db } from "../db/firebase";
 import CustomForm from "../components/CustomForm";
 
 const ManageDataScreen: React.FC = () => {
-  const currUserDocId = useAppSelector((state) => state.userId);
-  const route = useRoute<RouteProp<NavParams, "ManageDataScreen">>();
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
+
+  const currUserDocId = useAppSelector((state) => state.userId);
+
+  const route = useRoute<RouteProp<NavParams, "ManageDataScreen">>();
   const itemId = route.params.itemIdtoEdit;
+
   const isEditing = !!itemId;
 
-  async function deleteItemHandler(): Promise<void> {
+  async function deleteItemHandler() {
     if (!itemId) return;
 
     dispatch(removeItem(itemId));

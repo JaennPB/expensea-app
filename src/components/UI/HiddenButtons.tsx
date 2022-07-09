@@ -32,6 +32,7 @@ const HiddenButtons: React.FC<Props> = ({
 }) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
+
   const currUserDocId = useAppSelector((state) => state.userId);
 
   function navigateToEditItem() {
@@ -40,7 +41,7 @@ const HiddenButtons: React.FC<Props> = ({
     onResetAnimation();
   }
 
-  async function deleteItemHandler(): Promise<void> {
+  async function deleteItemHandler() {
     if (!itemId) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
 

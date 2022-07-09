@@ -25,17 +25,15 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
 
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [finishedEditing, setFinishedEditing] = React.useState<boolean>(false);
-
-  const currUserDocId = useAppSelector((state) => state.userId);
-
   let itemToEditData!: DataObj;
   if (isEditing) {
     const dataArr = useAppSelector((state) => state.dataArr);
     itemToEditData = dataArr.find((item) => item.id === itemToEditId)!;
   }
+  const currUserDocId = useAppSelector((state) => state.userId);
 
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [finishedEditing, setFinishedEditing] = React.useState(false);
   const [inputData, setInputData] = React.useState({
     id: isEditing && !finishedEditing ? itemToEditData.id : "",
     title: isEditing && !finishedEditing ? itemToEditData.title : "",
@@ -56,10 +54,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     });
   }
 
-  function dataEnteredHandler(
-    inputIdentifier: string,
-    enteredText: string
-  ): void {
+  function dataEnteredHandler(inputIdentifier: string, enteredText: string) {
     setInputData((prevState) => {
       return {
         ...prevState,
@@ -68,7 +63,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     });
   }
 
-  async function submitDataHandler(inputData: DataObj): Promise<void> {
+  async function submitDataHandler(inputData: DataObj) {
     const titleIsValid = !!inputData.title?.trim();
     const amountIsValid = !!inputData.amount;
 
@@ -108,7 +103,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     }
   }
 
-  async function editDataHandler(inputData: DataObj): Promise<void> {
+  async function editDataHandler(inputData: DataObj) {
     const titleIsValid = !!inputData.title?.trim();
     const amountIsValid = !!inputData.amount;
 

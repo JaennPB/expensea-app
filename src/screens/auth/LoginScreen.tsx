@@ -19,6 +19,7 @@ import Card from "../../components/UI/Card";
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [emailIsInvalid, setEmailIsInvalid] = React.useState(false);
   const [passwordIsInvalid, setPassworIsInvalid] = React.useState(false);
@@ -27,10 +28,7 @@ const LoginScreen: React.FC = () => {
     password: "",
   });
 
-  function dataEnteredHandler(
-    inputIdentifier: string,
-    enteredText: string
-  ): void {
+  function dataEnteredHandler(inputIdentifier: string, enteredText: string) {
     setData((prevState) => {
       return {
         ...prevState,
@@ -39,7 +37,7 @@ const LoginScreen: React.FC = () => {
     });
   }
 
-  async function logInUser(): Promise<void> {
+  async function logInUser() {
     try {
       setIsLoading(true);
       const response = await signInWithEmailAndPassword(

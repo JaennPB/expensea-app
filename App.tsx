@@ -36,7 +36,7 @@ const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();
 export type AppScreenProp = NativeStackNavigationProp<NavParams>;
 
-function BottomTabsNav(): JSX.Element {
+function BottomTabsNav() {
   return (
     <BottomTabs.Navigator
       screenOptions={{
@@ -111,7 +111,7 @@ function BottomTabsNav(): JSX.Element {
   );
 }
 
-function AuthNav(): JSX.Element {
+function AuthNav() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
@@ -121,7 +121,7 @@ function AuthNav(): JSX.Element {
   );
 }
 
-function MainNav(): JSX.Element {
+function MainNav() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -145,10 +145,12 @@ function MainNav(): JSX.Element {
   );
 }
 
-function AllNavs(): JSX.Element | null {
+function AllNavs() {
+  const dispatch = useAppDispatch();
+
   const isAuth = useAppSelector((state) => state.isAuth);
   const userId = useAppSelector((state) => state.userId);
-  const dispatch = useAppDispatch();
+
   const [appIsReady, setAppIsReady] = React.useState(false);
 
   React.useEffect(() => {

@@ -17,20 +17,21 @@ import InfoBox from "../components/UI/InfoBox";
 
 import { useReduceItems } from "../hooks/utils";
 
-const AllDataScreen: React.FC = () => {
-  const dataArr = useAppSelector((state) => state.dataArr);
-  const currUserDocId = useAppSelector((state) => state.userId);
-  const currUserName = useAppSelector((state) => state.userName);
+const AllDataScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
 
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const dataArr = useAppSelector((state) => state.dataArr);
+  const currUserDocId = useAppSelector((state) => state.userId);
+  const currUserName = useAppSelector((state) => state.userName);
+
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const expensesArr = dataArr.filter((element) => element.type === "expense");
   const incomesArr = dataArr.filter((element) => element.type === "income");
 
   React.useEffect(() => {
-    async function getData(): Promise<void> {
+    async function getData() {
       try {
         const data = await getDocs(
           collection(db, "users", currUserDocId, "data")
