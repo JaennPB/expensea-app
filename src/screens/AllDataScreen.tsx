@@ -23,7 +23,7 @@ const AllDataScreen = () => {
 
   const dataArr = useAppSelector((state) => state.dataArr);
   const currUserDocId = useAppSelector((state) => state.userId);
-  const currUserName = useAppSelector((state) => state.userName);
+  const currUsernameFromStore = useAppSelector((state) => state.username);
   const datesArray = useAppSelector((state) => state.datesWithDataArr);
 
   const [isLoading, setIsLoading] = React.useState(true);
@@ -62,23 +62,25 @@ const AllDataScreen = () => {
   }, []);
 
   React.useLayoutEffect(() => {
-    if (!currUserName) {
+    if (!currUsernameFromStore) {
       async function fetchUserName() {
-        const cachedUserName = await AsyncStorage.getItem("userName");
-
-        navigation.setOptions({
-          headerTitle: `Welcome back, ${cachedUserName}!`,
-        });
+        try {
+          const cachedUserName = await AsyncStorage.getItem("username");
+          navigation.setOptions({
+            headerTitle: `Welcome back, ${cachedUserName}!`,
+          });
+        } catch {
+          console.log("get name failed");
+        }
       }
 
       fetchUserName();
-      return;
     }
 
     navigation.setOptions({
-      headerTitle: `Welcome back, ${currUserName}!`,
+      headerTitle: `Welcome back, ${currUsernameFromStore}!`,
     });
-  }, []);
+  }, [currUsernameFromStore]);
 
   return (
     <Flex flex={1} bg="darkBlue.800">

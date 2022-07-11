@@ -15,7 +15,7 @@ import { useAppNavigation } from "../../hooks/navigationHooks";
 import { useRoute, RouteProp } from "@react-navigation/native";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { authenticate, setUserName } from "../../app/mainSlice";
+import { authenticate, setUsername } from "../../app/mainSlice";
 
 import { auth, db } from "../../db/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth/react-native";
@@ -29,7 +29,7 @@ const SignupScreen = () => {
   const navigation = useAppNavigation();
 
   const route = useRoute<RouteProp<NavParams, "SignupScreen">>();
-  const currUserName = route.params.nameFromUser;
+  const currUsernameParam = route.params.username;
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [emailIsInvalid, setEmailIsInvalid] = React.useState(false);
@@ -60,11 +60,12 @@ const SignupScreen = () => {
         );
         const userId = response.user.uid;
         await setDoc(doc(db, "users", userId), {
-          userName: currUserName,
+          username: currUsernameParam,
           datesWithDataArr: [],
         });
-        dispatch(setUserName(currUserName));
-        AsyncStorage.setItem("userName", currUserName);
+
+        dispatch(setUsername(currUsernameParam));
+        AsyncStorage.setItem("username", currUsernameParam);
 
         setIsLoading(false);
 
@@ -115,7 +116,7 @@ const SignupScreen = () => {
     >
       <VStack space={2} mb={10}>
         <Heading color="white" textAlign="center">
-          Hello, {currUserName}!
+          Hello, {currUsernameParam}!
         </Heading>
         <Text color="white">Please, enter your data below.</Text>
       </VStack>

@@ -78,32 +78,34 @@ const DataList: React.FC<Props> = ({
     );
 
     return (
-      <>
-        <Box bg="darkBlue.600" borderRadius={5} mb={5} px={5} py={2}>
-          <Heading color="white" fontSize="lg" fontWeight="semibold">
+      <View>
+        <Box bg="darkBlue.600" borderRadius={5} px={5} py={2} mb={5}>
+          <Heading color="muted.300" fontSize="lg" fontWeight="semibold">
             {dataItem}
           </Heading>
         </Box>
         {itemsByDate.map((item) => (
-          <>
-            <DataItem
-              title={item.title}
-              amount={item.amount}
-              description={item.description}
-              type={item.type}
-              id={item.id}
-              key={item.id}
-            />
-          </>
+          <DataItem
+            title={item.title}
+            amount={item.amount}
+            description={item.description}
+            type={item.type}
+            id={item.id}
+            key={item.id}
+          />
         ))}
-      </>
+      </View>
     );
   }
 
   return (
     <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
       {noDataContent!}
-      <FlatList data={datesWithDataArr} renderItem={renderDateItem} />
+      <FlatList
+        data={datesWithDataArr}
+        renderItem={renderDateItem}
+        keyExtractor={(item, index) => item + index}
+      />
     </Flex>
   );
 };

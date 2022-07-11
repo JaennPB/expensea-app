@@ -10,6 +10,8 @@ import { useReduceItems } from "../hooks/utils";
 
 const ExpensesScreen = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
+  const datesArray = useAppSelector((state) => state.datesWithDataArr);
+
   const expensesArr = dataArr.filter((element) => element.type === "expense");
 
   return (
@@ -22,7 +24,7 @@ const ExpensesScreen = () => {
           dataColorType="white"
         />
       </View>
-      <DataList dataToDisplay="expenses" />
+      <DataList dataToDisplay="expenses" datesWithDataArr={datesArray} />
     </Flex>
   );
 };

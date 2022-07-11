@@ -186,7 +186,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           type="default"
           onChangeText={dataEnteredHandler.bind(this, "title")}
           value={inputData.title}
-          maxLength={20}
+          maxLength={25}
           autoCapitalize="sentences"
         />
         <CustomInput
@@ -202,7 +202,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           type="default"
           onChangeText={dataEnteredHandler.bind(this, "description")}
           value={inputData.description}
-          maxLength={15}
+          maxLength={28}
           autoCapitalize="sentences"
         />
       </VStack>

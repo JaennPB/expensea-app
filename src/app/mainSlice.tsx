@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface MainState {
   userId: string;
   isAuth: boolean;
-  userName: string;
+  username: string;
   dataArr: DataObj[];
   datesWithDataArr: string[];
 }
@@ -11,7 +11,7 @@ interface MainState {
 const initialState: MainState = {
   userId: "",
   isAuth: false,
-  userName: "",
+  username: "",
   dataArr: [],
   datesWithDataArr: [],
 };
@@ -24,8 +24,8 @@ const mainSlice = createSlice({
       state.userId = action.payload;
       state.isAuth = true;
     },
-    setUserName: (state, action: PayloadAction<string>) => {
-      state.userName = action.payload;
+    setUsername: (state, action: PayloadAction<string>) => {
+      state.username = action.payload;
     },
     setDates: (state, action: PayloadAction<string[]>) => {
       state.datesWithDataArr = action.payload;
@@ -68,7 +68,7 @@ const mainSlice = createSlice({
 
 export const {
   authenticate,
-  setUserName,
+  setUsername,
   setDates,
   logout,
   setData,

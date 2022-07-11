@@ -16,15 +16,15 @@ import Card from "../../components/UI/Card";
 const WelcomeScreen = () => {
   const navigation = useAppNavigation();
 
-  const [name, setName] = React.useState("");
+  const [username, setUsername] = React.useState("");
 
-  function setNameAndNavigateHandler() {
-    if (!name) {
+  function setUsernameAndNavigateHandler() {
+    if (!username) {
       Alert.alert("Please add a name");
       return;
     }
 
-    navigation.navigate("SignupScreen", { nameFromUser: name });
+    navigation.navigate("SignupScreen", { username: username });
   }
 
   return (
@@ -50,14 +50,14 @@ const WelcomeScreen = () => {
         <CustomInput
           title="Name"
           type="default"
-          onChangeText={(value) => setName(value)}
-          value={name}
+          onChangeText={(value) => setUsername(value)}
+          value={username}
           autoCapitalize="sentences"
         />
         <Button
           _text={{ fontSize: "md", fontWeight: "medium" }}
           bg="darkBlue.500"
-          onPress={setNameAndNavigateHandler}
+          onPress={setUsernameAndNavigateHandler}
           _pressed={{ backgroundColor: "darkBlue.600" }}
         >
           Confirm

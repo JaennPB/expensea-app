@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { authenticate, setUserName } from "../../app/mainSlice";
+import { authenticate, setUsername } from "../../app/mainSlice";
 
 import { auth, db } from "../../db/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth/react-native";
@@ -49,17 +49,23 @@ const LoginScreen: React.FC = () => {
       const userId = response.user.uid;
 
       const docResponse = await getDoc(doc(db, "users", userId));
-      if (docResponse.exists()) {
-        const currUserName = docResponse.data().name;
+      const currUsernameFromDb = docResponse.data()?.username;
 
-        dispatch(setUserName(currUserName));
-        AsyncStorage.setItem("userName", currUserName);
+      dispatch(setUsername(currUsernameFromDb));
+      try {
+        AsyncStorage.setItem("username", currUsernameFromDb);
+      } catch {
+        console.log("could not set name");
       }
 
       setIsLoading(false);
 
       dispatch(authenticate(userId));
-      AsyncStorage.setItem("userId", userId);
+      try {
+        AsyncStorage.setItem("userId", userId);
+      } catch {
+        console.log("could not set user id");
+      }
     } catch (error: any) {
       let errorMessage1: string;
       let errorMessage2: string;

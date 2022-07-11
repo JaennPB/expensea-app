@@ -67,7 +67,7 @@ const DataItem: React.FC<Props> = ({
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.container, rStyle]}>
           <VStack>
-            <Text color="lightText" fontSize="20">
+            <Text color="white" fontSize="20">
               {title}
             </Text>
             <HStack direction="row" alignItems="center" space={2}>
@@ -95,7 +95,8 @@ const DataItem: React.FC<Props> = ({
           </Flex>
         </Animated.View>
       </GestureDetector>
-      <Divider my={5} thickness={1} bg="darkBlue.600" />
+      {/* add condition to only render is it not last item */}
+      {<Divider my={5} thickness={1} bg="darkBlue.600" />}
     </View>
   );
 };
@@ -108,5 +109,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    height: 50,
   },
 });
