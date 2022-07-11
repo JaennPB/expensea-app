@@ -41,6 +41,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       isEditing && !finishedEditing ? itemToEditData.amount.toString() : "",
     description:
       isEditing && !finishedEditing ? itemToEditData.description : "",
+    // FIXME: moment().format("MMMM Do YYYY")
     date: moment().format("MMMM Do YYYY"),
     type: isEditing && !finishedEditing ? itemToEditData.type : "expense",
   });
@@ -95,12 +96,14 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
 
       const userDocRef = doc(db, "users", currUserDocId);
       const userDoc = await getDoc(userDocRef);
-      const datesArr = [...userDoc.data()?.datesWithDataArr, inputData.date];
-      await updateDoc(userDocRef, {
-        datesWithDataArr: datesArr,
-      });
+      if (!userDoc.data()?.datesWithDataArr.includes(inputData.date)) {
+        const datesArr = [...userDoc.data()?.datesWithDataArr, inputData.date];
+        await updateDoc(userDocRef, {
+          datesWithDataArr: datesArr,
+        });
+        dispatch(setDates(datesArr));
+      }
 
-      dispatch(setDates(datesArr));
       dispatch(addItem(modifiedObjectWithId));
       navigation.goBack();
       return;

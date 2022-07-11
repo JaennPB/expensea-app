@@ -16,13 +16,11 @@ interface Props {
   title: string;
   amount: string;
   description: string;
-  date: string;
   type: string;
 }
 
 const DataItem: React.FC<Props> = ({
   amount,
-  date,
   description,
   title,
   type,
@@ -78,11 +76,6 @@ const DataItem: React.FC<Props> = ({
                   {description}
                 </Text>
               ) : null}
-              <Box bg="darkBlue.600" px={1} borderRadius={5} mt={1}>
-                <Text color="white" fontSize="xs" fontWeight="semibold">
-                  {date}
-                </Text>
-              </Box>
             </HStack>
           </VStack>
           <Flex

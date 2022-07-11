@@ -1,6 +1,14 @@
 import React from "react";
 import { FlatList, ListRenderItemInfo } from "react-native";
-import { Flex, Heading, HStack, Spinner, View } from "native-base";
+import {
+  Flex,
+  Heading,
+  HStack,
+  Spinner,
+  View,
+  Text,
+  Divider,
+} from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
 
@@ -70,25 +78,45 @@ const DataList: React.FC<Props> = ({
     };
   }
 
-  function renderDataItem(itemData: ListRenderItemInfo<DataObj>) {
+  function renderDateItem(itemData: ListRenderItemInfo<string>) {
     const dataItem = itemData.item;
 
+    const itemsByDate = fetchedData.filter(
+      (item) => item.date === itemData.item
+    );
+
     return (
-      <DataItem
-        id={dataItem.id}
-        title={dataItem.title}
-        amount={dataItem.amount}
-        description={dataItem.description}
-        date={dataItem.date}
-        type={dataItem.type}
-      />
+      <>
+        <Heading
+          color="white"
+          fontSize="lg"
+          bg="darkBlue.600"
+          mb={5}
+          px={5}
+          py={2}
+          borderRadius={5}
+        >
+          {dataItem}
+        </Heading>
+        {itemsByDate.map((item) => (
+          <DataItem
+            title={item.title}
+            amount={item.amount}
+            description={item.description}
+            type={item.type}
+            id={item.id}
+            key={item.id}
+          />
+        ))}
+      </>
     );
   }
 
   return (
     <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
       {noDataContent!}
-      {datesWithDataArr.map((date, index) => (
+      <FlatList data={datesWithDataArr} renderItem={renderDateItem} />
+      {/* {datesWithDataArr.map((date, index) => (
         <View key={date + index}>
           <Heading color="white">{date}</Heading>
           <FlatList
@@ -96,8 +124,8 @@ const DataList: React.FC<Props> = ({
             renderItem={renderDataItem}
             keyExtractor={(item) => item.id}
           />
-        </View>
-      ))}
+        </View> */}
+      {/* ))} */}
     </Flex>
   );
 };
