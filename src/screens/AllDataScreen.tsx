@@ -1,15 +1,15 @@
 import React from "react";
 import { Alert } from "react-native";
-import { Flex, VStack } from "native-base";
+import { Flex, Text, VStack } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useAppNavigation } from "../hooks/navigationHooks";
 
 import { useAppSelector, useAppDispatch } from "../hooks/reduxHooks";
-import { setData } from "../app/mainSlice";
+import { setData, setDates } from "../app/mainSlice";
 
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, getDoc, doc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 import DataList from "../components/DataList";
@@ -24,6 +24,7 @@ const AllDataScreen = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
   const currUserDocId = useAppSelector((state) => state.userId);
   const currUserName = useAppSelector((state) => state.userName);
+  const datesArray = useAppSelector((state) => state.datesWithDataArr);
 
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -36,12 +37,18 @@ const AllDataScreen = () => {
         const data = await getDocs(
           collection(db, "users", currUserDocId, "data")
         );
+        const dates = await getDoc(doc(db, "users", currUserDocId));
 
         if (!data.empty) {
           data.forEach((doc) => {
             dispatch(setData({ ...doc.data(), id: doc.id }));
           });
         }
+
+        if (dates.exists()) {
+          dispatch(setDates(dates.data()?.datesWithDataArr));
+        }
+
         setIsLoading(false);
       } catch {
         Alert.alert("Error from server", "Please reload app 🤯");
@@ -52,7 +59,7 @@ const AllDataScreen = () => {
     if (currUserDocId) {
       getData();
     }
-  }, [currUserDocId, db]);
+  }, []);
 
   React.useLayoutEffect(() => {
     if (!currUserName) {
@@ -98,7 +105,11 @@ const AllDataScreen = () => {
           dataColorType="white"
         />
       </VStack>
-      <DataList dataToDisplay="all" isLoading={isLoading} />
+      <DataList
+        dataToDisplay="all"
+        isLoading={isLoading}
+        datesWithDataArr={datesArray}
+      />
     </Flex>
   );
 };

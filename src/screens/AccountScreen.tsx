@@ -20,7 +20,7 @@ import { useAppNavigation } from "../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { logout, resetData } from "../app/mainSlice";
 
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import {
   getAuth,
   deleteUser,
@@ -67,6 +67,10 @@ const AccountScreen = () => {
       }
 
       deleteDataDocs();
+    });
+
+    await updateDoc(doc(db, "users", currUserDocId), {
+      datesWithDataArr: [],
     });
   }
 

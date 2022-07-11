@@ -5,6 +5,7 @@ interface MainState {
   isAuth: boolean;
   userName: string;
   dataArr: DataObj[];
+  datesWithDataArr: string[];
 }
 
 const initialState: MainState = {
@@ -12,6 +13,7 @@ const initialState: MainState = {
   isAuth: false,
   userName: "",
   dataArr: [],
+  datesWithDataArr: [],
 };
 
 const mainSlice = createSlice({
@@ -25,10 +27,14 @@ const mainSlice = createSlice({
     setUserName: (state, action: PayloadAction<string>) => {
       state.userName = action.payload;
     },
+    setDates: (state, action: PayloadAction<string[]>) => {
+      state.datesWithDataArr = action.payload;
+    },
     logout: (state) => {
       state.userId = "";
       state.isAuth = false;
       state.dataArr = [];
+      state.datesWithDataArr = [];
     },
     setData: (state, action: PayloadAction<any>) => {
       state.dataArr.unshift(action.payload);
@@ -55,6 +61,7 @@ const mainSlice = createSlice({
     },
     resetData: (state) => {
       state.dataArr = [];
+      state.datesWithDataArr = [];
     },
   },
 });
@@ -62,6 +69,7 @@ const mainSlice = createSlice({
 export const {
   authenticate,
   setUserName,
+  setDates,
   logout,
   setData,
   addItem,

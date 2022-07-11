@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, ListRenderItemInfo } from "react-native";
-import { Flex, Heading, HStack, Spinner } from "native-base";
+import { Flex, Heading, HStack, Spinner, View } from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
 
@@ -9,12 +9,17 @@ import DataItem from "./UI/DataItem";
 interface Props {
   dataToDisplay: "all" | "expenses" | "incomes";
   isLoading?: boolean;
+  datesWithDataArr: string[];
 }
 
-const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
-  let dataByFilter: DataObj[];
-  let noDataContent: JSX.Element;
+const DataList: React.FC<Props> = ({
+  dataToDisplay,
+  isLoading,
+  datesWithDataArr,
+}) => {
+  const { fetchedData, noDataString } = dataToDisplayByType(dataToDisplay);
 
+  let noDataContent: JSX.Element;
   if (isLoading) {
     noDataContent = (
       <HStack flex={1} space={2} justifyContent="center" alignItems="center">
@@ -30,42 +35,39 @@ const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
     );
   }
 
-  if (dataToDisplay === "all") {
-    dataByFilter = useAppSelector((state) => state.dataArr);
-
-    if (!isLoading && dataByFilter.length <= 0) {
-      noDataContent = (
-        <Heading color="white" size="sm" textAlign="center">
-          Nothing here... please add some data! 📈
-        </Heading>
-      );
-    }
+  if (!isLoading && fetchedData.length <= 0) {
+    noDataContent = (
+      <Heading color="white" size="sm" textAlign="center">
+        {noDataString}
+      </Heading>
+    );
   }
 
-  if (dataToDisplay === "expenses") {
+  function dataToDisplayByType(type: string) {
     const allData = useAppSelector((state) => state.dataArr);
-    dataByFilter = allData.filter((item) => item.type === "expense");
+    let fetchedData: DataObj[];
+    let noDataString: string;
 
-    if (!isLoading && dataByFilter.length <= 0) {
-      noDataContent = (
-        <Heading color="white" size="sm" textAlign="center">
-          Please, add expenses! 📉
-        </Heading>
-      );
+    if (type === "all") {
+      fetchedData = allData;
+
+      noDataString = "Nothing here... please add some data! 📈";
     }
-  }
+    if (type === "expenses") {
+      fetchedData = allData.filter((item) => item.type === "expense");
 
-  if (dataToDisplay === "incomes") {
-    const allData = useAppSelector((state) => state.dataArr);
-    dataByFilter = allData.filter((item) => item.type === "income");
-
-    if (!isLoading && dataByFilter.length <= 0) {
-      noDataContent = (
-        <Heading color="white" size="sm" textAlign="center">
-          Please, add incomes! 🤑
-        </Heading>
-      );
+      noDataString = "Please, add expenses! 📉";
     }
+    if (type === "incomes") {
+      fetchedData = allData.filter((item) => item.type === "income");
+
+      noDataString = "Please, add incomes! 🤑";
+    }
+
+    return {
+      fetchedData: fetchedData!,
+      noDataString: noDataString!,
+    };
   }
 
   function renderDataItem(itemData: ListRenderItemInfo<DataObj>) {
@@ -86,11 +88,16 @@ const DataList: React.FC<Props> = ({ dataToDisplay, isLoading }) => {
   return (
     <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
       {noDataContent!}
-      <FlatList
-        data={dataByFilter!}
-        renderItem={renderDataItem}
-        keyExtractor={(item) => item.id}
-      />
+      {datesWithDataArr.map((date, index) => (
+        <View key={date + index}>
+          <Heading color="white">{date}</Heading>
+          <FlatList
+            data={fetchedData}
+            renderItem={renderDataItem}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      ))}
     </Flex>
   );
 };

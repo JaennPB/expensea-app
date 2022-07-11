@@ -60,7 +60,8 @@ const SignupScreen = () => {
         );
         const userId = response.user.uid;
         await setDoc(doc(db, "users", userId), {
-          name: currUserName,
+          userName: currUserName,
+          datesWithDataArr: [],
         });
         dispatch(setUserName(currUserName));
         AsyncStorage.setItem("userName", currUserName);

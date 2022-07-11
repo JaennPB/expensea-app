@@ -7,9 +7,9 @@ import moment from "moment";
 import { useAppNavigation } from "../hooks/navigationHooks";
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { addItem, updateItem } from "../app/mainSlice";
+import { addItem, setDates, updateItem } from "../app/mainSlice";
 
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 import CustomInput from "./UI/CustomInput";
@@ -88,12 +88,19 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       );
       const firebaseId = docRef.id;
       setIsLoading(false);
-
       const modifiedObjectWithId = {
         ...inputData,
         id: firebaseId,
       };
 
+      const userDocRef = doc(db, "users", currUserDocId);
+      const userDoc = await getDoc(userDocRef);
+      const datesArr = [...userDoc.data()?.datesWithDataArr, inputData.date];
+      await updateDoc(userDocRef, {
+        datesWithDataArr: datesArr,
+      });
+
+      dispatch(setDates(datesArr));
       dispatch(addItem(modifiedObjectWithId));
       navigation.goBack();
       return;
