@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Text, Box, Flex, Divider, HStack, VStack } from "native-base";
+import { Text, Flex, Divider, HStack, VStack, View } from "native-base";
 
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -58,7 +58,7 @@ const DataItem: React.FC<Props> = ({
   }
 
   return (
-    <>
+    <View position="relative">
       <HiddenButtons
         translateX={translateX}
         itemId={id}
@@ -96,7 +96,7 @@ const DataItem: React.FC<Props> = ({
         </Animated.View>
       </GestureDetector>
       <Divider my={5} thickness={1} bg="darkBlue.600" />
-    </>
+    </View>
   );
 };
 

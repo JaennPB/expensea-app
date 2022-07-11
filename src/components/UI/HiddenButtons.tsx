@@ -59,7 +59,7 @@ const HiddenButtons: React.FC<Props> = ({
     const inputRange = [0, -100];
     const opacity = interpolate(translateX.value, inputRange, [0, 1]);
     const scale = interpolate(translateX.value, inputRange, [0, 1]);
-    const right = interpolate(translateX.value, inputRange, [-20, 0]);
+    const right = interpolate(translateX.value, inputRange, [-10, 0]);
 
     return {
       opacity: opacity,
@@ -85,7 +85,6 @@ export default HiddenButtons;
 const styles = StyleSheet.create({
   buttonsContainer: {
     position: "absolute",
-    right: "0%",
     width: 70,
     flexDirection: "row",
     justifyContent: "space-between",

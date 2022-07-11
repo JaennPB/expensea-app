@@ -1,14 +1,6 @@
 import React from "react";
 import { FlatList, ListRenderItemInfo } from "react-native";
-import {
-  Flex,
-  Heading,
-  HStack,
-  Spinner,
-  View,
-  Text,
-  Divider,
-} from "native-base";
+import { Flex, Heading, HStack, Spinner, Box, View, Text } from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
 
@@ -87,26 +79,22 @@ const DataList: React.FC<Props> = ({
 
     return (
       <>
-        <Heading
-          color="white"
-          fontSize="lg"
-          bg="darkBlue.600"
-          mb={5}
-          px={5}
-          py={2}
-          borderRadius={5}
-        >
-          {dataItem}
-        </Heading>
+        <Box bg="darkBlue.600" borderRadius={5} mb={5} px={5} py={2}>
+          <Heading color="white" fontSize="lg" fontWeight="semibold">
+            {dataItem}
+          </Heading>
+        </Box>
         {itemsByDate.map((item) => (
-          <DataItem
-            title={item.title}
-            amount={item.amount}
-            description={item.description}
-            type={item.type}
-            id={item.id}
-            key={item.id}
-          />
+          <>
+            <DataItem
+              title={item.title}
+              amount={item.amount}
+              description={item.description}
+              type={item.type}
+              id={item.id}
+              key={item.id}
+            />
+          </>
         ))}
       </>
     );
@@ -116,16 +104,6 @@ const DataList: React.FC<Props> = ({
     <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
       {noDataContent!}
       <FlatList data={datesWithDataArr} renderItem={renderDateItem} />
-      {/* {datesWithDataArr.map((date, index) => (
-        <View key={date + index}>
-          <Heading color="white">{date}</Heading>
-          <FlatList
-            data={fetchedData}
-            renderItem={renderDataItem}
-            keyExtractor={(item) => item.id}
-          />
-        </View> */}
-      {/* ))} */}
     </Flex>
   );
 };
