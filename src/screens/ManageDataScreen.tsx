@@ -6,9 +6,9 @@ import { useAppNavigation } from "../hooks/navigationHooks";
 import { useRoute, RouteProp } from "@react-navigation/native";
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { removeItem } from "../app/mainSlice";
+import { removeItem, deleteDate } from "../app/mainSlice";
 
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 import CustomForm from "../components/CustomForm";
@@ -18,6 +18,8 @@ const ManageDataScreen: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const currUserDocId = useAppSelector((state) => state.userId);
+  const dataArr = useAppSelector((state) => state.dataArr);
+  const datesArr = useAppSelector((state) => state.datesWithDataArr);
 
   const route = useRoute<RouteProp<NavParams, "ManageDataScreen">>();
   const itemId = route.params.itemIdtoEdit;
@@ -35,6 +37,20 @@ const ManageDataScreen: React.FC = () => {
     } catch {
       Alert.alert("Error deleting... ❌");
       return;
+    }
+
+    const CurrItem = dataArr.find((item) => item.id === itemId)!;
+    const currentItemsInDate = dataArr.filter(
+      (item) => item.date === CurrItem.date
+    );
+
+    if (currentItemsInDate.length === 1) {
+      const UpdatedDatesArr = datesArr.filter((item) => item != CurrItem.date);
+      await updateDoc(doc(db, "users", currUserDocId), {
+        datesWithDataArr: UpdatedDatesArr,
+      });
+
+      dispatch(deleteDate(CurrItem.date));
     }
   }
 

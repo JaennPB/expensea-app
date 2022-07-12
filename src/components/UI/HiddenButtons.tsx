@@ -62,8 +62,6 @@ const HiddenButtons: React.FC<Props> = ({
     );
 
     if (currentItemsInDate.length === 1) {
-      console.log("delete: ", CurrItem.date, " from");
-      console.log(datesArr);
       const UpdatedDatesArr = datesArr.filter((item) => item != CurrItem.date);
       await updateDoc(doc(db, "users", currUserDocId), {
         datesWithDataArr: UpdatedDatesArr,

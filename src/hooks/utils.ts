@@ -27,3 +27,21 @@ export function useReduceItems(
 
   return 0;
 }
+
+export function useGetDates(type: string, dataArr: DataObj[]): string[] {
+  let datesArr: string[];
+
+  if (type === "income") {
+    const incomesArr = dataArr.filter((item) => item.type === "income");
+
+    datesArr = incomesArr.map((item) => item.date);
+  }
+
+  if (type === "expense") {
+    const incomesArr = dataArr.filter((item) => item.type === "expense");
+
+    datesArr = incomesArr.map((item) => item.date);
+  }
+
+  return [...new Set(datesArr!)];
+}

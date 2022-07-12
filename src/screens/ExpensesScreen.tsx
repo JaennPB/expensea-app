@@ -6,11 +6,10 @@ import { useAppSelector } from "../hooks/reduxHooks";
 import DataList from "../components/DataList";
 import InfoBox from "../components/UI/InfoBox";
 
-import { useReduceItems } from "../hooks/utils";
+import { useReduceItems, useGetDates } from "../hooks/utils";
 
 const ExpensesScreen = () => {
   const dataArr = useAppSelector((state) => state.dataArr);
-  const datesArray = useAppSelector((state) => state.datesWithDataArr);
 
   const expensesArr = dataArr.filter((element) => element.type === "expense");
 
@@ -24,7 +23,10 @@ const ExpensesScreen = () => {
           dataColorType="white"
         />
       </View>
-      <DataList dataToDisplay="expenses" datesWithDataArr={datesArray} />
+      <DataList
+        dataToDisplay="expenses"
+        datesWithDataArr={useGetDates("expense", dataArr)}
+      />
     </Flex>
   );
 };

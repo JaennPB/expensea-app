@@ -79,8 +79,8 @@ const DataList: React.FC<Props> = ({
 
     return (
       <View>
-        <Box bg="darkBlue.600" borderRadius={5} px={5} py={2} mb={5}>
-          <Heading color="muted.300" fontSize="lg" fontWeight="semibold">
+        <Box borderRadius={5} py={2} mb={5}>
+          <Heading color="white" fontSize="md" fontWeight="semibold">
             {dataItem}
           </Heading>
         </Box>
