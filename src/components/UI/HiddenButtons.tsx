@@ -11,7 +11,7 @@ import * as Haptics from "expo-haptics";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { removeItem } from "../../app/mainSlice";
+import { removeItem, deleteDate } from "../../app/mainSlice";
 
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../db/firebase";
@@ -30,10 +30,11 @@ const HiddenButtons: React.FC<Props> = ({
   itemId,
   onResetAnimation,
 }) => {
+  const dataArr = useAppSelector((state) => state.dataArr);
+  const currUserDocId = useAppSelector((state) => state.userId);
+
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
-
-  const currUserDocId = useAppSelector((state) => state.userId);
 
   function navigateToEditItem() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -53,6 +54,10 @@ const HiddenButtons: React.FC<Props> = ({
       Alert.alert("Error deleting... ❌");
       return;
     }
+
+    const CurrItem = dataArr.find((item) => item.id === itemId)!;
+
+    dispatch(deleteDate(CurrItem.date));
   }
 
   const rStyle = useAnimatedStyle(() => {

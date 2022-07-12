@@ -84,7 +84,7 @@ const DataList: React.FC<Props> = ({
             {dataItem}
           </Heading>
         </Box>
-        {itemsByDate.map((item) => (
+        {itemsByDate!.map((item) => (
           <DataItem
             title={item.title}
             amount={item.amount}

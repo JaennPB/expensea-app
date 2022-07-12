@@ -63,6 +63,15 @@ const mainSlice = createSlice({
       state.dataArr = [];
       state.datesWithDataArr = [];
     },
+    deleteDate: (state, action: PayloadAction<string>) => {
+      if (!state.dataArr.some((item) => item.date === action.payload)) {
+        console.log("must delete:", action.payload);
+        const dateToDelete = state.datesWithDataArr.findIndex(
+          (item) => item === action.payload
+        );
+        state.datesWithDataArr.splice(dateToDelete, 1);
+      }
+    },
   },
 });
 
@@ -76,5 +85,6 @@ export const {
   updateItem,
   removeItem,
   resetData,
+  deleteDate,
 } = mainSlice.actions;
 export default mainSlice.reducer;
