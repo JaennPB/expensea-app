@@ -99,7 +99,7 @@ const DataList: React.FC<Props> = ({
   }
 
   return (
-    <Flex flex={1} bg="darkBlue.700" px={5} pt={5} borderTopRadius={10}>
+    <Flex flex={1} bg="darkBlue.700" p={5} borderTopRadius={10}>
       {noDataContent!}
       <FlatList
         data={datesWithDataArr}

@@ -95,8 +95,7 @@ const DataItem: React.FC<Props> = ({
           </Flex>
         </Animated.View>
       </GestureDetector>
-      {/* add condition to only render is it not last item */}
-      {<Divider my={5} thickness={1} bg="darkBlue.600" />}
+      <Divider my={5} thickness={1} bg="darkBlue.600" />
     </View>
   );
 };
