@@ -17,10 +17,10 @@ const ExpensesScreen = () => {
     <Flex flex={1} bg="darkBlue.800">
       <View p={5}>
         <InfoBox
-          color="danger.400"
+          bgColor="danger.400"
           data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
           title="Expenses:"
-          dataColorType="white"
+          textColor="white"
         />
       </View>
       <DataList

@@ -23,7 +23,6 @@ const ManageDataScreen: React.FC = () => {
 
   const route = useRoute<RouteProp<NavParams, "ManageDataScreen">>();
   const itemId = route.params.itemIdtoEdit;
-
   const isEditing = !!itemId;
 
   async function deleteItemHandler() {

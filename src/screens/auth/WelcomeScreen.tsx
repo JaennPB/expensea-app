@@ -1,17 +1,13 @@
 import React from "react";
-import { Alert, Platform } from "react-native";
-import {
-  Heading,
-  Text,
-  VStack,
-  Button,
-  KeyboardAvoidingView,
-} from "native-base";
+import { Alert } from "react-native";
+import { Heading, Button } from "native-base";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
 
 import CustomInput from "../../components/UI/CustomInput";
 import Card from "../../components/UI/Card";
+import CustomKeyboardAV from "../../components/UI/CustomKeyboardAV";
+import WelcomeHeading from "../../components/UI/WelcomeHeading";
 
 const WelcomeScreen = () => {
   const navigation = useAppNavigation();
@@ -24,25 +20,15 @@ const WelcomeScreen = () => {
       return;
     }
 
-    navigation.navigate("SignupScreen", { username: username });
+    navigation.navigate("SignupScreen", { username: username.trim() });
   }
 
   return (
-    <KeyboardAvoidingView
-      flex={1}
-      bg="darkBlue.800"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      justifyContent="center"
-      alignItems="center"
-    >
-      <VStack space={2} mb={10}>
-        <Heading color="white" size="xl">
-          Welcome to Expensea!
-        </Heading>
-        <Text color="white" fontSize="md">
-          Your simple and minimalistic money tracker.
-        </Text>
-      </VStack>
+    <CustomKeyboardAV>
+      <WelcomeHeading
+        title="Welcome to Expensea!"
+        body="Your simple and minimalistic money tracker."
+      />
       <Card>
         <Heading color="white" size="md">
           How would you like to be called?
@@ -63,7 +49,7 @@ const WelcomeScreen = () => {
           Confirm
         </Button>
       </Card>
-    </KeyboardAvoidingView>
+    </CustomKeyboardAV>
   );
 };
 

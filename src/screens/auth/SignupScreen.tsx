@@ -1,13 +1,6 @@
 import React from "react";
-import { Alert, Platform } from "react-native";
-import {
-  VStack,
-  Heading,
-  Button,
-  Divider,
-  Text,
-  KeyboardAvoidingView,
-} from "native-base";
+import { Alert } from "react-native";
+import { VStack, Heading, Button, Divider, Text } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -23,6 +16,8 @@ import { setDoc, doc } from "firebase/firestore";
 
 import CustomInput from "../../components/UI/CustomInput";
 import Card from "../../components/UI/Card";
+import CustomKeyboardAV from "../../components/UI/CustomKeyboardAV";
+import WelcomeHeading from "../../components/UI/WelcomeHeading";
 
 const SignupScreen = () => {
   const dispatch = useAppDispatch();
@@ -107,19 +102,11 @@ const SignupScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      flex={1}
-      bg="darkBlue.800"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      justifyContent="center"
-      alignItems="center"
-    >
-      <VStack space={2} mb={10}>
-        <Heading color="white" textAlign="center">
-          Hello, {currUsernameParam}!
-        </Heading>
-        <Text color="white">Please, enter your data below.</Text>
-      </VStack>
+    <CustomKeyboardAV>
+      <WelcomeHeading
+        title={`Hello, ${currUsernameParam}!`}
+        body="Please, enter your data below."
+      />
       <Card>
         <Heading color="white" textAlign="center">
           Sign Up
@@ -176,7 +163,7 @@ const SignupScreen = () => {
           Or Log In
         </Button>
       </Card>
-    </KeyboardAvoidingView>
+    </CustomKeyboardAV>
   );
 };
 

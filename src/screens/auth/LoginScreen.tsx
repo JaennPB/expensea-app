@@ -1,6 +1,6 @@
 import React from "react";
-import { Alert, Platform } from "react-native";
-import { Heading, Button, Divider, KeyboardAvoidingView } from "native-base";
+import { Alert } from "react-native";
+import { Heading, Button, Divider } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -15,6 +15,7 @@ import { getDoc, doc } from "firebase/firestore";
 
 import CustomInput from "../../components/UI/CustomInput";
 import Card from "../../components/UI/Card";
+import CustomKeyboardAV from "../../components/UI/CustomKeyboardAV";
 
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -94,13 +95,7 @@ const LoginScreen: React.FC = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      flex={1}
-      bg="darkBlue.800"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      justifyContent="center"
-      alignItems="center"
-    >
+    <CustomKeyboardAV>
       <Card>
         <Heading color="white" textAlign="center">
           Log In
@@ -147,7 +142,7 @@ const LoginScreen: React.FC = () => {
           Or Create Account
         </Button>
       </Card>
-    </KeyboardAvoidingView>
+    </CustomKeyboardAV>
   );
 };
 

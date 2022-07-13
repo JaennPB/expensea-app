@@ -86,25 +86,25 @@ const AllDataScreen = () => {
     <Flex flex={1} bg="darkBlue.800">
       <VStack p={5} space={2}>
         <InfoBox
-          color="darkBlue.700"
+          bgColor="darkBlue.700"
           data={"+$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
           title="Incomes:"
-          dataColorType="tertiary.500"
+          textColor="tertiary.500"
         />
         <InfoBox
-          color="darkBlue.700"
+          bgColor="darkBlue.700"
           data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
           title="Expenses:"
-          dataColorType="danger.400"
+          textColor="danger.400"
         />
         <InfoBox
-          color="darkBlue.600"
+          bgColor="darkBlue.600"
           data={
             "$" +
             useReduceItems({ incomesArr, expensesArr }, "total").toFixed(2)
           }
           title="Total balance:"
-          dataColorType="white"
+          textColor="white"
         />
       </VStack>
       <DataList
