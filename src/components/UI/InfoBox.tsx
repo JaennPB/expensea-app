@@ -1,6 +1,8 @@
 import React from "react";
 import { Text, Flex } from "native-base";
 
+import Animated from "react-native-reanimated";
+
 interface Props {
   title: string;
   data: string;

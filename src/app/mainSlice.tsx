@@ -65,7 +65,6 @@ const mainSlice = createSlice({
     },
     deleteDate: (state, action: PayloadAction<string>) => {
       if (!state.dataArr.some((item) => item.date === action.payload)) {
-        console.log("must delete:", action.payload);
         const dateToDelete = state.datesWithDataArr.findIndex(
           (item) => item === action.payload
         );
