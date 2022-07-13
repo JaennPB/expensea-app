@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert } from "react-native";
-import { VStack, Flex, Button, Heading, IconButton, Icon } from "native-base";
+import { VStack, Flex, Button } from "native-base";
 
 import moment from "moment";
 
@@ -13,8 +13,7 @@ import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 import CustomInput from "./UI/CustomInput";
-
-import { Entypo } from "@expo/vector-icons";
+import ExpenseOrIncomeButtons from "./UI/ExpenseOrIncomeButtons";
 
 interface Props {
   isEditing: boolean;
@@ -45,7 +44,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     type: isEditing && !finishedEditing ? itemToEditData.type : "expense",
   });
 
-  function toggleExpenseOrIncomeHandler(dataType: "expense" | "income"): void {
+  function toggleDataTypeHandler(dataType: "expense" | "income"): void {
     setInputData((prevState) => {
       return {
         ...prevState,
@@ -96,7 +95,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       const userDocRef = doc(db, "users", currUserDocId);
       const userDoc = await getDoc(userDocRef);
       if (!userDoc.data()?.datesWithDataArr.includes(inputData.date)) {
-        const datesArr = [...userDoc.data()?.datesWithDataArr, inputData.date];
+        const datesArr = [inputData.date, ...userDoc.data()?.datesWithDataArr];
         await updateDoc(userDocRef, {
           datesWithDataArr: datesArr,
         });
@@ -150,35 +149,15 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
     }
   }
 
-  let topContent: JSX.Element;
-
-  if (!isEditing) {
-    topContent = (
-      <Button.Group
-        isAttached
-        borderWidth={1}
-        borderRadius={5}
-        borderColor="darkBlue.600"
-      >
-        <IconButton
-          icon={<Icon as={Entypo} name="minus" color="white" />}
-          bgColor={inputData.type === "expense" ? "darkBlue.600" : null}
-          w={66}
-          onPress={toggleExpenseOrIncomeHandler.bind(this, "expense")}
-        />
-        <IconButton
-          icon={<Icon as={Entypo} name="plus" color="white" />}
-          bgColor={inputData.type === "income" ? "darkBlue.600" : null}
-          w={66}
-          onPress={toggleExpenseOrIncomeHandler.bind(this, "income")}
-        />
-      </Button.Group>
-    );
-  }
-
   return (
     <>
-      {topContent!}
+      {!isEditing && (
+        <ExpenseOrIncomeButtons
+          onPressExpense={toggleDataTypeHandler.bind(this, "expense")}
+          onPressIncome={toggleDataTypeHandler.bind(this, "income")}
+          inputType={inputData.type}
+        />
+      )}
       <VStack w="100%" mt={isEditing ? 0 : 5} space={5}>
         <CustomInput
           title="Title"

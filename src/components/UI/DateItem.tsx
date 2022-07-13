@@ -7,13 +7,7 @@ interface Props {
 
 const DateItem: React.FC<Props> = ({ date }) => {
   return (
-    <Box
-      py={2}
-      mb={5}
-      borderBottomColor="darkBlue.600"
-      borderBottomWidth={1}
-      w="60%"
-    >
+    <Box py={2} px={5} mb={5} borderRadius={5} bgColor="darkBlue.600">
       <Heading color="white" fontSize={20} fontWeight="semibold">
         {date}
       </Heading>

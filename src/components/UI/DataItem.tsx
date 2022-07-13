@@ -36,9 +36,13 @@ const DataItem: React.FC<Props> = ({
     })
     .onUpdate((event) => {
       translateX.value = event.translationX + context.value;
+
+      if (event.translationX + context.value > 0) {
+        translateX.value = 0;
+      }
     })
     .onEnd(() => {
-      if (translateX.value < -100) {
+      if (translateX.value < -50) {
         translateX.value = withTiming(-100);
       } else {
         translateX.value = withTiming(0);

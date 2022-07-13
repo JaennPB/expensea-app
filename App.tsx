@@ -4,6 +4,7 @@ import { NativeBaseProvider, StatusBar, View } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { Provider } from "react-redux";
 import { store } from "./src/app/store";
@@ -189,8 +190,10 @@ function AllNavs() {
     <NavigationContainer>
       <StatusBar barStyle="light-content" backgroundColor="#002851" />
       <View onLayout={onLayoutRootView} flex={1}>
-        {!isAuth && <AuthNav />}
-        {isAuth && <MainNav />}
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          {!isAuth && <AuthNav />}
+          {isAuth && <MainNav />}
+        </GestureHandlerRootView>
       </View>
     </NavigationContainer>
   );
