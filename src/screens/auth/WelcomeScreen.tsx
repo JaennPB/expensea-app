@@ -24,7 +24,7 @@ const WelcomeScreen = () => {
   }
 
   return (
-    <CustomKeyboardAV>
+    <CustomKeyboardAV bgColor="darkBlue.800">
       <WelcomeHeading
         title="Welcome to Expensea!"
         body="Your simple and minimalistic money tracker."

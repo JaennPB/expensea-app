@@ -4,13 +4,14 @@ import { KeyboardAvoidingView } from "native-base";
 
 interface Props {
   children: React.ReactNode;
+  bgColor?: "darkBlue.800" | null;
 }
 
-const CustomKeyboardAV: React.FC<Props> = ({ children }) => {
+const CustomKeyboardAV: React.FC<Props> = ({ children, bgColor }) => {
   return (
     <KeyboardAvoidingView
       flex={1}
-      bg="darkBlue.800"
+      bg={bgColor}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       justifyContent="center"
       alignItems="center"

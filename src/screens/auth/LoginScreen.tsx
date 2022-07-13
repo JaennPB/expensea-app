@@ -95,7 +95,7 @@ const LoginScreen: React.FC = () => {
   }
 
   return (
-    <CustomKeyboardAV>
+    <CustomKeyboardAV bgColor="darkBlue.800">
       <Card>
         <Heading color="white" textAlign="center">
           Log In

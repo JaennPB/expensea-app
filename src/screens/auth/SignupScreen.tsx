@@ -102,7 +102,7 @@ const SignupScreen = () => {
   }
 
   return (
-    <CustomKeyboardAV>
+    <CustomKeyboardAV bgColor="darkBlue.800">
       <WelcomeHeading
         title={`Hello, ${currUsernameParam}!`}
         body="Please, enter your data below."
