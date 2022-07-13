@@ -1,18 +1,25 @@
 import React from "react";
-import { Button, Modal } from "native-base";
+import { Button, Modal, Text } from "native-base";
+
 import CustomKeyboardAV from "./UI/CustomKeyboardAV";
+import CustomInput from "../components/UI/CustomInput";
 
 interface Props {
   isOpen: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+  email: string;
+  value: string;
+  onChangeText: (text: string) => void;
 }
 
 const DeleteAccModal: React.FC<Props> = ({
   isOpen,
-  children,
   onCancel,
   onConfirm,
+  email,
+  value,
+  onChangeText,
 }) => {
   return (
     <Modal isOpen={isOpen}>
@@ -27,7 +34,16 @@ const DeleteAccModal: React.FC<Props> = ({
             Please enter your password to delete account and data
           </Modal.Header>
           <Modal.Body bg="darkBlue.700" p={5}>
-            {children}
+            <Text color="white" fontSize="lg" mb={5} ml={1}>
+              {email}
+            </Text>
+            <CustomInput
+              title="Password"
+              type="default"
+              onChangeText={onChangeText}
+              value={value}
+              autoCapitalize="none"
+            />
           </Modal.Body>
           <Modal.Footer bg="darkBlue.700" borderTopWidth={0} p={5}>
             <Button

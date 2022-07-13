@@ -148,19 +148,10 @@ const AccountScreen = () => {
             isOpen={modalIsVisible}
             onCancel={cancelUserDeletionHandler}
             onConfirm={confirmUserDeletionHandler}
-          >
-            <Text color="white" fontSize="lg" mb={5} ml={1}>
-              {emailValue}
-            </Text>
-            <CustomInput
-              title="Password"
-              type="default"
-              onChangeText={(value) => setPasswordValue(value)}
-              value={passwordValue}
-              secureTextEntry={true}
-              autoCapitalize="none"
-            />
-          </DeleteAccModal>
+            email={emailValue}
+            onChangeText={(password) => setPasswordValue(password)}
+            value={passwordValue}
+          />
           <Flex bg="darkBlue.700" flex={1}>
             <VStack space={5} w="100%" p={5}>
               <Button
