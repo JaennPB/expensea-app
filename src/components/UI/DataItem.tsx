@@ -4,6 +4,9 @@ import { Text, Flex, Divider, HStack, VStack, View } from "native-base";
 
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
+  SlideInRight,
+  Layout,
+  SlideOutLeft,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -17,6 +20,7 @@ interface Props {
   amount: string;
   description: string;
   type: string;
+  index: number;
 }
 
 const DataItem: React.FC<Props> = ({
@@ -25,6 +29,7 @@ const DataItem: React.FC<Props> = ({
   title,
   type,
   id,
+  index,
 }) => {
   const convertedAmount = +amount;
   const translateX = useSharedValue(0);
@@ -62,7 +67,12 @@ const DataItem: React.FC<Props> = ({
   }
 
   return (
-    <View position="relative">
+    <Animated.View
+      style={{ position: "relative" }}
+      exiting={SlideOutLeft}
+      entering={SlideInRight.delay(100 * index)}
+      layout={Layout.delay(100)}
+    >
       <HiddenButtons
         translateX={translateX}
         itemId={id}
@@ -100,7 +110,7 @@ const DataItem: React.FC<Props> = ({
         </Animated.View>
       </GestureDetector>
       <Divider my={5} thickness={1} bg="darkBlue.600" />
-    </View>
+    </Animated.View>
   );
 };
 

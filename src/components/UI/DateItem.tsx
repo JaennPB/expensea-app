@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, Heading } from "native-base";
+import { StyleSheet } from "react-native";
+import { Heading } from "native-base";
+
+import Animated, {
+  Layout,
+  SlideInRight,
+  SlideOutLeft,
+} from "react-native-reanimated";
 
 interface Props {
   date: string;
@@ -7,12 +14,27 @@ interface Props {
 
 const DateItem: React.FC<Props> = ({ date }) => {
   return (
-    <Box py={2} px={5} mb={5} borderRadius={5} bgColor="darkBlue.600">
+    <Animated.View
+      style={styles.container}
+      exiting={SlideOutLeft}
+      entering={SlideInRight}
+      layout={Layout.delay(100)}
+    >
       <Heading color="white" fontSize={20} fontWeight="semibold">
         {date}
       </Heading>
-    </Box>
+    </Animated.View>
   );
 };
 
 export default DateItem;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#005db4",
+    borderRadius: 5,
+    paddingHorizontal: 22,
+    paddingVertical: 10,
+    marginBottom: 20,
+  },
+});
