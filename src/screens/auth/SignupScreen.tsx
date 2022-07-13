@@ -28,9 +28,6 @@ const SignupScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
 
-  const route = useRoute<RouteProp<NavParams, "SignupScreen">>();
-  const currUsernameParam = route.params.username;
-
   const [isLoading, setIsLoading] = React.useState(false);
   const [emailIsInvalid, setEmailIsInvalid] = React.useState(false);
   const [passwordIsInvalid, setPassworIsInvalid] = React.useState(false);
@@ -39,6 +36,9 @@ const SignupScreen = () => {
     password: "",
     password2: "",
   });
+
+  const route = useRoute<RouteProp<NavParams, "SignupScreen">>();
+  const currUsernameParam = route.params.username;
 
   function dataEnteredHandler(inputIdentifier: string, enteredText: string) {
     setData((prevState) => {

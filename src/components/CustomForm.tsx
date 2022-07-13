@@ -41,7 +41,6 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       isEditing && !finishedEditing ? itemToEditData.amount.toString() : "",
     description:
       isEditing && !finishedEditing ? itemToEditData.description : "",
-    // FIXME: moment().format("MMMM Do YYYY")
     date: moment().format("MMMM Do YYYY"),
     type: isEditing && !finishedEditing ? itemToEditData.type : "expense",
   });

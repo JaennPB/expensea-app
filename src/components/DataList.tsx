@@ -17,6 +17,34 @@ const DataList: React.FC<Props> = ({
   isLoading,
   datesWithDataArr,
 }) => {
+  const allData = useAppSelector((state) => state.dataArr);
+
+  function dataToDisplayByType(type: string) {
+    let fetchedData: DataObj[];
+    let noDataString: string;
+
+    if (type === "all") {
+      fetchedData = allData;
+
+      noDataString = "Nothing here... please add some data! 📈";
+    }
+    if (type === "expenses") {
+      fetchedData = allData.filter((item) => item.type === "expense");
+
+      noDataString = "Please, add expenses! 📉";
+    }
+    if (type === "incomes") {
+      fetchedData = allData.filter((item) => item.type === "income");
+
+      noDataString = "Please, add incomes! 🤑";
+    }
+
+    return {
+      fetchedData: fetchedData!,
+      noDataString: noDataString!,
+    };
+  }
+
   const { fetchedData, noDataString } = dataToDisplayByType(dataToDisplay);
 
   let noDataContent: JSX.Element;
@@ -43,33 +71,6 @@ const DataList: React.FC<Props> = ({
     );
   }
 
-  function dataToDisplayByType(type: string) {
-    const allData = useAppSelector((state) => state.dataArr);
-    let fetchedData: DataObj[];
-    let noDataString: string;
-
-    if (type === "all") {
-      fetchedData = allData;
-
-      noDataString = "Nothing here... please add some data! 📈";
-    }
-    if (type === "expenses") {
-      fetchedData = allData.filter((item) => item.type === "expense");
-
-      noDataString = "Please, add expenses! 📉";
-    }
-    if (type === "incomes") {
-      fetchedData = allData.filter((item) => item.type === "income");
-
-      noDataString = "Please, add incomes! 🤑";
-    }
-
-    return {
-      fetchedData: fetchedData!,
-      noDataString: noDataString!,
-    };
-  }
-
   function renderDateItem(itemData: ListRenderItemInfo<string>) {
     const dataItem = itemData.item;
 
@@ -78,9 +79,15 @@ const DataList: React.FC<Props> = ({
     );
 
     return (
-      <View>
-        <Box borderRadius={5} py={2} mb={5}>
-          <Heading color="white" fontSize="md" fontWeight="semibold">
+      <>
+        <Box
+          py={2}
+          mb={5}
+          borderBottomColor="darkBlue.600"
+          borderBottomWidth={1}
+          w="60%"
+        >
+          <Heading color="white" fontSize={20} fontWeight="semibold">
             {dataItem}
           </Heading>
         </Box>
@@ -94,18 +101,20 @@ const DataList: React.FC<Props> = ({
             key={item.id}
           />
         ))}
-      </View>
+      </>
     );
   }
 
   return (
     <Flex flex={1} bg="darkBlue.700" p={5} borderTopRadius={10}>
       {noDataContent!}
-      <FlatList
-        data={datesWithDataArr}
-        renderItem={renderDateItem}
-        keyExtractor={(item, index) => item + index}
-      />
+      {!isLoading && (
+        <FlatList
+          data={datesWithDataArr}
+          renderItem={renderDateItem}
+          keyExtractor={(item, index) => item + index}
+        />
+      )}
     </Flex>
   );
 };
