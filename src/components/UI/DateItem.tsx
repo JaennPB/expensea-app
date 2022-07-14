@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Heading } from "native-base";
+import { Heading, Box } from "native-base";
 
 import Animated, {
   Layout,
@@ -15,26 +14,17 @@ interface Props {
 const DateItem: React.FC<Props> = ({ date }) => {
   return (
     <Animated.View
-      style={styles.container}
       exiting={SlideOutLeft}
       entering={SlideInRight}
       layout={Layout.delay(100)}
     >
-      <Heading color="white" fontSize={20} fontWeight="semibold">
-        {date}
-      </Heading>
+      <Box bg="darkBlue.600" borderRadius={5} py={2} px={5} mb={5}>
+        <Heading color="white" fontSize={20} fontWeight="semibold">
+          {date}
+        </Heading>
+      </Box>
     </Animated.View>
   );
 };
 
 export default DateItem;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#005db4",
-    borderRadius: 5,
-    paddingHorizontal: 22,
-    paddingVertical: 10,
-    marginBottom: 20,
-  },
-});

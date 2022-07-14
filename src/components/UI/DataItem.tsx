@@ -81,7 +81,7 @@ const DataItem: React.FC<Props> = ({
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.container, rStyle]}>
           <VStack>
-            <Text color="white" fontSize="20">
+            <Text color="white" fontSize="22">
               {title}
             </Text>
             <HStack direction="row" alignItems="center" space={2}>
