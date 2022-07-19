@@ -1,6 +1,8 @@
 import React from "react";
 import { Pressable } from "native-base";
 
+//TODO: move out of ui folder
+
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -23,7 +25,7 @@ const AddButton = () => {
 
   function openAddItemHandler() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    scale.value = withSpring(1.5, {}, () => {
+    scale.value = withSpring(1.2, {}, () => {
       scale.value = withSpring(1);
     });
     navigation.navigate("ManageDataScreen", { itemIdtoEdit: null });

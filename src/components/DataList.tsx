@@ -23,8 +23,8 @@ const DataList: React.FC<Props> = ({
   const allData = useAppSelector((state) => state.dataArr);
 
   function dataToDisplayByType(type: string) {
-    let fetchedData: DataObj[];
-    let noDataString: string;
+    let fetchedData;
+    let noDataString;
 
     if (type === "all") {
       fetchedData = allData;
@@ -43,8 +43,8 @@ const DataList: React.FC<Props> = ({
     }
 
     return {
-      fetchedData: fetchedData!,
-      noDataString: noDataString!,
+      fetchedData: fetchedData,
+      noDataString: noDataString,
     };
   }
 
@@ -53,7 +53,7 @@ const DataList: React.FC<Props> = ({
   function renderDateItem(itemData: ListRenderItemInfo<string>) {
     const date = itemData.item;
 
-    const itemsByDate = fetchedData.filter(
+    const itemsByDate = fetchedData?.filter(
       (item) => item.date === itemData.item
     );
 
@@ -77,12 +77,15 @@ const DataList: React.FC<Props> = ({
 
   return (
     <Flex flex={1} bg="darkBlue.700" p={5} borderTopRadius={10}>
-      {!isLoading && fetchedData.length <= 0 && (
-        <Animated.Text entering={FadeInUp.delay(500)}>
-          <Heading color="white" size="sm" textAlign="center">
+      {!isLoading && fetchedData?.length! <= 0 && (
+        <Animated.View
+          entering={FadeInUp.delay(500)}
+          style={{ alignItems: "center" }}
+        >
+          <Heading color="white" size="sm">
             {noDataString}
           </Heading>
-        </Animated.Text>
+        </Animated.View>
       )}
       {isLoading && <MainSpinner />}
       {!isLoading && (

@@ -57,7 +57,7 @@ const AccountScreen = () => {
   }
 
   async function deleteDocsHandler() {
-    const dataIds: string[] = [];
+    let dataIds: string[] = [];
 
     currUserDocsArray.forEach((doc) => dataIds.push(doc.id));
 

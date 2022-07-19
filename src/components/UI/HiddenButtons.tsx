@@ -2,6 +2,8 @@ import React from "react";
 import { StyleSheet, Alert } from "react-native";
 import { Pressable } from "native-base";
 
+//TODO: move out of ui folder
+
 import Animated, {
   interpolate,
   useAnimatedStyle,
