@@ -1,12 +1,12 @@
+import { Button, Flex } from "native-base";
 import { useLayoutEffect } from "react";
 import { Alert } from "react-native";
-import { Button, Flex } from "native-base";
 
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useAppNavigation } from "../hooks/navigationHooks";
-import { useRoute, RouteProp } from "@react-navigation/native";
 
+import { deleteDate, removeItem } from "../app/mainSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { removeItem, deleteDate } from "../app/mainSlice";
 
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebase";

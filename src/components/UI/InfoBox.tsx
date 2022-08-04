@@ -1,6 +1,6 @@
-import { Text, Flex } from "native-base";
+import { Flex, Text } from "native-base";
 
-import Animated, { SlideInDown, SlideInUp } from "react-native-reanimated";
+import Animated, { SlideInDown } from "react-native-reanimated";
 
 interface Props {
   title: string;

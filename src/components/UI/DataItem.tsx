@@ -1,10 +1,10 @@
+import { Divider, Flex, HStack, Text, VStack } from "native-base";
 import { StyleSheet } from "react-native";
-import { Text, Flex, Divider, HStack, VStack } from "native-base";
 
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  SlideInRight,
   Layout,
+  SlideInRight,
   SlideOutLeft,
   useAnimatedStyle,
   useSharedValue,

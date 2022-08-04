@@ -1,5 +1,5 @@
-import { KeyboardTypeOptions } from "react-native";
 import { Input } from "native-base";
+import { KeyboardTypeOptions } from "react-native";
 
 interface Props {
   title: string | undefined;

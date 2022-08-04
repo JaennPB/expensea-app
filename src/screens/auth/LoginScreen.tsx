@@ -1,20 +1,20 @@
+import { Button, Divider, Heading } from "native-base";
 import { useState } from "react";
 import { Alert } from "react-native";
-import { Heading, Button, Divider } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
 
-import { useAppDispatch } from "../../hooks/reduxHooks";
 import { authenticate, setUsername } from "../../app/mainSlice";
+import { useAppDispatch } from "../../hooks/reduxHooks";
 
-import { auth, db } from "../../db/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth/react-native";
-import { getDoc, doc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../db/firebase";
 
-import CustomInput from "../../components/UI/CustomInput";
 import Card from "../../components/UI/Card";
+import CustomInput from "../../components/UI/CustomInput";
 import CustomKeyboardAV from "../../components/UI/CustomKeyboardAV";
 
 const LoginScreen: React.FC = () => {
@@ -54,20 +54,12 @@ const LoginScreen: React.FC = () => {
       const currUsernameFromDb = docResponse.data()?.username;
 
       dispatch(setUsername(currUsernameFromDb));
-      try {
-        AsyncStorage.setItem("usernameExpensea", currUsernameFromDb);
-      } catch {
-        console.log("could not set name");
-      }
+      await AsyncStorage.setItem("usernameExpensea", currUsernameFromDb);
 
       setIsLoading(false);
 
       dispatch(authenticate(userId));
-      try {
-        AsyncStorage.setItem("userIdExpensea", userId);
-      } catch {
-        console.log("could not set user id");
-      }
+      await AsyncStorage.setItem("userIdExpensea", userId);
     } catch (error: any) {
       let errorMessage1: string;
       let errorMessage2: string;

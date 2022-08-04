@@ -1,38 +1,40 @@
+import { NativeBaseProvider, StatusBar, View } from "native-base";
 import { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { NativeBaseProvider, StatusBar, View } from "native-base";
 
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  useFonts,
+} from "@expo-google-fonts/poppins";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
 
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Provider } from "react-redux";
+import { authenticate } from "./src/app/mainSlice";
 import { store } from "./src/app/store";
 import { useAppDispatch, useAppSelector } from "./src/hooks/reduxHooks";
-import { authenticate } from "./src/app/mainSlice";
 
+import AddButton from "./src/components/AddButton";
+import AccountScreen from "./src/screens/AccountScreen";
+import AllDataScreen from "./src/screens/AllDataScreen";
 import LoginScreen from "./src/screens/auth/LoginScreen";
 import SignupScreen from "./src/screens/auth/SignupScreen";
-import AccountScreen from "./src/screens/AccountScreen";
 import WelcomeScreen from "./src/screens/auth/WelcomeScreen";
-import AllDataScreen from "./src/screens/AllDataScreen";
 import ExpesesScreen from "./src/screens/ExpensesScreen";
-import ManageDataScreen from "./src/screens/ManageDataScreen";
 import IncomesScreen from "./src/screens/IncomesScreen";
-import AddButton from "./src/components/AddButton";
+import ManageDataScreen from "./src/screens/ManageDataScreen";
 
-import { Feather } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Feather,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();

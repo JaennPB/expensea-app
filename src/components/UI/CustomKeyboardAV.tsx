@@ -1,5 +1,5 @@
-import { Platform } from "react-native";
 import { KeyboardAvoidingView } from "native-base";
+import { Platform } from "react-native";
 
 interface Props {
   children: React.ReactNode;

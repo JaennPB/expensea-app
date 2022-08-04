@@ -1,15 +1,15 @@
+import { Flex, VStack } from "native-base";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Alert } from "react-native";
-import { Flex, VStack } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useAppNavigation } from "../hooks/navigationHooks";
 
-import { useAppSelector, useAppDispatch } from "../hooks/reduxHooks";
 import { setData, setDates } from "../app/mainSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
-import { getDocs, collection, getDoc, doc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 import DataList from "../components/DataList";

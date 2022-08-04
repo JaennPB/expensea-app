@@ -5,7 +5,7 @@ import { useAppSelector } from "../hooks/reduxHooks";
 import DataList from "../components/DataList";
 import InfoBox from "../components/UI/InfoBox";
 
-import { useReduceItems, useGetDates } from "../hooks/utils";
+import { useGetDates, useReduceItems } from "../hooks/utils";
 
 const ExpensesScreen = () => {
   const dataArr = useAppSelector((state) => state.dataArr);

@@ -1,11 +1,11 @@
+import { Button, Heading } from "native-base";
 import { useState } from "react";
 import { Alert } from "react-native";
-import { Heading, Button } from "native-base";
 
 import { useAppNavigation } from "../../hooks/navigationHooks";
 
-import CustomInput from "../../components/UI/CustomInput";
 import Card from "../../components/UI/Card";
+import CustomInput from "../../components/UI/CustomInput";
 import CustomKeyboardAV from "../../components/UI/CustomKeyboardAV";
 import WelcomeHeading from "../../components/UI/WelcomeHeading";
 

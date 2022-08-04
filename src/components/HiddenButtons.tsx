@@ -1,22 +1,21 @@
-import { StyleSheet, Alert } from "react-native";
 import { Pressable } from "native-base";
+import { Alert, StyleSheet } from "react-native";
 
+import * as Haptics from "expo-haptics";
 import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import * as Haptics from "expo-haptics";
 
 import { useAppNavigation } from "../hooks/navigationHooks";
 
+import { deleteDate, removeItem } from "../app/mainSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { removeItem, deleteDate } from "../app/mainSlice";
 
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
 
-import { MaterialIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 interface Props {
   translateX: Animated.SharedValue<number>;

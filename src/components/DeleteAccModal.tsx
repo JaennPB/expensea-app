@@ -1,7 +1,7 @@
 import { Button, Modal, Text } from "native-base";
 
-import CustomKeyboardAV from "./UI/CustomKeyboardAV";
 import CustomInput from "../components/UI/CustomInput";
+import CustomKeyboardAV from "./UI/CustomKeyboardAV";
 
 interface Props {
   isOpen: boolean;

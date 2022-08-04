@@ -1,13 +1,13 @@
+import { Button, Flex, VStack } from "native-base";
 import { useState } from "react";
 import { Alert } from "react-native";
-import { VStack, Flex, Button } from "native-base";
 
 import moment from "moment";
 
 import { useAppNavigation } from "../hooks/navigationHooks";
 
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { addItem, setDates, updateItem } from "../app/mainSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebase";

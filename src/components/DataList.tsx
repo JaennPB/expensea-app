@@ -1,13 +1,13 @@
-import { FlatList, ListRenderItemInfo } from "react-native";
 import { Flex, Heading } from "native-base";
+import { FlatList, ListRenderItemInfo } from "react-native";
 
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { useAppSelector } from "../hooks/reduxHooks";
 
 import DataItem from "./UI/DataItem";
-import MainSpinner from "./UI/MainSpinner";
 import DateItem from "./UI/DateItem";
+import MainSpinner from "./UI/MainSpinner";
 
 interface Props {
   dataToDisplay: "all" | "expenses" | "incomes";

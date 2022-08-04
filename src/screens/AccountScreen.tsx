@@ -1,30 +1,30 @@
+import {
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  HStack,
+  Spinner,
+  VStack,
+} from "native-base";
 import React from "react";
 import { Alert } from "react-native";
-import {
-  Flex,
-  Button,
-  VStack,
-  Divider,
-  Heading,
-  Spinner,
-  HStack,
-} from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useAppNavigation } from "../hooks/navigationHooks";
 
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { logout, resetData } from "../app/mainSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../db/firebase";
 import {
-  getAuth,
   deleteUser,
-  reauthenticateWithCredential,
   EmailAuthProvider,
+  getAuth,
+  reauthenticateWithCredential,
 } from "firebase/auth";
+import { deleteDoc, doc, updateDoc, writeBatch } from "firebase/firestore";
+import { db } from "../db/firebase";
 
 import DeleteAccModal from "../components/DeleteAccModal";
 
@@ -43,7 +43,6 @@ const AccountScreen = () => {
   async function logoutHandler() {
     dispatch(logout());
     await AsyncStorage.removeItem("userIdExpensea");
-
     await AsyncStorage.removeItem("usernameExpensea");
   }
 
@@ -54,19 +53,13 @@ const AccountScreen = () => {
   }
 
   async function deleteDocsHandler() {
-    let dataIds: string[] = [];
+    const batch = writeBatch(db);
 
-    currUserDocsArray.forEach((doc) => dataIds.push(doc.id));
-
-    // FIXME: apply batch writes
-    dataIds.forEach((element) => {
-      async function deleteDataDocs() {
-        await deleteDoc(doc(db, "users", currUserDocId, "data", element));
-      }
-
-      deleteDataDocs();
+    currUserDocsArray.forEach((document) => {
+      batch.delete(doc(db, "users", currUserDocId, "data", document.id));
     });
 
+    await batch.commit();
     await updateDoc(doc(db, "users", currUserDocId), {
       datesWithDataArr: [],
     });
@@ -77,7 +70,7 @@ const AccountScreen = () => {
     await deleteDoc(doc(db, "users", currUserDocId));
   }
 
-  async function resetDataHandler(): Promise<void> {
+  async function resetDataHandler() {
     if (currUserDocsArray.length === 0) {
       Alert.alert("No data to delete!", "Please add some data");
       return;

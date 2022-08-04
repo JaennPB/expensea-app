@@ -1,21 +1,21 @@
+import { Button, Divider, Heading } from "native-base";
 import { useState } from "react";
 import { Alert } from "react-native";
-import { Heading, Button, Divider } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useAppNavigation } from "../../hooks/navigationHooks";
-import { useRoute, RouteProp } from "@react-navigation/native";
 
-import { useAppDispatch } from "../../hooks/reduxHooks";
 import { authenticate, setUsername } from "../../app/mainSlice";
+import { useAppDispatch } from "../../hooks/reduxHooks";
 
-import { auth, db } from "../../db/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth/react-native";
-import { setDoc, doc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../db/firebase";
 
-import CustomInput from "../../components/UI/CustomInput";
 import Card from "../../components/UI/Card";
+import CustomInput from "../../components/UI/CustomInput";
 import CustomKeyboardAV from "../../components/UI/CustomKeyboardAV";
 import WelcomeHeading from "../../components/UI/WelcomeHeading";
 
