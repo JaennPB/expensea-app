@@ -8,26 +8,20 @@
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/icon.png",
-      "resizeMode": "contain",
+      "resizeMode": "center",
       "backgroundColor": "#002851"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "description": "A simple and minimalistic expense tracker app.",
     "githubUrl": "https://github.com/JaennPB/expense-tracker-ts.git"
