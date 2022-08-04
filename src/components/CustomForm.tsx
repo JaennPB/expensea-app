@@ -31,16 +31,13 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   }
   const currUserDocId = useAppSelector((state) => state.userId);
 
-  const [finishedEditing, setFinishedEditing] = useState(false);
   const [inputData, setInputData] = useState({
-    id: isEditing && !finishedEditing ? itemToEditData.id : "",
-    title: isEditing && !finishedEditing ? itemToEditData.title : "",
-    amount:
-      isEditing && !finishedEditing ? itemToEditData.amount.toString() : "",
-    description:
-      isEditing && !finishedEditing ? itemToEditData.description : "",
+    id: isEditing ? itemToEditData.id : "",
+    title: isEditing ? itemToEditData.title : "",
+    amount: isEditing ? itemToEditData.amount.toString() : "",
+    description: isEditing ? itemToEditData.description : "",
     date: moment().format("MMMM Do YYYY"),
-    type: isEditing && !finishedEditing ? itemToEditData.type : "expense",
+    type: isEditing ? itemToEditData.type : "expense",
   });
 
   function toggleDataTypeHandler(dataType: "expense" | "income"): void {
@@ -127,6 +124,8 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       return;
     }
 
+    navigation.goBack();
+
     try {
       const docRef = doc(db, "users", currUserDocId, "data", itemToEditId);
       await updateDoc(docRef, {
@@ -136,9 +135,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       });
 
       dispatch(updateItem({ id: itemToEditId, data: inputData }));
-      setFinishedEditing(true);
 
-      navigation.goBack();
       return;
     } catch {
       Alert.alert("Error deleting... ❌");
