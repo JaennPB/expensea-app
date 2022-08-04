@@ -150,48 +150,50 @@ const AccountScreen = () => {
             onChangeText={(password) => setPasswordValue(password)}
             value={passwordValue}
           />
-          <Flex bg="darkBlue.700" flex={1}>
-            <VStack space={5} w="100%" p={5}>
-              <Button
-                bg="darkBlue.500"
-                _text={{
-                  fontSize: 18,
-                  fontWeight: "medium",
-                  fontFamily: "Poppins_400Regular",
-                }}
-                onPress={resetDataHandler}
-                isLoading={isLoading}
-                isLoadingText="Deleting"
-                _pressed={{ backgroundColor: "darkBlue.600" }}
-              >
-                Reset Data
-              </Button>
-              <Button
-                bg="darkBlue.500"
-                _text={{
-                  fontSize: 18,
-                  fontWeight: "medium",
-                  fontFamily: "Poppins_400Regular",
-                }}
-                onPress={getUserCredentials}
-                _pressed={{ backgroundColor: "darkBlue.600" }}
-              >
-                Delete Account
-              </Button>
-              <Divider thickness={1} bg="darkBlue.600" />
-              <Button
-                bg="danger.400"
-                _text={{
-                  fontSize: 18,
-                  fontWeight: "medium",
-                  fontFamily: "Poppins_400Regular",
-                }}
-                onPress={logoutHandler}
-                _pressed={{ backgroundColor: "danger.500" }}
-              >
-                Log Out
-              </Button>
-            </VStack>
+          <Flex bg="darkBlue.800" flex={1}>
+            <Flex bg="darkBlue.700" flex={1} borderTopRadius={10}>
+              <VStack space={5} w="100%" p={5}>
+                <Button
+                  bg="darkBlue.500"
+                  _text={{
+                    fontSize: 18,
+                    fontWeight: "medium",
+                    fontFamily: "Poppins_400Regular",
+                  }}
+                  onPress={resetDataHandler}
+                  isLoading={isLoading}
+                  isLoadingText="Deleting"
+                  _pressed={{ backgroundColor: "darkBlue.600" }}
+                >
+                  Reset Data
+                </Button>
+                <Button
+                  bg="darkBlue.500"
+                  _text={{
+                    fontSize: 18,
+                    fontWeight: "medium",
+                    fontFamily: "Poppins_400Regular",
+                  }}
+                  onPress={getUserCredentials}
+                  _pressed={{ backgroundColor: "darkBlue.600" }}
+                >
+                  Delete Account
+                </Button>
+                <Divider thickness={1} bg="darkBlue.600" />
+                <Button
+                  bg="danger.400"
+                  _text={{
+                    fontSize: 18,
+                    fontWeight: "medium",
+                    fontFamily: "Poppins_400Regular",
+                  }}
+                  onPress={logoutHandler}
+                  _pressed={{ backgroundColor: "danger.500" }}
+                >
+                  Log Out
+                </Button>
+              </VStack>
+            </Flex>
           </Flex>
         </>
       )}

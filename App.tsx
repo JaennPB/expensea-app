@@ -149,10 +149,10 @@ function MainNav() {
 function AllNavs() {
   const dispatch = useAppDispatch();
 
+  const [appIsReady, setAppIsReady] = useState(false);
+
   const isAuth = useAppSelector((state) => state.isAuth);
   const userId = useAppSelector((state) => state.userId);
-
-  const [appIsReady, setAppIsReady] = useState(false);
 
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
