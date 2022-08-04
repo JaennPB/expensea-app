@@ -38,7 +38,6 @@ const LoginScreen: React.FC = () => {
     });
   }
 
-  // FIXME: fix try catch blocks (do not nest)
   async function logInUser() {
     try {
       setIsLoading(true);
