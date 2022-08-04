@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Modal, Text } from "native-base";
 
 import CustomKeyboardAV from "./UI/CustomKeyboardAV";

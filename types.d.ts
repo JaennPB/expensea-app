@@ -2,13 +2,13 @@ type NavParams = {
   LoginScreen: undefined;
   SignupScreen: { username: string };
   WelcomeScreen: undefined;
-  AccountScreen: undefined;
   AllDataScreen: undefined;
   ExpensesScreen: undefined;
   IncomesScreen: undefined;
+  AccountScreen: undefined;
   BottomTabsNav: undefined;
   ManageDataScreen: {
-    itemIdtoEdit?: string | null;
+    itemIdtoEdit?: string;
   };
 };
 

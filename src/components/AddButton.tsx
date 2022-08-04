@@ -1,7 +1,4 @@
-import React from "react";
 import { Pressable } from "native-base";
-
-//TODO: move out of ui folder
 
 import Animated, {
   useAnimatedStyle,
@@ -10,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 
-import { useAppNavigation } from "../../hooks/navigationHooks";
+import { useAppNavigation } from "../hooks/navigationHooks";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -28,7 +25,7 @@ const AddButton = () => {
     scale.value = withSpring(1.2, {}, () => {
       scale.value = withSpring(1);
     });
-    navigation.navigate("ManageDataScreen", { itemIdtoEdit: null });
+    navigation.navigate("ManageDataScreen", {});
   }
 
   return (
@@ -40,6 +37,7 @@ const AddButton = () => {
         borderRadius={50}
         bg="darkBlue.700"
         onPress={openAddItemHandler}
+        shadow={5}
       >
         <AntDesign name="plus" size={29} color="white" />
       </Pressable>

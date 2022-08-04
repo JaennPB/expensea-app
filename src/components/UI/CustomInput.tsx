@@ -1,4 +1,3 @@
-import React from "react";
 import { KeyboardTypeOptions } from "react-native";
 import { Input } from "native-base";
 

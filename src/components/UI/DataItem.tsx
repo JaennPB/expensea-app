@@ -11,7 +11,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import HiddenButtons from "./HiddenButtons";
+import HiddenButtons from "../HiddenButtons";
 
 interface Props {
   id: string;

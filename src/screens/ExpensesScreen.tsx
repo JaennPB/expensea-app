@@ -1,4 +1,3 @@
-import React from "react";
 import { Flex, View } from "native-base";
 
 import { useAppSelector } from "../hooks/reduxHooks";
@@ -21,6 +20,7 @@ const ExpensesScreen = () => {
           data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
           title="Expenses:"
           textColor="white"
+          index={1}
         />
       </View>
       <DataList

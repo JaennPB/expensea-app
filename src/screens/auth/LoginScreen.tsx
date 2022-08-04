@@ -55,7 +55,7 @@ const LoginScreen: React.FC = () => {
 
       dispatch(setUsername(currUsernameFromDb));
       try {
-        AsyncStorage.setItem("username", currUsernameFromDb);
+        AsyncStorage.setItem("usernameExpensea", currUsernameFromDb);
       } catch {
         console.log("could not set name");
       }
@@ -64,7 +64,7 @@ const LoginScreen: React.FC = () => {
 
       dispatch(authenticate(userId));
       try {
-        AsyncStorage.setItem("userId", userId);
+        AsyncStorage.setItem("userIdExpensea", userId);
       } catch {
         console.log("could not set user id");
       }

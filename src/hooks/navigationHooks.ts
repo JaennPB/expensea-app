@@ -1,4 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import type { AppScreenProp } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type AppScreenProp = NativeStackNavigationProp<NavParams>;
 
 export const useAppNavigation = () => useNavigation<AppScreenProp>();

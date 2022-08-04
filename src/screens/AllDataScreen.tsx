@@ -90,12 +90,14 @@ const AllDataScreen = () => {
           data={"+$" + useReduceItems({ incomesArr }, "incomes").toFixed(2)}
           title="Incomes:"
           textColor="tertiary.500"
+          index={1}
         />
         <InfoBox
           bgColor="darkBlue.700"
           data={"-$" + useReduceItems({ expensesArr }, "expenses").toFixed(2)}
           title="Expenses:"
           textColor="danger.400"
+          index={2}
         />
         <InfoBox
           bgColor="darkBlue.600"
@@ -105,6 +107,7 @@ const AllDataScreen = () => {
           }
           title="Total balance:"
           textColor="white"
+          index={3}
         />
       </VStack>
       <DataList

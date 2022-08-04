@@ -1,12 +1,10 @@
-import React from "react";
-import { GestureResponderEvent } from "react-native";
 import { Button, IconButton, Icon } from "native-base";
 
 import { Entypo } from "@expo/vector-icons";
 
 interface Props {
-  onPressExpense: (event: GestureResponderEvent) => void;
-  onPressIncome: (event: GestureResponderEvent) => void;
+  onPressExpense: () => void;
+  onPressIncome: () => void;
   inputType: string;
 }
 

@@ -60,12 +60,12 @@ const SignupScreen = () => {
         });
 
         dispatch(setUsername(currUsernameParam));
-        AsyncStorage.setItem("username", currUsernameParam);
+        AsyncStorage.setItem("usernameExpensea", currUsernameParam);
 
         setIsLoading(false);
 
         dispatch(authenticate(userId));
-        AsyncStorage.setItem("userId", userId);
+        AsyncStorage.setItem("userIdExpensea", userId);
       }
 
       if (data.password != data.password2) {

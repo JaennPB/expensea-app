@@ -207,6 +207,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
               : submitDataHandler.bind(this, inputData)
           }
           _text={{ fontSize: 18, fontFamily: "Poppins_400Regular" }}
+          w={180}
           _pressed={{ backgroundColor: "" }}
           isLoading={isLoading}
           isLoadingText={isEditing ? "Updating" : "Adding"}

@@ -11,16 +11,12 @@ import {
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
 
-import { Provider } from "react-redux";
-import { store } from "./src/app/store";
-
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import { Provider } from "react-redux";
+import { store } from "./src/app/store";
 import { useAppDispatch, useAppSelector } from "./src/hooks/reduxHooks";
 import { authenticate } from "./src/app/mainSlice";
 
@@ -32,7 +28,7 @@ import AllDataScreen from "./src/screens/AllDataScreen";
 import ExpesesScreen from "./src/screens/ExpensesScreen";
 import ManageDataScreen from "./src/screens/ManageDataScreen";
 import IncomesScreen from "./src/screens/IncomesScreen";
-import AddButton from "./src/components/UI/AddButton";
+import AddButton from "./src/components/AddButton";
 
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -40,8 +36,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();
-// FIXME: remove from here into hooks
-export type AppScreenProp = NativeStackNavigationProp<NavParams>;
 
 function BottomTabsNav() {
   return (
@@ -51,7 +45,7 @@ function BottomTabsNav() {
           backgroundColor: "#002851",
         },
         headerTitleStyle: {
-          fontSize: 25,
+          fontSize: 22,
           fontFamily: "Poppins_600SemiBold",
         },
         headerTintColor: "white",
@@ -170,13 +164,13 @@ function AllNavs() {
       try {
         await SplashScreen.preventAutoHideAsync();
 
-        const userIdStorage = await AsyncStorage.getItem("userId");
+        const userIdStorage = await AsyncStorage.getItem("userIdExpensea");
 
         if (userIdStorage) {
           dispatch(authenticate(userIdStorage!));
         }
       } catch {
-        Alert.alert("Something went wrong", "Please reload app");
+        Alert.alert("Something went wrong.", "Please reload app.");
       } finally {
         setAppIsReady(true);
       }

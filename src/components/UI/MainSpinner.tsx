@@ -1,4 +1,3 @@
-import React from "react";
 import { HStack, Heading, Spinner } from "native-base";
 
 const MainSpinner = () => {
@@ -9,8 +8,13 @@ const MainSpinner = () => {
         color="darkBlue.600"
         size="lg"
       />
-      <Heading fontSize="lg" color="darkBlue.600">
-        Loading
+      <Heading
+        fontSize={25}
+        color="darkBlue.600"
+        fontWeight="normal"
+        fontFamily="Poppins_600SemiBold"
+      >
+        Loading...
       </Heading>
     </HStack>
   );

@@ -1,12 +1,13 @@
 import { FlatList, ListRenderItemInfo } from "react-native";
 import { Flex, Heading } from "native-base";
 
+import Animated, { FadeInUp } from "react-native-reanimated";
+
 import { useAppSelector } from "../hooks/reduxHooks";
 
 import DataItem from "./UI/DataItem";
 import MainSpinner from "./UI/MainSpinner";
 import DateItem from "./UI/DateItem";
-import Animated, { FadeInUp } from "react-native-reanimated";
 
 interface Props {
   dataToDisplay: "all" | "expenses" | "incomes";
@@ -78,7 +79,7 @@ const DataList: React.FC<Props> = ({
     <Flex flex={1} bg="darkBlue.700" p={5} borderTopRadius={10}>
       {!isLoading && fetchedData?.length! <= 0 && (
         <Animated.View
-          entering={FadeInUp.delay(500)}
+          entering={FadeInUp.delay(250)}
           style={{ alignItems: "center" }}
         >
           <Heading color="white" size="sm" fontFamily="Poppins_600SemiBold">

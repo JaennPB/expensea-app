@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Alert } from "react-native";
 import { Heading, Button } from "native-base";
 
@@ -12,7 +12,7 @@ import WelcomeHeading from "../../components/UI/WelcomeHeading";
 const WelcomeScreen = () => {
   const navigation = useAppNavigation();
 
-  const [username, setUsername] = React.useState("");
+  const [username, setUsername] = useState("");
 
   function setUsernameAndNavigateHandler() {
     if (!username) {

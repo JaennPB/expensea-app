@@ -19,7 +19,6 @@ import { logout, resetData } from "../app/mainSlice";
 
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
-
 import {
   getAuth,
   deleteUser,
@@ -43,10 +42,9 @@ const AccountScreen = () => {
 
   async function logoutHandler() {
     dispatch(logout());
-    //FIXME: chanfe userid name
-    await AsyncStorage.removeItem("userId");
+    await AsyncStorage.removeItem("userIdExpensea");
 
-    await AsyncStorage.removeItem("userName");
+    await AsyncStorage.removeItem("usernameExpensea");
   }
 
   function cancelUserDeletionHandler() {
