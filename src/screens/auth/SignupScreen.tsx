@@ -1,6 +1,6 @@
-import React from "react";
+import { useState } from "react";
 import { Alert } from "react-native";
-import { VStack, Heading, Button, Divider, Text } from "native-base";
+import { Heading, Button, Divider } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -23,10 +23,10 @@ const SignupScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
 
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [emailIsInvalid, setEmailIsInvalid] = React.useState(false);
-  const [passwordIsInvalid, setPassworIsInvalid] = React.useState(false);
-  const [data, setData] = React.useState({
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailIsInvalid, setEmailIsInvalid] = useState(false);
+  const [passwordIsInvalid, setPassworIsInvalid] = useState(false);
+  const [data, setData] = useState({
     email: "",
     password: "",
     password2: "",
@@ -108,7 +108,12 @@ const SignupScreen = () => {
         body="Please, enter your data below."
       />
       <Card>
-        <Heading color="white" textAlign="center">
+        <Heading
+          color="white"
+          textAlign="center"
+          fontWeight="normal"
+          fontFamily="Poppins_600SemiBold"
+        >
           Sign Up
         </Heading>
         <CustomInput
@@ -141,7 +146,7 @@ const SignupScreen = () => {
           autoCapitalize="none"
         />
         <Button
-          _text={{ fontSize: "md", fontWeight: "medium" }}
+          _text={{ fontSize: "md", fontFamily: "Poppins_400Regular" }}
           bg="darkBlue.500"
           onPress={signUpHandler}
           isLoading={isLoading}
@@ -154,7 +159,7 @@ const SignupScreen = () => {
         <Button
           _text={{
             fontSize: "md",
-            fontWeight: "medium",
+            fontFamily: "Poppins_400Regular",
             color: "darkBlue.500",
           }}
           variant="ghost"

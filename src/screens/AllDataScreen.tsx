@@ -1,6 +1,6 @@
-import React from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Alert } from "react-native";
-import { Flex, Text, VStack } from "native-base";
+import { Flex, VStack } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -26,12 +26,12 @@ const AllDataScreen = () => {
   const currUsernameFromStore = useAppSelector((state) => state.username);
   const datesArray = useAppSelector((state) => state.datesWithDataArr);
 
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const expensesArr = dataArr.filter((element) => element.type === "expense");
   const incomesArr = dataArr.filter((element) => element.type === "income");
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function getData() {
       try {
         const data = await getDocs(
@@ -61,7 +61,7 @@ const AllDataScreen = () => {
     }
   }, []);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!currUsernameFromStore) {
       async function fetchUserName() {
         try {

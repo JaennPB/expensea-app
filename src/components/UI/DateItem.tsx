@@ -1,4 +1,3 @@
-import React from "react";
 import { Heading, Box } from "native-base";
 
 import Animated, {
@@ -18,8 +17,21 @@ const DateItem: React.FC<Props> = ({ date }) => {
       entering={SlideInRight}
       layout={Layout.delay(100)}
     >
-      <Box bg="darkBlue.600" borderRadius={5} py={2} px={5} mb={5}>
-        <Heading color="white" fontSize={20} fontWeight="semibold">
+      <Box
+        bg="darkBlue.600"
+        borderRadius={5}
+        pb={2}
+        pt={3}
+        px={5}
+        mb={5}
+        justifyContent="center"
+      >
+        <Heading
+          color="white"
+          fontSize={20}
+          fontWeight="normal"
+          fontFamily="Poppins_400Regular"
+        >
           {date}
         </Heading>
       </Box>

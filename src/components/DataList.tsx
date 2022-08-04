@@ -1,4 +1,3 @@
-import React from "react";
 import { FlatList, ListRenderItemInfo } from "react-native";
 import { Flex, Heading } from "native-base";
 
@@ -34,12 +33,12 @@ const DataList: React.FC<Props> = ({
     if (type === "expenses") {
       fetchedData = allData.filter((item) => item.type === "expense");
 
-      noDataString = "Please, add expenses! 📉";
+      noDataString = "Add expenses! 📉";
     }
     if (type === "incomes") {
       fetchedData = allData.filter((item) => item.type === "income");
 
-      noDataString = "Please, add incomes! 🤑";
+      noDataString = "Add incomes! 🤑";
     }
 
     return {
@@ -82,7 +81,7 @@ const DataList: React.FC<Props> = ({
           entering={FadeInUp.delay(500)}
           style={{ alignItems: "center" }}
         >
-          <Heading color="white" size="sm">
+          <Heading color="white" size="sm" fontFamily="Poppins_600SemiBold">
             {noDataString}
           </Heading>
         </Animated.View>

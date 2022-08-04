@@ -1,6 +1,5 @@
-import React from "react";
 import { StyleSheet } from "react-native";
-import { Text, Flex, Divider, HStack, VStack, View } from "native-base";
+import { Text, Flex, Divider, HStack, VStack } from "native-base";
 
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -69,9 +68,9 @@ const DataItem: React.FC<Props> = ({
   return (
     <Animated.View
       style={{ position: "relative" }}
+      layout={Layout.delay(100)}
       exiting={SlideOutLeft}
       entering={SlideInRight.delay(100 * index)}
-      layout={Layout.delay(100)}
     >
       <HiddenButtons
         translateX={translateX}
@@ -81,12 +80,16 @@ const DataItem: React.FC<Props> = ({
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.container, rStyle]}>
           <VStack>
-            <Text color="white" fontSize="22">
+            <Text color="white" fontSize="22" fontFamily="Poppins_400Regular">
               {title}
             </Text>
             <HStack direction="row" alignItems="center" space={2}>
               {description != "" ? (
-                <Text color="muted.300" fontSize="md">
+                <Text
+                  color="muted.300"
+                  fontSize="md"
+                  fontFamily="Poppins_400Regular"
+                >
                   {description}
                 </Text>
               ) : null}
@@ -101,7 +104,7 @@ const DataItem: React.FC<Props> = ({
             py={2}
             borderRadius={5}
           >
-            <Text color="white" fontSize="lg" fontWeight="semibold">
+            <Text color="white" fontSize={20} fontFamily="Poppins_400Regular">
               {type === "expense"
                 ? "-$" + convertedAmount.toFixed(2)
                 : "$" + convertedAmount.toFixed(2)}

@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Alert } from "react-native";
 import { VStack, Flex, Button } from "native-base";
 
@@ -31,9 +31,9 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   }
   const currUserDocId = useAppSelector((state) => state.userId);
 
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [finishedEditing, setFinishedEditing] = React.useState(false);
-  const [inputData, setInputData] = React.useState({
+  const [isLoading, setIsLoading] = useState(false);
+  const [finishedEditing, setFinishedEditing] = useState(false);
+  const [inputData, setInputData] = useState({
     id: isEditing && !finishedEditing ? itemToEditData.id : "",
     title: isEditing && !finishedEditing ? itemToEditData.title : "",
     amount:
@@ -188,7 +188,11 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         <Button
           variant="ghost"
           onPress={() => navigation.goBack()}
-          _text={{ fontSize: "md", color: "white", fontWeight: "medium" }}
+          _text={{
+            fontSize: 18,
+            color: "white",
+            fontFamily: "Poppins_400Regular",
+          }}
         >
           Cancel
         </Button>
@@ -202,7 +206,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
               ? editDataHandler.bind(this, inputData)
               : submitDataHandler.bind(this, inputData)
           }
-          _text={{ fontSize: "md", fontWeight: "medium" }}
+          _text={{ fontSize: 18, fontFamily: "Poppins_400Regular" }}
           _pressed={{ backgroundColor: "" }}
           isLoading={isLoading}
           isLoadingText={isEditing ? "Updating" : "Adding"}

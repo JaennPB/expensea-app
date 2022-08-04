@@ -32,6 +32,7 @@ const CustomInput: React.FC<Props> = ({
       size="2xl"
       p={5}
       fontSize="xl"
+      fontFamily="Poppins_400Regular"
       color="white"
       placeholderTextColor="darkBlue.400"
       selectionColor="darkBlue.400"

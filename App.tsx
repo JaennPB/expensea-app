@@ -1,10 +1,15 @@
-import React from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { NativeBaseProvider, StatusBar, View } from "native-base";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+} from "@expo-google-fonts/poppins";
 
 import { Provider } from "react-redux";
 import { store } from "./src/app/store";
@@ -35,6 +40,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator<NavParams>();
 const BottomTabs = createBottomTabNavigator<NavParams>();
+// FIXME: remove from here into hooks
 export type AppScreenProp = NativeStackNavigationProp<NavParams>;
 
 function BottomTabsNav() {
@@ -45,7 +51,8 @@ function BottomTabsNav() {
           backgroundColor: "#002851",
         },
         headerTitleStyle: {
-          fontSize: 22,
+          fontSize: 25,
+          fontFamily: "Poppins_600SemiBold",
         },
         headerTintColor: "white",
         headerShadowVisible: false,
@@ -63,9 +70,8 @@ function BottomTabsNav() {
         name="AllDataScreen"
         component={AllDataScreen}
         options={{
-          headerTitle: "Welcome!",
           tabBarLabel: "All",
-          tabBarLabelStyle: { fontSize: 13 },
+          tabBarLabelStyle: { fontSize: 13, fontFamily: "Poppins_400Regular" },
           tabBarIcon: ({ color }) => (
             <Feather name="list" size={24} color={color} />
           ),
@@ -152,9 +158,14 @@ function AllNavs() {
   const isAuth = useAppSelector((state) => state.isAuth);
   const userId = useAppSelector((state) => state.userId);
 
-  const [appIsReady, setAppIsReady] = React.useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
 
-  React.useEffect(() => {
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+  });
+
+  useEffect(() => {
     async function fetchUserId() {
       try {
         await SplashScreen.preventAutoHideAsync();
@@ -176,13 +187,13 @@ function AllNavs() {
     }
   }, []);
 
-  const onLayoutRootView = React.useCallback(async () => {
+  const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await SplashScreen.hideAsync();
     }
   }, [appIsReady]);
 
-  if (!appIsReady) {
+  if (!appIsReady || !fontsLoaded) {
     return null;
   }
 

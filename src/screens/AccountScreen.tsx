@@ -2,12 +2,9 @@ import React from "react";
 import { Alert } from "react-native";
 import {
   Flex,
-  Box,
   Button,
-  Center,
   VStack,
   Divider,
-  Text,
   Heading,
   Spinner,
   HStack,
@@ -21,16 +18,16 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { logout, resetData } from "../app/mainSlice";
 
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { db } from "../db/firebase";
+
 import {
   getAuth,
   deleteUser,
   reauthenticateWithCredential,
   EmailAuthProvider,
 } from "firebase/auth";
-import { db } from "../db/firebase";
 
 import DeleteAccModal from "../components/DeleteAccModal";
-import CustomInput from "../components/UI/CustomInput";
 
 const AccountScreen = () => {
   const dispatch = useAppDispatch();
@@ -46,7 +43,9 @@ const AccountScreen = () => {
 
   async function logoutHandler() {
     dispatch(logout());
+    //FIXME: chanfe userid name
     await AsyncStorage.removeItem("userId");
+
     await AsyncStorage.removeItem("userName");
   }
 
@@ -61,6 +60,7 @@ const AccountScreen = () => {
 
     currUserDocsArray.forEach((doc) => dataIds.push(doc.id));
 
+    // FIXME: apply batch writes
     dataIds.forEach((element) => {
       async function deleteDataDocs() {
         await deleteDoc(doc(db, "users", currUserDocId, "data", element));
@@ -156,7 +156,11 @@ const AccountScreen = () => {
             <VStack space={5} w="100%" p={5}>
               <Button
                 bg="darkBlue.500"
-                _text={{ fontSize: "md", fontWeight: "medium" }}
+                _text={{
+                  fontSize: 18,
+                  fontWeight: "medium",
+                  fontFamily: "Poppins_400Regular",
+                }}
                 onPress={resetDataHandler}
                 isLoading={isLoading}
                 isLoadingText="Deleting"
@@ -166,7 +170,11 @@ const AccountScreen = () => {
               </Button>
               <Button
                 bg="darkBlue.500"
-                _text={{ fontSize: "md", fontWeight: "medium" }}
+                _text={{
+                  fontSize: 18,
+                  fontWeight: "medium",
+                  fontFamily: "Poppins_400Regular",
+                }}
                 onPress={getUserCredentials}
                 _pressed={{ backgroundColor: "darkBlue.600" }}
               >
@@ -175,7 +183,11 @@ const AccountScreen = () => {
               <Divider thickness={1} bg="darkBlue.600" />
               <Button
                 bg="danger.400"
-                _text={{ fontSize: "md", fontWeight: "medium" }}
+                _text={{
+                  fontSize: 18,
+                  fontWeight: "medium",
+                  fontFamily: "Poppins_400Regular",
+                }}
                 onPress={logoutHandler}
                 _pressed={{ backgroundColor: "danger.500" }}
               >

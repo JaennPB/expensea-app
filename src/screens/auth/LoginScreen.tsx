@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Alert } from "react-native";
 import { Heading, Button, Divider } from "native-base";
 
@@ -21,10 +21,10 @@ const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
 
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [emailIsInvalid, setEmailIsInvalid] = React.useState(false);
-  const [passwordIsInvalid, setPassworIsInvalid] = React.useState(false);
-  const [data, setData] = React.useState({
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailIsInvalid, setEmailIsInvalid] = useState(false);
+  const [passwordIsInvalid, setPassworIsInvalid] = useState(false);
+  const [data, setData] = useState({
     email: "",
     password: "",
   });
@@ -38,6 +38,7 @@ const LoginScreen: React.FC = () => {
     });
   }
 
+  // FIXME: fix try catch blocks (do not nest)
   async function logInUser() {
     try {
       setIsLoading(true);
@@ -97,7 +98,12 @@ const LoginScreen: React.FC = () => {
   return (
     <CustomKeyboardAV bgColor="darkBlue.800">
       <Card>
-        <Heading color="white" textAlign="center">
+        <Heading
+          color="white"
+          textAlign="center"
+          fontWeight="normal"
+          fontFamily="Poppins_600SemiBold"
+        >
           Log In
         </Heading>
         <CustomInput
@@ -121,7 +127,11 @@ const LoginScreen: React.FC = () => {
         />
         <Button
           bg="darkBlue.500"
-          _text={{ fontSize: "md", fontWeight: "medium" }}
+          _text={{
+            fontSize: "md",
+            fontWeight: "medium",
+            fontFamily: "Poppins_400Regular",
+          }}
           onPress={logInUser}
           isLoading={isLoading}
           isLoadingText="Logging in"
@@ -135,6 +145,7 @@ const LoginScreen: React.FC = () => {
             fontSize: "md",
             fontWeight: "medium",
             color: "darkBlue.500",
+            fontFamily: "Poppins_400Regular",
           }}
           variant="ghost"
           onPress={() => navigation.replace("WelcomeScreen")}

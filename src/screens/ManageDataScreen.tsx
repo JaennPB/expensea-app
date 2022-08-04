@@ -1,4 +1,4 @@
-import React from "react";
+import { useLayoutEffect } from "react";
 import { Alert } from "react-native";
 import { Button, Flex } from "native-base";
 
@@ -53,9 +53,10 @@ const ManageDataScreen: React.FC = () => {
     }
   }
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: isEditing ? "Edit" : "Add",
+      headerTitleStyle: { fontFamily: "Poppins_600SemiBold" },
       headerBackVisible: false,
       headerRight: () =>
         isEditing && (
@@ -65,6 +66,7 @@ const ManageDataScreen: React.FC = () => {
               color: "danger.400",
               fontSize: "md",
               fontWeight: "medium",
+              fontFamily: "Poppins_400Regular",
             }}
             size="lg"
             onPress={deleteItemHandler}

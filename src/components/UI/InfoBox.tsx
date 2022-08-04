@@ -1,4 +1,3 @@
-import React from "react";
 import { Text, Flex } from "native-base";
 
 interface Props {
@@ -19,10 +18,10 @@ const InfoBox: React.FC<Props> = ({ textColor, data, title, bgColor }) => {
       bg={bgColor}
       borderRadius={5}
     >
-      <Text color="white" fontSize={20}>
+      <Text color="white" fontSize={20} fontFamily="Poppins_400Regular">
         {title}
       </Text>
-      <Text color={textColor} fontSize="lg">
+      <Text color={textColor} fontSize="lg" fontFamily="Poppins_400Regular">
         {data}
       </Text>
     </Flex>

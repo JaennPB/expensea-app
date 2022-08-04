@@ -30,7 +30,12 @@ const WelcomeScreen = () => {
         body="Your simple and minimalistic money tracker."
       />
       <Card>
-        <Heading color="white" size="md">
+        <Heading
+          color="white"
+          size="md"
+          fontWeight="normal"
+          fontFamily="Poppins_600SemiBold"
+        >
           How would you like to be called?
         </Heading>
         <CustomInput
@@ -41,7 +46,7 @@ const WelcomeScreen = () => {
           autoCapitalize="sentences"
         />
         <Button
-          _text={{ fontSize: "md", fontWeight: "medium" }}
+          _text={{ fontSize: "md", fontFamily: "Poppins_400Regular" }}
           bg="darkBlue.500"
           onPress={setUsernameAndNavigateHandler}
           _pressed={{ backgroundColor: "darkBlue.600" }}
