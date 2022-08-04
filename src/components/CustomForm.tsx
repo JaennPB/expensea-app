@@ -31,7 +31,6 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   }
   const currUserDocId = useAppSelector((state) => state.userId);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [finishedEditing, setFinishedEditing] = useState(false);
   const [inputData, setInputData] = useState({
     id: isEditing && !finishedEditing ? itemToEditData.id : "",
@@ -79,18 +78,20 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
       return;
     }
 
+    navigation.goBack();
+
     try {
-      setIsLoading(true);
       const docRef = await addDoc(
         collection(db, "users", currUserDocId, "data"),
         inputData
       );
       const firebaseId = docRef.id;
-      setIsLoading(false);
       const modifiedObjectWithId = {
         ...inputData,
         id: firebaseId,
       };
+
+      dispatch(addItem(modifiedObjectWithId));
 
       const userDocRef = doc(db, "users", currUserDocId);
       const userDoc = await getDoc(userDocRef);
@@ -102,8 +103,6 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         dispatch(setDates(datesArr));
       }
 
-      dispatch(addItem(modifiedObjectWithId));
-      navigation.goBack();
       return;
     } catch {
       Alert.alert("error uploading", "please try again ❌");
@@ -130,13 +129,11 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
 
     try {
       const docRef = doc(db, "users", currUserDocId, "data", itemToEditId);
-      setIsLoading(true);
       await updateDoc(docRef, {
         title: inputData.title,
         amount: inputData.amount,
         description: inputData.description,
       });
-      setIsLoading(false);
 
       dispatch(updateItem({ id: itemToEditId, data: inputData }));
       setFinishedEditing(true);
@@ -209,8 +206,6 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
           _text={{ fontSize: 18, fontFamily: "Poppins_400Regular" }}
           w={180}
           _pressed={{ backgroundColor: "" }}
-          isLoading={isLoading}
-          isLoadingText={isEditing ? "Updating" : "Adding"}
         >
           {(isEditing && inputData.type === "expense" && "Update Expense") ||
             (isEditing && inputData.type === "income" && "Update Income") ||

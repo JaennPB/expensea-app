@@ -25,6 +25,30 @@ const ManageDataScreen: React.FC = () => {
   const itemId = route.params.itemIdtoEdit;
   const isEditing = !!itemId;
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: isEditing ? "Edit" : "Add",
+      headerTitleStyle: { fontFamily: "Poppins_600SemiBold" },
+      headerBackVisible: false,
+      headerRight: () =>
+        isEditing && (
+          <Button
+            variant="ghost"
+            _text={{
+              color: "danger.400",
+              fontSize: "md",
+              fontWeight: "medium",
+              fontFamily: "Poppins_400Regular",
+            }}
+            size="lg"
+            onPress={deleteItemHandler}
+          >
+            Delete
+          </Button>
+        ),
+    });
+  }, [navigation, isEditing]);
+
   async function deleteItemHandler() {
     if (!itemId) return;
 
@@ -52,30 +76,6 @@ const ManageDataScreen: React.FC = () => {
       dispatch(deleteDate(CurrItem.date));
     }
   }
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: isEditing ? "Edit" : "Add",
-      headerTitleStyle: { fontFamily: "Poppins_600SemiBold" },
-      headerBackVisible: false,
-      headerRight: () =>
-        isEditing && (
-          <Button
-            variant="ghost"
-            _text={{
-              color: "danger.400",
-              fontSize: "md",
-              fontWeight: "medium",
-              fontFamily: "Poppins_400Regular",
-            }}
-            size="lg"
-            onPress={deleteItemHandler}
-          >
-            Delete
-          </Button>
-        ),
-    });
-  }, [navigation, isEditing]);
 
   return (
     <Flex flex={1} bg="darkBlue.700" align="center" pt={5} px={5}>
