@@ -59,7 +59,7 @@ const DataList: React.FC<Props> = ({
 
     return (
       <>
-        <DateItem date={date} />
+        <DateItem date={date} index={itemData.index} />
         {itemsByDate!.map((item, index) => (
           <DataItem
             title={item.title}
@@ -93,6 +93,7 @@ const DataList: React.FC<Props> = ({
           data={datesWithDataArr}
           renderItem={renderDateItem}
           keyExtractor={(item, index) => item + index}
+          showsVerticalScrollIndicator={false}
         />
       )}
     </Flex>

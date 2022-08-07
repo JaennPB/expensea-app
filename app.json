@@ -12,9 +12,12 @@
       "backgroundColor": "#002851"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/0cd5c02f-0423-47d7-96b6-b2f8112ddf51"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -24,6 +27,9 @@
       }
     },
     "description": "A simple and minimalistic expense tracker app.",
-    "githubUrl": "https://github.com/JaennPB/expense-tracker-ts.git"
+    "githubUrl": "https://github.com/JaennPB/expense-tracker-ts.git",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
   }
 }

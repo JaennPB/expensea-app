@@ -44,7 +44,12 @@ const DeleteAccModal: React.FC<Props> = ({
               autoCapitalize="none"
             />
           </Modal.Body>
-          <Modal.Footer bg="darkBlue.700" borderTopWidth={0} p={5}>
+          <Modal.Footer
+            bg="darkBlue.700"
+            borderTopWidth={0}
+            p={5}
+            borderBottomWidth={0}
+          >
             <Button
               variant="ghost"
               onPress={onCancel}

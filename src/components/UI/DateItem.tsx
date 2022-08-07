@@ -1,4 +1,4 @@
-import { Heading, Box } from "native-base";
+import { Box, Heading } from "native-base";
 
 import Animated, {
   Layout,
@@ -8,14 +8,15 @@ import Animated, {
 
 interface Props {
   date: string;
+  index: number;
 }
 
-const DateItem: React.FC<Props> = ({ date }) => {
+const DateItem: React.FC<Props> = ({ date, index }) => {
   return (
     <Animated.View
-      exiting={SlideOutLeft}
-      entering={SlideInRight}
       layout={Layout.delay(100)}
+      exiting={SlideOutLeft}
+      entering={SlideInRight.delay(100 * index)}
     >
       <Box
         bg="darkBlue.600"

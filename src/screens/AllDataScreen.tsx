@@ -65,7 +65,7 @@ const AllDataScreen = () => {
     if (!currUsernameFromStore) {
       async function fetchUserName() {
         try {
-          const cachedUserName = await AsyncStorage.getItem("username");
+          const cachedUserName = await AsyncStorage.getItem("usernameExpensea");
           navigation.setOptions({
             headerTitle: `Welcome back, ${cachedUserName}!`,
           });
