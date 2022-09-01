@@ -68,9 +68,9 @@ const DataItem: React.FC<Props> = ({
   return (
     <Animated.View
       style={{ position: "relative" }}
-      layout={Layout.delay(100)}
-      exiting={SlideOutLeft}
+      layout={Layout.delay(200)}
       entering={SlideInRight.delay(100 * index)}
+      exiting={SlideOutLeft.delay(100)}
     >
       <HiddenButtons
         translateX={translateX}

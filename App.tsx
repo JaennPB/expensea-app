@@ -134,7 +134,7 @@ function MainNav() {
       />
       <Stack.Screen
         options={{
-          presentation: "modal",
+          presentation: "fullScreenModal",
           headerStyle: {
             backgroundColor: "#002851",
           },

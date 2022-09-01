@@ -1,6 +1,6 @@
 import { Button, Flex } from "native-base";
 import { useLayoutEffect } from "react";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useAppNavigation } from "../hooks/navigationHooks";
@@ -78,7 +78,13 @@ const ManageDataScreen: React.FC = () => {
   }
 
   return (
-    <Flex flex={1} bg="darkBlue.700" align="center" pt={5} px={5}>
+    <Flex
+      flex={1}
+      bg="darkBlue.700"
+      align="center"
+      p={5}
+      pt={Platform.OS === "android" ? 70 : 0}
+    >
       <CustomForm isEditing={isEditing} itemToEditId={itemId!} />
     </Flex>
   );

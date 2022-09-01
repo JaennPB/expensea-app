@@ -15,7 +15,7 @@ const DateItem: React.FC<Props> = ({ date, index }) => {
   return (
     <Animated.View
       layout={Layout.delay(100)}
-      exiting={SlideOutLeft}
+      exiting={SlideOutLeft.delay(100)}
       entering={SlideInRight.delay(100 * index)}
     >
       <Box

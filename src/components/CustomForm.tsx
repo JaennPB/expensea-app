@@ -31,6 +31,7 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   }
   const currUserDocId = useAppSelector((state) => state.userId);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [inputData, setInputData] = useState({
     id: isEditing ? itemToEditData.id : "",
     title: isEditing ? itemToEditData.title : "",
@@ -59,11 +60,14 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
   }
 
   async function submitDataHandler(inputData: DataObj) {
+    setIsLoading(true);
+
     const titleIsValid = !!inputData.title?.trim();
     const amountIsValid = !!inputData.amount;
 
     if (!titleIsValid) {
       Alert.alert("Please enter a title! 🤯");
+      setIsLoading(false);
       return;
     }
 
@@ -72,10 +76,9 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         "Please enter a valid amount! 🤯",
         "Must be a number greater than 0"
       );
+      setIsLoading(false);
       return;
     }
-
-    navigation.goBack();
 
     try {
       const docRef = await addDoc(
@@ -100,19 +103,28 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         dispatch(setDates(datesArr));
       }
 
+      setIsLoading(false);
+
+      navigation.goBack();
+
       return;
     } catch {
       Alert.alert("error uploading", "please try again ❌");
+      setIsLoading(false);
+
       return;
     }
   }
 
   async function editDataHandler(inputData: DataObj) {
+    setIsLoading(true);
+
     const titleIsValid = !!inputData.title?.trim();
     const amountIsValid = !!inputData.amount;
 
     if (!titleIsValid) {
       Alert.alert("Please enter a title! 🤯");
+      setIsLoading(false);
       return;
     }
 
@@ -121,10 +133,9 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
         "Please enter a valid amount! 🤯",
         "Must be a number greater than 0"
       );
+      setIsLoading(false);
       return;
     }
-
-    navigation.goBack();
 
     try {
       const docRef = doc(db, "users", currUserDocId, "data", itemToEditId);
@@ -136,9 +147,15 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
 
       dispatch(updateItem({ id: itemToEditId, data: inputData }));
 
+      setIsLoading(false);
+
+      navigation.goBack();
+
       return;
     } catch {
       Alert.alert("Error deleting... ❌");
+      setIsLoading(false);
+
       return;
     }
   }
@@ -201,8 +218,10 @@ const CustomForm: React.FC<Props> = ({ isEditing, itemToEditId }) => {
               : submitDataHandler.bind(this, inputData)
           }
           _text={{ fontSize: 18, fontFamily: "Poppins_400Regular" }}
-          w={180}
+          w={190}
           _pressed={{ backgroundColor: "" }}
+          isLoading={isLoading}
+          isLoadingText="Loading..."
         >
           {(isEditing && inputData.type === "expense" && "Update Expense") ||
             (isEditing && inputData.type === "income" && "Update Income") ||

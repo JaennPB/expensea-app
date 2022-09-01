@@ -54,10 +54,10 @@ const mainSlice = createSlice({
       state.dataArr[itemToUpdateIndex] = updatedItem;
     },
     removeItem: (state, action: PayloadAction<string>) => {
-      const updatedArr = state.dataArr.filter(
-        (item) => item.id !== action.payload
+      const itemIndex = state.dataArr.findIndex(
+        (item) => item.id === action.payload
       );
-      state.dataArr = updatedArr;
+      state.dataArr.splice(itemIndex, 1);
     },
     resetData: (state) => {
       state.dataArr = [];
